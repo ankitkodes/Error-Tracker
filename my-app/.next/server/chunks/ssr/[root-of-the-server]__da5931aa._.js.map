@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 6, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"","debugId":null}},
+    {"offset": {"line": 22, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/Abhijeet%20kumar/error-tracker-devops/my-app/src/app/dashboard/page.tsx"],"sourcesContent":["export default function page() {\r\n  return (\r\n    <>\r\n      <div>\r\n        <p>this is dashboard section</p>\r\n      </div>\r\n    </>\r\n  );\r\n}\r\n"],"names":[],"mappings":";;;;;AAAe,SAAS;IACtB,qBACE;kBACE,cAAA,8OAAC;sBACC,cAAA,8OAAC;0BAAE;;;;;;;;;;;;AAIX","debugId":null}}]
+}

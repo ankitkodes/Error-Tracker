@@ -50,6 +50,7 @@ jobs:
   Security-Scan:
     needs: Build-Docker-Image
     runs-on: ubuntu-latest
+
     steps:
     - name: Code checkout
       uses: actions/checkout@v4
@@ -70,7 +71,7 @@ jobs:
   - name: Code checkout
     uses: actions/checkout@v4
     with:
-      token: ${{secrets.GIT_TOKEN}}
+      token: ${{ secrets.GIT_TOKEN }}
 
   - name: Update tag in helm chart
     run: |

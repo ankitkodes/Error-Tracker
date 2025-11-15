@@ -1,0 +1,13 @@
+{
+  "/api/auth/route": "/api/auth",
+  "/api/bugs/route": "/api/bugs",
+  "/_not-found/page": "/_not-found",
+  "/favicon.ico/route": "/favicon.ico",
+  "/auth/login/page": "/auth/login",
+  "/page": "/",
+  "/dashboard/page": "/dashboard",
+  "/dashboard/project/page": "/dashboard/project",
+  "/dashboard/report/page": "/dashboard/report",
+  "/dashboard/alerts/page": "/dashboard/alerts",
+  "/dashboard/setup/page": "/dashboard/setup"
+}
