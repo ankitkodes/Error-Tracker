@@ -1,11 +1,12 @@
 import axios from "axios";
 import { config } from "./utils";
+require("dotenv").config();
 
 export async function sendError(error: any) {
   try {
     await axios({
       method: "POST",
-      url: process.env.DSNURL,
+      url: "http://localhost:3000/api/bugs",
       data: {
         error,
         projectId: config.projectId,

@@ -1,5 +1,6 @@
 export interface SDKconfig {
-    projectId: String;
-    user_id: String;
-    Environment: String;
+    projectId: string;
+    user_id: string;
+    Environment: string;
+    baseUrl?: string;
 }
