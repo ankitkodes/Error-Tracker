@@ -5,4 +5,5 @@ exports.config = {
     projectId: "",
     user_id: "",
     Environment: "Production",
+    baseUrl: "http://localhost:3000",
 };

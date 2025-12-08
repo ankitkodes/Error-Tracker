@@ -10,7 +10,7 @@ async function sendError(error) {
     try {
         await (0, axios_1.default)({
             method: "POST",
-            url: process.env.DSNURL,
+            url: `${utils_1.config.baseUrl}/api/bugs`,
             data: {
                 error,
                 projectId: utils_1.config.projectId,

@@ -1,7 +1,9 @@
-import { SDKconfig } from "./types";
+import { Environment, SDKconfig } from "./types";
 
 export const config: SDKconfig = {
   projectId: "",
   user_id: "",
-  Environment: "Production",
+  environment: Environment.Development,
 };
+
+export const DSN_URL = "http://localhost:3000/api/bugs";

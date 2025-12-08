@@ -1,9 +1,11 @@
 export interface SDKconfig {
-  projectId: String;
-  user_id: String;
-  Environment: String;
+  projectId: string;
+  user_id: string;
+  environment: Environment;
 }
 
-enum Environment {
+export enum Environment {
   Production,
+  Staging,
+  Development,
 }
