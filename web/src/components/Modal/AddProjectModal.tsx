@@ -15,10 +15,7 @@ export type modal = {
   onClose: () => void;
 };
 
-export default function AddProjectModal({
-  open,
-  onClose,
-}: modal) {
+export default function AddProjectModal({ open, onClose }: modal) {
   //   const [open, setOpen] = useState(true);
   async function addProject(formData: FormData) {
     alert("this function is being called");
