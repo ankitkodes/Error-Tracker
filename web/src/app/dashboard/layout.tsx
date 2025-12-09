@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 import t1 from "../../../public/Images/logo/3.png";
 import Image from "next/image";
 import { Logo, LogoIcon } from "@/layout/SidebarMenu";
-import HorizontalLine from "@/components/HorizontalLine";
+import HorizontalLine from "@/components/ui/HorizontalLine";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

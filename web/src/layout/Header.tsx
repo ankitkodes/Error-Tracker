@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import SignupForm from "@/components/SignupForm";
+import { MdArrowOutward } from "react-icons/md";
 
 const navigation = [
   { name: "Features", href: "#features" },
@@ -133,19 +133,19 @@ export default function Header() {
           <div className="mt-10 flex items-center justify-center gap-x-6">
             <button
               onClick={() => setOpen(true)}
-              className="rounded-md bg-[#00ffb2] px-4 py-2.5 text-sm font-semibold text-black shadow-md cursor-pointer"
+              className="rounded-full bg-[#00ffb2] px-4 py-2.5 text-sm font-semibold text-black shadow-md cursor-pointer"
             >
-              Start Free
+              <div className="align baseline">
+                Get Started Now
+                <MdArrowOutward className="pl-1 inline-block" size={22} />
+              </div>
             </button>
-            <a href="#" className="text-sm font-semibold text-white">
-              See Docs →
-            </a>
           </div>
         </div>
       </div>
 
       {/* Signup Modal */}
-      <SignupForm open={open} onClose={() => setOpen(false)} />
+      {/* <SignupForm open={open} onClose={() => setOpen(false)} /> */}
     </div>
   );
 }

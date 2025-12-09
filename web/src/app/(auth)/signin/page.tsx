@@ -1,19 +1,11 @@
-import { useSession, signIn, signOut } from "next-auth/react";
+import SigninForm from "@/components/Signin-Form";
 
-export default function Component() {
-  const { data: session } = useSession();
-  if (session) {
-    return (
-      <>
-        Signed in as {session.user.email} <br />
-        <button onClick={() => signOut()}>Sign out</button>
-      </>
-    );
-  }
+export default function page() {
   return (
     <>
-      Not signed in <br />
-      <button onClick={() => signIn()}>Sign in</button>
+      <div className="bg-white text-black h-screen w-screen flex  items-center justify-center">
+        <SigninForm />
+      </div>
     </>
   );
 }

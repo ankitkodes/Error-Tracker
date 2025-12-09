@@ -1,6 +1,6 @@
 {
   "name": "bugtrace-sdk",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "A lightweight SDK for tracking and reporting bugs.",
   "author": "Ankit Kumar",
   "license": "MIT",
@@ -8,12 +8,6 @@
     "type": "git",
     "url": "https://github.com/ankitdeveloper7/Error-Tracker/tree/main/package/sdk"
   },
-  "keywords": [
-    "sdk",
-    "error-tracking",
-    "bugtrace",
-    "monitoring"
-  ],
   "dependencies": {
     "axios": "^1.11.0"
   },

@@ -1,6 +1,33 @@
-# bugtrace-sdk
+# BugTrace SDK
 
-A lightweight, universal error tracking SDK for modern JavaScript and TypeScript applications. Seamlessly integrate with BugTrace to monitor application stability in real-time.
+<div align="center">
+
+![Version](https://img.shields.io/npm/v/bugtrace-sdk?style=for-the-badge&color=blue)
+![License](https://img.shields.io/npm/l/bugtrace-sdk?style=for-the-badge&color=green)
+![Downloads](https://img.shields.io/npm/dt/bugtrace-sdk?style=for-the-badge&color=orange)
+![TypeScript](https://img.shields.io/badge/Built%20With-TypeScript-blue?style=for-the-badge&logo=typescript)
+
+**The Universal Error Tracking Solution for Modern Applications.**
+
+[Features](#-features) • [Installation](#-installation) • [Quick Start](#-quick-start) • [Configuration](#-configuration) • [Tech Stack](#-tech-stack)
+
+</div>
+
+---
+
+## 📖 Introduction
+
+**BugTrace SDK** is a powerful, lightweight, and universal error tracking library designed to give you complete visibility into your application's stability. Whether you're running a high-traffic Node.js backend or a dynamic React frontend, BugTrace seamlessly integrates to capture, analyze, and report errors in real-time.
+
+Stop guessing why your app crashed. Start tracing bugs with precision.
+
+## ✨ Features
+
+- **🌍 Universal Compatibility**: A single SDK that intelligently adapts to both **Browser** and **Node.js** environments.
+- **⚡ Zero-Config Auto-Capture**: Automatically hooks into `window.onerror`, `unhandledRejection`, and `uncaughtException` to catch every crash.
+- **🛡️ Type-Safe Architecture**: Built entirely in **TypeScript**, providing first-class type definitions and autocomplete support.
+- **🚀 Ultra Lightweight**: Minimal footprint ensures your application's performance remains uncompromised.
+- **🔍 Environment Context**: Distinguish clearly between `Development`, `Staging`, and `Production` errors.
 
 ## 📦 Installation
 
@@ -61,4 +88,10 @@ The `init` function accepts a configuration object with the following properties
 
 ## 📄 License
 
-MIT © [Ankit Kumar](https://github.com/ankitdeveloper7)
+This project is licensed under the **MIT License**.
+
+---
+
+<div align="center">
+  <sub>Built with ❤️ by <a href="https://github.com/ankitkodes">Ankit Kumar</a></sub>
+</div>
