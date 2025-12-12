@@ -1,8 +1,8 @@
-// import { NextRequest, NextResponse } from "next/server";
-// import NextAuth, { AuthOptions } from "next-auth";
-// import { authOPtions } from "./options";
+import { NextRequest, NextResponse } from "next/server";
+import NextAuth, { AuthOptions } from "next-auth";
+import { authOptions } from "./options";
 
-// const handler = NextAuth(authOPtions);
+const handler = NextAuth(authOptions);
 
-// export { handler as GET, handler as POST };
-// //
+export { handler as GET, handler as POST };
+//
