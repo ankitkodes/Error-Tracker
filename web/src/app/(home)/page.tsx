@@ -1,11 +1,10 @@
-import HorizontalLine from "@/components/HorizontalLine";
-import CTA from "@/components/ui/CTA";
-import FAQS from "@/components/ui/FAQS";
-import Features from "@/components/ui/Features";
-import HowitWork from "@/components/ui/Howitwork";
+import HorizontalLine from "@/components/ui/HorizontalLine";
+import CTA from "@/components/landingpage/CTA";
+import FAQS from "@/components/landingpage/FAQS";
+import Features from "@/components/landingpage/Features";
+import HowitWork from "@/components/landingpage/Howitwork";
 import Footer from "@/layout/Footer";
 import Header from "@/layout/Header";
-
 
 export default function Home() {
   return (

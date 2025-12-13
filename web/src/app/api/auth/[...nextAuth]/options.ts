@@ -1,13 +1,13 @@
-import { NextAuthOptions } from "next-auth";
+import { NextAuthOptions, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/db";
 import bcrypt from "bcrypt";
 
 interface signInProvider {
   email: string;
   password: string;
 }
-export const authOPtions: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       id: "credentials",
@@ -20,13 +20,13 @@ export const authOPtions: NextAuthOptions = {
         },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials): Promise<any> {
+      async authorize(credentials) {
         if (!credentials) {
-          throw new Error("Please Enter Your credentails");
+          throw new Error("Please enter your credentials");
         }
         const { email, password } = credentials as signInProvider;
         try {
-          const user = await prisma.admin.findFirst({
+          const user = await prisma.user.findFirst({
             where: {
               email,
             },
@@ -39,12 +39,14 @@ export const authOPtions: NextAuthOptions = {
             password,
             user.password
           );
+
           if (passwordVerified) {
-            return user;
+            return { ...user, id: user.id.toString() } as User;
           } else {
             throw new Error("Invalid Password");
           }
         } catch (error: unknown) {
+          console.error("Authorize error:", error);
           if (error instanceof Error) {
             throw new Error(error.message);
           }
@@ -56,14 +58,14 @@ export const authOPtions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token._id = user._id?.toString();
+        token.id = user.id?.toString();
         token.email = user.email?.toString();
       }
       return token;
     },
     async session({ session, token }) {
       if (token) {
-        session.user._id = token._id as string;
+        session.user.id = token.id as string;
         session.user.email = token.email as string;
       }
       return session;
@@ -77,5 +79,3 @@ export const authOPtions: NextAuthOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
-
-const prisma = new PrismaClient();
