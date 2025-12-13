@@ -1,4 +1,4 @@
-import { NextAuthOptions } from "next-auth";
+import { NextAuthOptions, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "@/lib/db";
 import bcrypt from "bcrypt";
@@ -20,34 +20,28 @@ export const authOptions: NextAuthOptions = {
         },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials): Promise<any> {
+      async authorize(credentials) {
         if (!credentials) {
           throw new Error("Please enter your credentials");
         }
         const { email, password } = credentials as signInProvider;
         try {
-          console.log("Authorize called with email:", email);
           const user = await prisma.user.findFirst({
             where: {
               email,
             },
           });
           if (!user) {
-            console.log("No user found");
             throw new Error("No user found with this email");
           }
-          console.log("User found:", user.email);
-          console.log("Stored hash:", user.password);
-          console.log("Provided password:", password);
 
           const passwordVerified = await bcrypt.compare(
             password,
             user.password
           );
-          console.log("Password verified:", passwordVerified);
 
           if (passwordVerified) {
-            return user;
+            return { ...user, id: user.id.toString() } as User;
           } else {
             throw new Error("Invalid Password");
           }

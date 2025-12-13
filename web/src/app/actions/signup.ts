@@ -1,20 +1,16 @@
 "use server";
-import bcrypt from "bcrypt";
 import prisma from "../../lib/db";
+import bcrypt from "bcrypt";
+import { Role } from "../../../prisma/generated/prisma/client";
 
-enum Role {
-  Developer = "Developer",
-  Team_Lead = "Team_Lead",
-  Admin = "Admin",
-}
-export async function CreateUser(prevState: any, formData: FormData) {
+export async function CreateUser(prevState: unknown, formData: FormData) {
   try {
     const name = formData.get("fullname") as string;
     const useremail = formData.get("email") as string;
     const password = formData.get("password") as string;
     const confirmPassword = formData.get("confirmpassword") as string;
     const organame = formData.get("orgname") as string;
-    const roleValue = formData.get("role") as keyof typeof Role;
+    const roleValue = formData.get("role") as Role;
 
     if (password !== confirmPassword) {
       return { message: "Confirm password is not matching to password" };
@@ -24,6 +20,14 @@ export async function CreateUser(prevState: any, formData: FormData) {
     }
     if (!name || !useremail || !password || !roleValue) {
       return { message: "please fill all the required details" };
+    }
+    const userExist = await prisma.user.findFirst({
+      where: {
+        email: useremail,
+      },
+    });
+    if (userExist) {
+      return { message: "user already Exist" };
     }
     const saltRound = 10;
     const hashpassword = bcrypt.hashSync(password, saltRound);
@@ -37,7 +41,7 @@ export async function CreateUser(prevState: any, formData: FormData) {
       },
     });
     console.log(response);
-    return { message: "User Signup successfully" };
+    return { success: true };
   } catch (error) {
     console.log("this is the error occured", error);
     return { message: "some Invalid error has occured", error };
