@@ -1,16 +1,21 @@
 "use server";
-import prisma from "../../lib/db";
+import prisma from "@/lib/db";
 import bcrypt from "bcrypt";
-import { Role } from "../../../prisma/generated/prisma/client";
 
-export async function CreateUser(prevState: unknown, formData: FormData) {
+enum Role {
+  Developer,
+  Team_Lead,
+  Admin,
+}
+export async function CreateUser(prevState: any, formData: FormData) {
   try {
     const name = formData.get("fullname") as string;
     const useremail = formData.get("email") as string;
     const password = formData.get("password") as string;
     const confirmPassword = formData.get("confirmpassword") as string;
     const organame = formData.get("orgname") as string;
-    const roleValue = formData.get("role") as Role;
+    const roleValue = formData.get("role") as keyof typeof Role;
+    const roleValue = formData.get("role") as keyof typeof Role;
 
     if (password !== confirmPassword) {
       return { message: "Confirm password is not matching to password" };

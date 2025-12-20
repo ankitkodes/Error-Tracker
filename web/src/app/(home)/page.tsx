@@ -8,21 +8,15 @@ import Header from "@/layout/Header";
 
 export default function Home() {
   return (
-    <div className="max-w-6xl mx-auto px-2 relative">
+    <div className="max-w-7xl mx-auto px-2 relative">
       <Header />
-      {/* <div className=" flex justify-center font-semibold text-3xl w-20  py-4">
-        <div className="min-w-lg">
-          Cut the noise. Get the insights you need, right when you need them.
-        </div>
-      </div> */}
       <div>
         <center className="mb-4 px-2">
-          <div className="font-normal text-4xl ">
-            Powerful Features Built for Developers
+          <div className="font-semibold text-4xl ">
+            Essential features for tracking errors
           </div>
           <p className="py-2 text-base text-[#d5d5d5]">
-            Track, debug, and resolve errors — all in one sleek,
-            developer-friendly dashboard.
+            Everything you need to catch and fig bugs. Nothing you don&apos;t.
           </p>
         </center>
         <HorizontalLine />

@@ -26,20 +26,20 @@ export default function DashboardLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} bg-black text-red-500`}
+        className={`${geistSans.variable} ${geistMono.variable} `}
       >
         <div
           className={cn(
-            "mx-auto flex w-full  flex-1 flex-col overflow-hidden   text-gray-500  md:flex-row ",
+            "mx-auto flex w-full  flex-1 flex-col overflow-hidden   text-black  md:flex-row ",
             "min-h-screen" // for your use case, use `h-screen` instead of `h-[60vh]`
           )}
         >
           <Sidebar open={open} setOpen={setOpen}>
-            <SidebarBody className="justify-between gap-10">
+            <SidebarBody className="">
               <div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto relative">
                 {/* <hr /> */}
-                {open ? <Logo /> : <LogoIcon />}
-                <div className="mt-4 flex flex-col gap-2 ">
+                {/* {open && <Logo />} */}
+                <div className="mt-2 flex flex-col gap-2 ">
                   {links.map((link, idx) => (
                     <SidebarLink key={idx} link={link} />
                   ))}
@@ -49,10 +49,10 @@ export default function DashboardLayout({
             </SidebarBody>
           </Sidebar>
           {/* <Dashboard /> */}
-          <div className="flex flex-1">
-            <div className="flex h-full w-full flex-1 flex-col gap-2  border border-[#202026]  p-2 md:p-10">
+          <div className="flex flex-1 text-black bg-white">
+            <div className="flex h-full w-full flex-1 flex-col gap-2  border border-neutral-200  p-2 md:p-10 ">
               <p>this is body of the sidebar section of all</p>
-              <main className="text-[#d5d5d5]">{children}</main>
+              <main className="text-black bg-white">{children}</main>
             </div>
           </div>
         </div>

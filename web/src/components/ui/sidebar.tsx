@@ -10,7 +10,10 @@ import {
   IconReport,
   IconAlertHexagon,
   IconUsb,
+  IconLayoutSidebar,
 } from "@tabler/icons-react";
+import { Zap } from "lucide-react";
+import Link from "next/link";
 
 interface Links {
   icon: string;
@@ -77,12 +80,16 @@ export const Sidebar = ({
   );
 };
 
-export const SidebarBody = (props: React.ComponentProps<typeof motion.div>) => {
+export const SidebarBody = (
+  props: React.ComponentProps<typeof motion.div> & {
+    children?: React.ReactNode;
+  }
+) => {
   return (
-    <>
+    <div className="bg-white text-black">
       <DesktopSidebar {...props} />
       <MobileSidebar {...(props as React.ComponentProps<"div">)} />
-    </>
+    </div>
   );
 };
 
@@ -90,7 +97,9 @@ export const DesktopSidebar = ({
   className,
   children,
   ...props
-}: React.ComponentProps<typeof motion.div>) => {
+}: React.ComponentProps<typeof motion.div> & {
+  children?: React.ReactNode;
+}) => {
   const { open, setOpen, animate } = useSidebar();
   return (
     <>
@@ -102,10 +111,52 @@ export const DesktopSidebar = ({
         animate={{
           width: animate ? (open ? "200px" : "60px") : "200px",
         }}
-        onMouseEnter={() => setOpen(true)}
-        onMouseLeave={() => setOpen(false)}
+        onClick={() => setOpen(true)}
         {...props}
       >
+        <div
+          className={cn(
+            "mb-4 flex items-center",
+            open ? "justify-between" : "justify-center"
+          )}
+        >
+          <div className="flex items-center gap-2">
+            <div className=" border-1 border-[#00ffb2] bg-[#00ffb2] p-1  rounded-lg cursor-pointer">
+              <Zap className="h-5 w-5 shrink-0" />
+            </div>
+            <AnimatePresence>
+              {open && (
+                <motion.div
+                  initial={{ opacity: 0, width: 0 }}
+                  animate={{ opacity: 1, width: "auto" }}
+                  exit={{ opacity: 0, width: 0 }}
+                  transition={{ duration: 0.2, ease: "easeInOut" }}
+                  className="font-medium text-neutral-800 dark:text-neutral-200 whitespace-pre overflow-hidden"
+                >
+                  BugTrace
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          <AnimatePresence>
+            {open && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <IconLayoutSidebar
+                  className="text-neutral-800 dark:text-neutral-200 cursor-pointer h-5 w-5"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setOpen(false);
+                  }}
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
         {children}
       </motion.div>
     </>
@@ -122,7 +173,7 @@ export const MobileSidebar = ({
     <>
       <div
         className={cn(
-          "h-10 px-4 py-4 flex flex-row md:hidden  items-center justify-between  w-full"
+          "h-10 px-4 py-4 flex flex-row md:hidden  items-center justify-between  w-full bg-white border-b border-neutral-200"
         )}
         {...props}
       >
@@ -137,27 +188,38 @@ export const MobileSidebar = ({
         </div>
         <AnimatePresence>
           {open && (
-            <motion.div
-              initial={{ x: "-100%", opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: "-100%", opacity: 0 }}
-              transition={{
-                duration: 0.3,
-                ease: "easeInOut",
-              }}
-              className={cn(
-                "fixed h-full w-full inset-0  p-10 z-[100] flex flex-col justify-between",
-                className
-              )}
-            >
-              <div
-                className="absolute right-10 top-10 z-50 text-neutral-800 dark:text-neutral-200 cursor-pointer"
-                onClick={() => setOpen(!open)}
+            <>
+              {/* Backdrop */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 bg-black/50 z-[99]"
+                onClick={() => setOpen(false)}
+              />
+              {/* Sidebar */}
+              <motion.div
+                initial={{ x: "-100%", opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: "-100%", opacity: 0 }}
+                transition={{
+                  duration: 0.3,
+                  ease: "easeInOut",
+                }}
+                className={cn(
+                  "fixed h-full w-[80%] max-w-[300px] left-0 top-0 p-10 z-[100] flex flex-col justify-between bg-white dark:bg-neutral-900 shadow-xl",
+                  className
+                )}
               >
-                <IconX />
-              </div>
-              {children}
-            </motion.div>
+                <div
+                  className="absolute right-5 top-5 z-50 text-neutral-800 dark:text-neutral-200 cursor-pointer"
+                  onClick={() => setOpen(!open)}
+                >
+                  <IconX />
+                </div>
+                {children}
+              </motion.div>
+            </>
           )}
         </AnimatePresence>
       </div>
@@ -189,7 +251,7 @@ export const SidebarLink = ({
   const iconname = link.icon as IconName;
   const Iconcomp = icon[iconname];
   return (
-    <a
+    <Link
       href={link.href}
       className={cn(
         "flex items-center justify-start gap-2  group/sidebar py-2",
@@ -205,10 +267,10 @@ export const SidebarLink = ({
           display: animate ? (open ? "inline-block" : "none") : "inline-block",
           opacity: animate ? (open ? 1 : 0) : 1,
         }}
-        className="text-white text-sm  transition duration-150 whitespace-pre inline-block !p-0 !m-0"
+        className="text-neutral-700 dark:text-neutral-200 text-sm  transition duration-150 whitespace-pre inline-block !p-0 !m-0"
       >
         {link.label}
       </motion.span>
-    </a>
+    </Link>
   );
 };
