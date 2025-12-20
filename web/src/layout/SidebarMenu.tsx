@@ -16,13 +16,7 @@ export const Logo = () => {
       <div className=" border-1 border-[#00ffb2] bg-[#00ffb2] p-1  rounded-lg">
         <Zap className="h-5 w-5 shrink-0" />
       </div>
-      <motion.span
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="font-medium whitespace-pre text-white dark:text-white text-xl "
-      >
-        BugTrace
-      </motion.span>
+
     </a>
   );
 };

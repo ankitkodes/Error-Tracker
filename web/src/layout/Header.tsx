@@ -3,13 +3,18 @@
 import { useState } from "react";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+<<<<<<< Updated upstream
 import SignupForm from "@/components/SignupForm";
+=======
+import { MdArrowOutward } from "react-icons/md";
+import Link from "next/link";
+import { Bug } from "lucide-react";
+>>>>>>> Stashed changes
 
 const navigation = [
-  { name: "Features", href: "#features" },
+  { name: "Product", href: "#" },
   { name: "Docs", href: "#" },
-  { name: "How It Works", href: "#howitwork" },
-  { name: "GitHub", href: "https://github.com/ankitdeveloper7/Error-Tracker" },
+  { name: "Blog", href: "#howitwork" },
 ];
 
 export default function Header() {
@@ -21,11 +26,12 @@ export default function Header() {
       <header className="absolute inset-x-0 top-0 z-50">
         <nav
           aria-label="Global"
-          className="flex items-center justify-between p-6 lg:px-8"
+          className="flex items-center justify-between p-4 lg:px-8"
         >
-          <div className="flex lg:flex-1">
+          <div className="flex">
             <a href="#" className="m-1.5 p-1.5">
-              <span className="text-2xl font-semibold text-[#00ffb2]">
+              <span className="text-2xl font-bold  align-baseline">
+                <Bug size={30} className="inline-block gap-2 text-[#00ffb2]" />{" "}
                 BugTrace
               </span>
             </a>
@@ -45,12 +51,12 @@ export default function Header() {
           </div>
 
           {/* Desktop Nav */}
-          <div className="hidden lg:flex lg:gap-x-12">
+          <div className="hidden pl-8 lg:flex lg:gap-x-8">
             {navigation.map((item) => (
               <a
                 key={item.name}
                 href={item.href}
-                className="text-sm font-semibold text-white hover:text-[#00ffb2]"
+                className="text-base font-semibold text-[#d5d5d5] hover:text-white"
                 target="_blank"
               >
                 {item.name}
@@ -59,12 +65,21 @@ export default function Header() {
           </div>
 
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+<<<<<<< Updated upstream
             <button
               onClick={() => setOpen(true)}
               className="text-sm font-semibold text-white hover:text-[#00ffb2]"
             >
               Start Free <span aria-hidden="true">&rarr;</span>
             </button>
+=======
+            <Link
+              href="/signin"
+              className="text-sm  rounded-full bg-[#00ffb2] px-4 py-2.5 text-base font-semibold text-black"
+            >
+              Get Started
+            </Link>
+>>>>>>> Stashed changes
           </div>
         </nav>
 
@@ -98,13 +113,14 @@ export default function Header() {
                     key={item.name}
                     href={item.href}
                     target="_blank"
-                    className="block rounded-lg px-3 py-2 text-base font-medium text-white hover:bg-gray-100 hover:text-black"
+                    className="block rounded-lg px-3 py-2 text-base font-medium text-[#d5d5d5] hover:bg-gray-100 hover:text-black"
                   >
                     {item.name}
                   </a>
                 ))}
               </div>
               <div className="py-6">
+<<<<<<< Updated upstream
                 <button
                   onClick={() => {
                     setOpen(true);
@@ -114,6 +130,14 @@ export default function Header() {
                 >
                   Start Free
                 </button>
+=======
+                <Link
+                  href="/signin"
+                  className="block w-full  rounded-lg bg-[#00ffb2] px-3 py-2.5 text-base font-semibold text-black"
+                >
+                  Get Started
+                </Link>
+>>>>>>> Stashed changes
               </div>
             </div>
           </DialogPanel>
@@ -127,8 +151,9 @@ export default function Header() {
             Catch Bugs Before Your Users Do.
           </h1>
           <p className="mt-8 text-sm text-[#d5d5d5] sm:text-base md:text-lg">
-            Get real-time error tracking, detailed stack traces, and instant
-            alerts — all in one blazing-fast dashboard.
+            The modern error tracking platform built for developers who ship
+            fast. Get real-time insights, full context, and actionable
+            alerts—all in one place.
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">
             <button
