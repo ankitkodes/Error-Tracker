@@ -1,5 +1,4 @@
-import HorizontalLine from "../HorizontalLine";
-import terminal from "../../../public/Images/Terminal.png";
+import HorizontalLine from "../ui/HorizontalLine";
 import t2 from "../../../public/Images/t2.png";
 import connect from "../../../public/Images/connect.png";
 import bugs from "../../../public/Images/Bugs.png";

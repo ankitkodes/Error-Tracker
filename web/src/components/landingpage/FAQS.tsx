@@ -1,4 +1,4 @@
-import HorizontalLine from "../HorizontalLine";
+import HorizontalLine from "../ui/HorizontalLine";
 
 export default function FAQS() {
   return (

@@ -1,11 +1,11 @@
 import axios from "axios";
-import { config } from "./utils";
+import { config, DSN_URL } from "./utils";
 
 export async function sendError(error: any) {
   try {
     await axios({
       method: "POST",
-      url: process.env.DSNURL,
+      url: DSN_URL,
       data: {
         error,
         projectId: config.projectId,

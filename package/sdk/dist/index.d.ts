@@ -1,3 +1,2 @@
 import { SDKconfig } from "./core/types";
-export declare function init({ projectId, user_id, Environment }: SDKconfig): void;
-export declare function captureError(error: string): Promise<void>;
+export declare function init({ projectId, user_id, environment }: SDKconfig): void;

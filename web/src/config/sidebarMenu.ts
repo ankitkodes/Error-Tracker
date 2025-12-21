@@ -8,22 +8,22 @@ export const links = [
   },
   {
     label: "Project",
-    href: "/dashboard/project",
+    href: "/project",
     icon: "IconFolder",
   },
   {
     label: "Reports",
-    href: "/dashboard/report",
+    href: "/report",
     icon: "IconReport",
   },
   {
     label: "Alerts",
-    href: "/dashboard/alerts",
+    href: "/alerts",
     icon: "IconAlertHexagon",
   },
   {
     label: "SDK & Integrations",
-    href: "/dashboard/setup",
+    href: "/setup",
     icon: "IconUsb",
   },
   {

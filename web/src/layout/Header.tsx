@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import SignupForm from "@/components/SignupForm";
+import { MdArrowOutward } from "react-icons/md";
+import Link from "next/link";
 
 const navigation = [
   { name: "Features", href: "#features" },
@@ -14,7 +15,6 @@ const navigation = [
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [open, setOpen] = useState(false);
 
   return (
     <div>
@@ -59,12 +59,12 @@ export default function Header() {
           </div>
 
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <button
-              onClick={() => setOpen(true)}
+            <Link
+              href="/signin"
               className="text-sm font-semibold text-white hover:text-[#00ffb2]"
             >
               Start Free <span aria-hidden="true">&rarr;</span>
-            </button>
+            </Link>
           </div>
         </nav>
 
@@ -105,15 +105,12 @@ export default function Header() {
                 ))}
               </div>
               <div className="py-6">
-                <button
-                  onClick={() => {
-                    setOpen(true);
-                    setMobileMenuOpen(false);
-                  }}
+                <Link
+                  href="/signin"
                   className="block w-full rounded-lg bg-[#00ffb2] px-3 py-2.5 text-base font-semibold text-black"
                 >
                   Start Free
-                </button>
+                </Link>
               </div>
             </div>
           </DialogPanel>
@@ -131,21 +128,18 @@ export default function Header() {
             alerts — all in one blazing-fast dashboard.
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">
-            <button
-              onClick={() => setOpen(true)}
-              className="rounded-md bg-[#00ffb2] px-4 py-2.5 text-sm font-semibold text-black shadow-md cursor-pointer"
+            <Link
+              href="/signup"
+              className="rounded-full bg-[#00ffb2] px-4 py-2.5 text-sm font-semibold text-black shadow-md cursor-pointer"
             >
-              Start Free
-            </button>
-            <a href="#" className="text-sm font-semibold text-white">
-              See Docs →
-            </a>
+              <div className="align baseline">
+                Get Started Now
+                <MdArrowOutward className="pl-1 inline-block" size={22} />
+              </div>
+            </Link>
           </div>
         </div>
       </div>
-
-      {/* Signup Modal */}
-      <SignupForm open={open} onClose={() => setOpen(false)} />
     </div>
   );
 }

@@ -1,9 +1,8 @@
 "use client";
-import { cn } from "@/lib/utils";
 import React, { useState, createContext, useContext } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { IconMenu2, IconX } from "@tabler/icons-react";
-import { usesetSidebarname } from "@/store/sidebarname";
+import { cn } from "@/lib/utils";
 import {
   IconArrowLeft,
   IconBrandTabler,
@@ -14,11 +13,9 @@ import {
 } from "@tabler/icons-react";
 
 interface Links {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  icon: any;
+  icon: string;
   label: string;
   href: string;
-  // icon: React.JSX.Element | React.ReactNode;
 }
 
 interface SidebarContextProps {
@@ -189,7 +186,7 @@ export const SidebarLink = ({
   };
   type IconName = keyof typeof icon;
 
-  const iconname: IconName = link.icon;
+  const iconname = link.icon as IconName;
   const Iconcomp = icon[iconname];
   return (
     <a

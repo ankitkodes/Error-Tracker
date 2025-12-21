@@ -1,8 +1,6 @@
-import { NextRequest, NextResponse } from "next/server";
+import NextAuth from "next-auth";
+import { authOptions } from "./options";
 
-export function GET(req: NextRequest, args: string[]) {
-  console.log("this is routes", args);
-  return NextResponse.json({
-    message: "reached to the file successfully",
-  });
-}
+const handler = NextAuth(authOptions);
+export { handler as GET, handler as POST };
+//

@@ -1,17 +1,11 @@
-"use client"; // Make this layout a client component
-
-// import SidebarMenu, { Logo, LogoIcon } from "@/layout/SidebarMenu";
+"use client";
 import { Geist, Geist_Mono } from "next/font/google";
-import type { Metadata } from "next";
 import { Sidebar } from "@/components/ui/sidebar";
 import { SidebarBody, SidebarLink } from "@/components/ui/sidebar";
 import { links } from "@/config/sidebarMenu";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import t1 from "../../../public/Images/logo/3.png";
-import Image from "next/image";
 import { Logo, LogoIcon } from "@/layout/SidebarMenu";
-import HorizontalLine from "@/components/HorizontalLine";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

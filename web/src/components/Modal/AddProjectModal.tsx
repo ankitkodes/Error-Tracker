@@ -1,35 +1,13 @@
 "use client";
 import { X } from "lucide-react";
-import { useState } from "react";
-import {
-  Dialog,
-  DialogBackdrop,
-  DialogPanel,
-  // DialogTitle,
-} from "@headlessui/react";
-// import addProject from "@/app/actions/Project";
-// import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 
 export type modal = {
   open: boolean;
   onClose: () => void;
 };
 
-export default function AddProjectModal({
-  open,
-  onClose,
-}: modal) {
-  //   const [open, setOpen] = useState(true);
-  async function addProject(formData: FormData) {
-    alert("this function is being called");
-    const projectname = formData.get("projectname");
-    // const tech = formdata.get("tech");
-    // const env = formdata.get("env");
-    // const team = formdata.get("team");
-
-    console.log(projectname);
-    onClose();
-  }
+export default function AddProjectModal({ open, onClose }: modal) {
   return (
     <div>
       <Dialog open={open} onClose={onClose} className="relative z-10">
@@ -46,7 +24,7 @@ export default function AddProjectModal({
             >
               <div className="bg-[#202026] text-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 relative">
                 <h3 className="">Add Your Project</h3>
-                <form action={addProject}>
+                <form>
                   <div className="my-4">
                     <label>
                       Project Name <span className="text-red-600">*</span>
@@ -70,8 +48,6 @@ export default function AddProjectModal({
                         <option value="Nodejs">Nodejs</option>
                         <option value="Nextjs">Nextjs</option>
                         <option value="Reactjs">Reactjs</option>
-                        {/* <option value="Java">Java</option>
-                        <option value="python">Python</option> */}
                       </select>
                     </div>
                   </div>
