@@ -80,11 +80,7 @@ jobs:
   - name: Commit and Push Changes
     run: |
       git config --global user.email "kumar27ankitsingh@gmail.com"
-<<<<<<< HEAD
       git config --global user.name "Ankit kumar"
-=======
-      git config --global user.name "Ankit Kumar"
->>>>>>> 94b2de75e873dc43995cf91d79ff82f4dc46f1c0
       git add helm/error-tracker-chart/values.yaml
       git commit -m "update tag in helm chart"
       git push

@@ -5,7 +5,7 @@
 replicaCount: 2
 
 image:
-  repository: abhi0874/error-tracker
+  repository: abhi0874/error-tracker:v1
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
