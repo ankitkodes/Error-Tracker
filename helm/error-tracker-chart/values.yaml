@@ -5,7 +5,7 @@
 replicaCount: 2
 
 image:
-  repository: abhi0874/error-tracker-app
+  repository: abhi0874/error-tracker
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
@@ -34,6 +34,6 @@ readinessProbe:
 autoscaling:
   enabled: false
   minReplicas: 1
-  maxReplicas: 100
+  maxReplicas: 5
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
