@@ -6,6 +6,7 @@ import { links } from "@/config/sidebarMenu";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Logo, LogoIcon } from "@/layout/SidebarMenu";
+import DashboardNavbar from "@/components/DasboardNavbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,9 +26,7 @@ export default function DashboardLayout({
   const [open, setOpen] = useState(false);
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} `}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} `}>
         <div
           className={cn(
             "mx-auto flex w-full  flex-1 flex-col overflow-hidden   text-black  md:flex-row ",
@@ -50,9 +49,14 @@ export default function DashboardLayout({
           </Sidebar>
           {/* <Dashboard /> */}
           <div className="flex flex-1 text-black bg-white">
-            <div className="flex h-full w-full flex-1 flex-col gap-2  border border-neutral-200  p-2 md:p-10 ">
-              <p>this is body of the sidebar section of all</p>
-              <main className="text-black bg-white">{children}</main>
+            <div className="flex h-full w-full flex-1 flex-col gap-2  border border-neutral-200">
+              <main className="text-black bg-white">
+                <div className="w-full">
+                  <DashboardNavbar />
+                  <hr />
+                </div>
+                {children}
+              </main>
             </div>
           </div>
         </div>

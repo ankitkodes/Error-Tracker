@@ -6,14 +6,17 @@ import { ToastContainer, toast } from "react-toastify";
 
 export default function Page() {
   const [email, setEmail] = useState("");
+  const [status, setStatus] = useState(false);
   const [password, setPassword] = useState("");
 
   async function handleSignIn() {
+    setStatus(true);
     const res = await signIn("credentials", {
       email,
       password,
       redirect: false,
     });
+    setStatus(false);
 
     if (res?.error) {
       toast.error(res.error);
@@ -65,7 +68,7 @@ export default function Page() {
               className="bg-black text-white w-full rounded-md py-2 my-2 cursor-pointer"
               onClick={handleSignIn}
             >
-              Login
+              {status ? "Signing in..." : "Sigin In"}
             </button>
           </div>
           <div className="flex">

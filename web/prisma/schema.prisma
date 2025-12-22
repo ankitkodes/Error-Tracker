@@ -29,8 +29,9 @@ model User{
 model Project{
   id           Int @unique @default(autoincrement())
   name         String
-  description  String
-  techstack    String
+  language    Language @default(Nodejs)
+  environment Environment @default(Production)
+  team String
   userId      Int 
   user        User @relation(fields: [userId], references: [id])
   error        Error[]
@@ -62,4 +63,16 @@ enum Role{
   Developer
   Team_Lead
   Admin
+}
+
+enum Environment{
+  Production
+  Staging
+  Development
+}
+
+enum Language{
+  Nodejs
+  Nextjs
+  Reactjs
 }

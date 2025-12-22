@@ -12,12 +12,12 @@ export default function Project() {
   return (
     <>
       {/* <div className=""> */}
-      <div className="">
-        <div className="m-4 relative">
+      <div className="p-2 md:p-10 ">
+        <div className="relative">
           <div className="inline-block">
-            <h1 className="text-2xl font-bold">Project Section</h1>
+            <h1 className="text-2xl font-bold">Project</h1>
             <p className="text-sm text-gray-500">
-              Manage your projects here. You can add, edit, or delete projects.
+              Manage and monitor all your application projects
             </p>
           </div>
           <div className="inline-block absolute right-4 top-0">

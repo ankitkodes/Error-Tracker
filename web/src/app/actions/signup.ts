@@ -15,7 +15,6 @@ export async function CreateUser(prevState: any, formData: FormData) {
     const confirmPassword = formData.get("confirmpassword") as string;
     const organame = formData.get("orgname") as string;
     const roleValue = formData.get("role") as keyof typeof Role;
-    const roleValue = formData.get("role") as keyof typeof Role;
 
     if (password !== confirmPassword) {
       return { message: "Confirm password is not matching to password" };

@@ -26,9 +26,4 @@ export const links = [
     href: "/setup",
     icon: "IconUsb",
   },
-  {
-    label: "Logout",
-    href: "/",
-    icon: "IconArrowLeft",
-  },
 ];
