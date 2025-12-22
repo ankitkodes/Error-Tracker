@@ -45,7 +45,7 @@ jobs:
         context: ./web
         file: ./web/Dockerfile
         push: true
-        tags: ${{secrets.DOCKER_USERNAME}}/error-tracker-devops:${{github.run_id}}
+        tags: ${{secrets.DOCKER_USERNAME}}/error-tracker:${{github.run_id}}
 
   Security-Scan:
     needs: Build-Docker-Image
@@ -58,7 +58,7 @@ jobs:
       uses: aquasecurity/trivy-action@0.3.0
       with:
         scan-type: 'image'
-        image-ref: '${{secrets.DOCKER_USERNAME}}/error-tracker-devops:${{github.run_id}}'
+        image-ref: '${{secrets.DOCKER_USERNAME}}/error-tracker:${{github.run_id}}'
         format: 'table'
         severity: 'CRITICAL,HIGH'
         ignore-unfixed: true
