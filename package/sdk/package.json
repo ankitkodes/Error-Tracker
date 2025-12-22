@@ -6,7 +6,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ankitdeveloper7/Error-Tracker/tree/main/package/sdk"
+    "url": "https://github.com/ankitkodes/Error-Tracker/tree/main/package/sdk"
   },
   "dependencies": {
     "axios": "^1.11.0"

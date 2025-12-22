@@ -31,60 +31,71 @@ Stop guessing why your app crashed. Start tracing bugs with precision.
 
 ## 📦 Installation
 
+Install the SDK via npm:
+
 ```bash
 npm install bugtrace-sdk
-# or
-pnpm add bugtrace-sdk
-# or
-yarn add bugtrace-sdk
 ```
 
 ## 🚀 Quick Start
 
-### Browser Integration (React, Next.js, Vue)
+Initialize BugTrace once at the root of your application, and let it handle the rest.
 
-Initialize the SDK in your application's entry point (e.g., `layout.tsx`, `App.tsx`, or `main.ts`).
+### 🌐 Browser Integration (React, Next.js, Vue, Angular)
+
+Add this to your main entry file (e.g., `main.ts`, `App.tsx`, or `layout.tsx`):
 
 ```typescript
 import { init } from 'bugtrace-sdk';
 
 init({
   projectId: "YOUR_PROJECT_ID",
-  user_id: "anonymous", // Optional: Identifier for the current user
-  Environment: "Production" // "Development" | "Staging" | "Production"
+  user_id: "user_123", // Optional: Track which user experienced the error
+  environment: "Production" // Optional: Defaults to Production
 });
 ```
 
-### Node.js Integration
+### 🖥️ Node.js Integration (Express, NestJS, Fastify)
 
-The SDK automatically detects the environment. Use the same initialization method for your backend services.
+For backend services, initialize it as early as possible in your server's startup script:
 
 ```typescript
 import { init } from 'bugtrace-sdk';
 
 init({
   projectId: "YOUR_PROJECT_ID",
-  user_id: "server-1",
-  Environment: "Production"
+  user_id: "server-instance-01",
+  environment: "Production"
 });
 ```
 
 ## ⚙️ Configuration
 
-The `init` function accepts a configuration object with the following properties:
+The `init` function accepts a strictly typed `SDKconfig` object:
 
 | Option | Type | Required | Description |
 | :--- | :--- | :--- | :--- |
-| `projectId` | `string` | **Yes** | Your unique project identifier from the BugTrace dashboard. |
-| `user_id` | `string` | No | An identifier for the user affected by the error (e.g., email, ID). |
-| `Environment` | `string` | No | The environment where the app is running (default: `Production`). |
+| `projectId` | `string` | **Yes** | Your unique project API key from the BugTrace dashboard. |
+| `user_id` | `string` | **Yes** | Identifier for the user or system entity (e.g., email, UUID). |
+| `environment` | `Environment` | **Yes** | The runtime environment. Values: `Production`, `Staging`, `Development`. |
 
-## 🛡️ Features
+### Environment Enum
 
-- **Automatic Error Capture**: Automatically listens for `window.onerror` and `unhandledRejection` in the browser, and `uncaughtException` in Node.js.
-- **Cross-Platform**: Works seamlessly in both browser and server-side environments.
-- **Lightweight**: Minimal footprint to ensure no impact on application performance.
-- **TypeScript Support**: Built with TypeScript for excellent type safety and autocompletion.
+```typescript
+enum Environment {
+  Production,
+  Staging,
+  Development
+}
+```
+
+## 🛠️ Tech Stack
+
+BugTrace SDK is engineered with a focus on reliability and modern standards:
+
+- **Language**: [TypeScript](https://www.typescriptlang.org/) (v5.9+) - For robust, type-safe code.
+- **Networking**: [Axios](https://axios-http.com/) - For efficient, promise-based HTTP requests.
+- **Runtime**: Node.js & Modern Browsers.
 
 ## 📄 License
 

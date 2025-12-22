@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: error-tracker-deploy
+  labels:
+    app: error-tracker
+
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector: 
+    matchLabels:
+      app: error-tracker
+
+  template:
+    metadata:
+      labels:
+        app: error-tracker
+    
+    spec:
+      containers:
+      - name: error-tracker-container
+        image: "{{ .Values.image.repository }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.containerPort}}
+        livenessProbe:
+          {{ toYaml .Values.livenessProbe | nindent 12}}
+        readinessProbe:
+          {{ toYaml .Values.readinessProbe | nindent 12}}
