@@ -7,21 +7,18 @@ resource "aws_vpc" "bug_tracker_vpc" {
     enable_dns_hostnames = true
     enable_dns_support = true
 
+    assign_generated_ipv6_cidr_block = true
+
+
     tags = {
         Name = "bug-tracker-vpc"
     }
-}
-
-resource "aws_vpc_ipv6_cidr_block_association" "bug_tracker_vpc_ipv6" {
-    vpc_id = aws_vpc.bug_tracker_vpc.id
 }
 
 resource "aws_subnet" "bug_tracker_subnet" {
     count = 2
     vpc_id = aws_vpc.bug_tracker_vpc.id
     cidr_block = cidrsubnet(aws_vpc.bug_tracker_vpc.cidr_block, 8, count.index)
-    ipv6_cidr_block = cidrsubnet(aws_vpc_ipv6_cidr_block_association.bug_tracker_vpc_ipv6.ipv6_cidr_block, 8, count.index)
-    assign_ipv6_address_on_creation = true
     availability_zone = element(["us-east-1a", "us-east-1b"], count.index)
     map_public_ip_on_launch = true
 
