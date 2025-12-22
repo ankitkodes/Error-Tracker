@@ -1,10 +1,10 @@
-# bugtrace-sdk
+# BugTrace SDK
 
 <div align="center">
 
 ![Version](https://img.shields.io/npm/v/bugtrace-sdk?style=for-the-badge&color=blue)
 ![License](https://img.shields.io/npm/l/bugtrace-sdk?style=for-the-badge&color=green)
-![Downloads](https://img.shields.io/badge/downloads-20-orange?style=for-the-badge)
+![Downloads](https://img.shields.io/npm/dt/bugtrace-sdk?style=for-the-badge&color=orange)
 ![TypeScript](https://img.shields.io/badge/Built%20With-TypeScript-blue?style=for-the-badge&logo=typescript)
 
 **The Universal Error Tracking Solution for Modern Applications.**
@@ -46,12 +46,12 @@ yarn add bugtrace-sdk
 Initialize the SDK in your application's entry point (e.g., `layout.tsx`, `App.tsx`, or `main.ts`).
 
 ```typescript
-import { init } from "bugtrace-sdk";
+import { init } from 'bugtrace-sdk';
 
 init({
   projectId: "YOUR_PROJECT_ID",
   user_id: "anonymous", // Optional: Identifier for the current user
-  Environment: "Production", // "Development" | "Staging" | "Production"
+  Environment: "Production" // "Development" | "Staging" | "Production"
 });
 ```
 
@@ -60,12 +60,12 @@ init({
 The SDK automatically detects the environment. Use the same initialization method for your backend services.
 
 ```typescript
-import { init } from "bugtrace-sdk";
+import { init } from 'bugtrace-sdk';
 
 init({
   projectId: "YOUR_PROJECT_ID",
   user_id: "server-1",
-  Environment: "Production",
+  Environment: "Production"
 });
 ```
 
@@ -73,11 +73,11 @@ init({
 
 The `init` function accepts a configuration object with the following properties:
 
-| Option        | Type     | Required | Description                                                         |
-| :------------ | :------- | :------- | :------------------------------------------------------------------ |
-| `projectId`   | `string` | **Yes**  | Your unique project identifier from the BugTrace dashboard.         |
-| `user_id`     | `string` | No       | An identifier for the user affected by the error (e.g., email, ID). |
-| `Environment` | `string` | No       | The environment where the app is running (default: `Production`).   |
+| Option | Type | Required | Description |
+| :--- | :--- | :--- | :--- |
+| `projectId` | `string` | **Yes** | Your unique project identifier from the BugTrace dashboard. |
+| `user_id` | `string` | No | An identifier for the user affected by the error (e.g., email, ID). |
+| `Environment` | `string` | No | The environment where the app is running (default: `Production`). |
 
 ## 🛡️ Features
 
@@ -91,3 +91,7 @@ The `init` function accepts a configuration object with the following properties
 This project is licensed under the **MIT License**.
 
 ---
+
+<div align="center">
+  <sub>Built with ❤️ by <a href="https://github.com/ankitkodes">Ankit Kumar</a></sub>
+</div>

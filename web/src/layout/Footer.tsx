@@ -1,4 +1,4 @@
-import HorizontalLine from "@/components/HorizontalLine";
+import HorizontalLine from "@/components/ui/HorizontalLine";
 import Link from "next/link";
 
 export default function Footer() {
