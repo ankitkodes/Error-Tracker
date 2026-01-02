@@ -11,6 +11,7 @@ import {
   IconAlertHexagon,
   IconUsb,
   IconLayoutSidebar,
+  IconBugFilled,
 } from "@tabler/icons-react";
 import { Zap } from "lucide-react";
 import Link from "next/link";
@@ -245,6 +246,7 @@ export const SidebarLink = ({
     IconReport,
     IconAlertHexagon,
     IconUsb,
+    IconBugFilled,
   };
   type IconName = keyof typeof icon;
 

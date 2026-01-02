@@ -12,8 +12,8 @@ export type modal = {
 
 export default function AddProjectModal({ open, onClose }: modal) {
   const [projectname, setProjectName] = useState("");
-  const [language, setLanguage] = useState("");
-  const [env, setEnv] = useState("");
+  const [language, setLanguage] = useState("Nodejs");
+  const [env, setEnv] = useState("Production");
   const [team, setTeam] = useState("");
   const [status, setStatus] = useState(false);
 
@@ -30,6 +30,7 @@ export default function AddProjectModal({ open, onClose }: modal) {
       },
     });
     console.log(reponse);
+    onClose();
     setStatus(false);
   }
   return (
@@ -73,7 +74,7 @@ export default function AddProjectModal({ open, onClose }: modal) {
                       <select
                         id="language"
                         name="language"
-                        className="w-full hover:bg-white hover:text-black px-4 py-2 rounded border-2  mt-2"
+                        className="w-full  px-4 py-2 rounded border-2  mt-2"
                         required
                         onChange={(e) => setLanguage(e.target.value)}
                       >
@@ -91,7 +92,7 @@ export default function AddProjectModal({ open, onClose }: modal) {
                       <select
                         id="env"
                         name="env"
-                        className="w-full hover:bg-white hover:text-black px-4 py-2 rounded border-2  mt-2"
+                        className="w-full  px-4 py-2 rounded border-2  mt-2"
                         required
                         onChange={(e) => setEnv(e.target.value)}
                       >
@@ -118,7 +119,7 @@ export default function AddProjectModal({ open, onClose }: modal) {
                   type="submit"
                   onClick={CreateProject}
                 >
-                  {status ? "Creating" : "Create Project"}
+                  {status ? "Creating....." : "Create Project"}
                 </button>
                 <button
                   onClick={onClose}

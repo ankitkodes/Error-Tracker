@@ -12,6 +12,11 @@ export const links = [
     icon: "IconFolder",
   },
   {
+    label: "Issues",
+    href: "/issue",
+    icon: "IconBugFilled",
+  },
+  {
     label: "Reports",
     href: "/report",
     icon: "IconReport",

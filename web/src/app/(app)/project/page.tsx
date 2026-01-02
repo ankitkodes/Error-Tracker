@@ -1,18 +1,33 @@
 "use client";
 import AddProjectModal from "@/components/Modal/AddProjectModal";
-import { useState } from "react";
+import ProjectDetails from "@/components/project-details";
+import axios from "axios";
+import Link from "next/link";
+import { useState, useEffect } from "react";
 
 export default function Project() {
   const [open, setOpen] = useState(false);
+  const [project, getProject] = useState([]);
 
   function closeprojectmodal() {
     setOpen(false);
   }
 
+  useEffect(() => {
+    async function getProjectdetails() {
+      const response = await axios({
+        method: "GET",
+        url: "/api/projects",
+      });
+      getProject(response.data.projectdetails);
+    }
+
+    getProjectdetails();
+  }, []);
+
   return (
     <>
-      {/* <div className=""> */}
-      <div className="p-2 md:p-10 ">
+      <div className="">
         <div className="relative">
           <div className="inline-block">
             <h1 className="text-2xl font-bold">Project</h1>
@@ -30,8 +45,21 @@ export default function Project() {
           </div>
           <AddProjectModal open={open} onClose={closeprojectmodal} />
         </div>
+        <div className="my-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-4">
+            {project.map((items: any) => (
+              <>
+                <Link href="#" className="cursor-pointer">
+                  <ProjectDetails
+                    name={items.name}
+                    environment={items.environment}
+                  />
+                </Link>
+              </>
+            ))}
+          </div>
+        </div>
       </div>
-      {/* </div> */}
     </>
   );
 }

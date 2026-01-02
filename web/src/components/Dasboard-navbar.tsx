@@ -12,15 +12,15 @@ export default function DashboardNavbar() {
           />
         </div>
         <div className="flex gap-4 absolute right-6">
-          <div className="rounded-lg flex w-10 h-10 hover:bg-gray-100 items-center justify-center cursor-pointer">
+          <button className="rounded-lg flex w-10 h-10 hover:bg-gray-100 items-center justify-center cursor-pointer">
             <Sun />
-          </div>
-          <div className="rounded-lg flex w-10 h-10 hover:bg-gray-100 items-center justify-center cursor-pointer">
+          </button>
+          <button className="rounded-lg flex w-10 h-10 hover:bg-gray-100 items-center justify-center cursor-pointer">
             <Bell />
-          </div>
-          <div className="rounded-lg flex w-10 h-10 hover:bg-gray-100 items-center justify-center cursor-pointer">
+          </button>
+          <button className="rounded-lg flex w-10 h-10 hover:bg-gray-100 items-center justify-center cursor-pointer">
             <User />
-          </div>
+          </button>
         </div>
       </div>
     </>
