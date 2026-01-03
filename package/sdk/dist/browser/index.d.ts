@@ -1,2 +1,2 @@
-import { SDKconfig } from "../core/types";
-export declare function BrowserInit({ projectId, user_id, environment }: SDKconfig): void;
+export declare function BrowserInit(APIKEY: string): void;
+export declare function captureError(error: any): void;

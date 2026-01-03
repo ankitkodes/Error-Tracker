@@ -1,11 +1,11 @@
-import { SDKconfig } from "../core/types";
+import { sendError } from "../core/transport";
 import { config } from "../core/utils";
 import { UncaughtException } from "./errorListener";
 
-export function NodeInit({ projectId, user_id, environment }: SDKconfig) {
-  ((config.projectId = projectId),
-    (config.user_id = user_id),
-    (config.environment = environment));
+export function NodeInit(APIKEY: string) {
+  ((config.APIKEY = APIKEY), UncaughtException());
+}
 
-  UncaughtException();
+export async function captureError(error: any) {
+  await sendError(error);
 }

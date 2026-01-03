@@ -8,12 +8,13 @@ const axios_1 = __importDefault(require("axios"));
 const utils_1 = require("./utils");
 async function sendError(error) {
     try {
+        const data = JSON.stringify(error, Object.getOwnPropertyNames(error));
         await (0, axios_1.default)({
             method: "POST",
             url: utils_1.DSN_URL,
             data: {
-                error,
-                projectId: utils_1.config.projectId,
+                error: data,
+                APIKEY: utils_1.config.APIKEY,
             },
         });
     }

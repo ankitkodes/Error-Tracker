@@ -3,12 +3,13 @@ import { config, DSN_URL } from "./utils";
 
 export async function sendError(error: any) {
   try {
+    const data = JSON.stringify(error, Object.getOwnPropertyNames(error));
     await axios({
       method: "POST",
       url: DSN_URL,
       data: {
-        error,
-        projectId: config.projectId,
+        error: data,
+        APIKEY: config.APIKEY,
       },
     });
   } catch (error) {

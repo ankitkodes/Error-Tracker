@@ -1,2 +1,2 @@
-import { SDKconfig } from "../core/types";
-export declare function NodeInit({ projectId, user_id, environment }: SDKconfig): void;
+export declare function NodeInit(APIKEY: string): void;
+export declare function captureError(error: any): Promise<void>;
