@@ -1,6 +1,6 @@
 "use client";
 import AddProjectModal from "@/components/Modal/AddProjectModal";
-import ProjectDetails from "@/components/project-details";
+import ProjectDetails from "@/components/project/project-details";
 import axios from "axios";
 import Link from "next/link";
 import { useState, useEffect } from "react";
@@ -49,7 +49,7 @@ export default function Project() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-4">
             {project.map((items: any) => (
               <>
-                <Link href="#" className="cursor-pointer">
+                <Link href="/project/123" className="cursor-pointer">
                   <ProjectDetails
                     name={items.name}
                     environment={items.environment}
