@@ -5,7 +5,12 @@ on:
       - main
     paths-ignore:
       - 'README.md'
-  workflow-dispatch:
+
+  pull_request:
+    branches:
+      - main
+
+  workflow_dispatch:
 
 jobs:
   Build:
@@ -64,22 +69,22 @@ jobs:
         ignore-unfixed: true
 
   Update-Helm-Chart:
-  needs: Security-Scan
-  runs-on: ubuntu-latest
-  steps:
-  - name: Code checkout
-    uses: actions/checkout@v4
-    with:
-      token: ${{secrets.GIT_TOKEN}}
+    needs: Security-Scan
+    runs-on: ubuntu-latest
+    steps:
+    - name: Code checkout
+      uses: actions/checkout@v4
+      with:
+        token: ${{secrets.GIT_TOKEN}}
 
-  - name: Update tag in helm chart
-    run: |
-      sed -i 's/tag: .*/tag: "${{github.run_id}}"/' helm/error-tracker-chart/values.yaml
+    - name: Update tag in helm chart
+      run: |
+        sed -i 's/tag: .*/tag: "${{github.run_id}}"/' helm/error-tracker-chart/values.yaml
 
-  - name: Commit and Push Changes
-    run: |
-      git config --global user.email "kumar27ankitsingh@gmail.com"
-      git config --global user.name "Ankit Kumar"
-      git add helm/error-tracker-chart/values.yaml
-      git commit -m "update tag in helm chart"
-      git push
+    - name: Commit and Push Changes
+      run: |
+        git config --global user.email "kumar27ankitsingh@gmail.com"
+        git config --global user.name "Ankit Kumar"
+        git add helm/error-tracker-chart/values.yaml
+        git commit -m "update tag in helm chart"
+        git push
