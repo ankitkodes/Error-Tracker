@@ -22,14 +22,18 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with: 
-        node-version: '22'
+        node-version: '20'
         cache: 'npm'
 
     - name: Install Dependencies
-      run: npm ci
+      run: |
+        working-directory: web
+        npm ci
 
     - name: Build the Application
-      run: npm run build
+      run: |
+        working-directory: web
+        npm run build
 
   Build-Docker-Image:
     needs: Build
