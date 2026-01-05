@@ -27,12 +27,12 @@ jobs:
 
     - name: Install Dependencies
       run: |
-        working-directory: web
+        cd web
         npm ci
 
     - name: Build the Application
       run: |
-        working-directory: web
+        cd web
         npm run build
 
   Build-Docker-Image:
