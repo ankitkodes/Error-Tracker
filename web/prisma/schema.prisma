@@ -27,7 +27,7 @@ model User{
 }
 
 model Project{
-  id           Int @unique @default(autoincrement())
+  id           String @unique
   name         String
   apikey       String @unique
   language    Language @default(Nodejs)
@@ -40,18 +40,14 @@ model Project{
 
 model Error{
   id         Int @unique @default(autoincrement())
-  type       String
   message    String
-  source   String
-  lineno    Int
-  colno     Int
+  severity   Severity @default(Error)
   status     Status @default(Bug)
   error String
   errorCount Int? @default(1)
   createdAt  DateTime @default(now())
-  projectId  Int
+  projectId  String
   project    Project @relation(fields: [projectId], references: [id])
-
 }
 
 enum Status{
@@ -76,4 +72,9 @@ enum Language{
   Nodejs
   Nextjs
   Reactjs
+}
+
+enum Severity{
+  Error
+  Warning
 }

@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 export default function Project() {
   const [open, setOpen] = useState(false);
   const [project, getProject] = useState([]);
+  const [loading, setloading] = useState(false);
 
   function closeprojectmodal() {
     setOpen(false);
@@ -15,11 +16,14 @@ export default function Project() {
 
   useEffect(() => {
     async function getProjectdetails() {
+      setloading(true);
       const response = await axios({
         method: "GET",
         url: "/api/projects",
       });
       getProject(response.data.projectdetails);
+      setloading(false);
+      console.log("the value of data", response);
     }
 
     getProjectdetails();
@@ -49,7 +53,7 @@ export default function Project() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-4">
             {project.map((items: any) => (
               <>
-                <Link href="/project/123" className="cursor-pointer">
+                <Link href={`/project/${items.id}`} className="cursor-pointer">
                   <ProjectDetails
                     name={items.name}
                     environment={items.environment}

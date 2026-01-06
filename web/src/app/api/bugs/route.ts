@@ -1,17 +1,39 @@
+import prisma from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    console.log("this is the value of body from sdk side", body);
+
     console.log("value of api key:- ", body.APIKEY);
+    console.log("value of project id:- ", body.projectId);
     const data = JSON.parse(body.error);
-    console.log("the value of data:- ", data);
-    console.log(
-      "this is the value of stack from the backend side:- ",
-      data["stack"]
-    );
-    console.log("this is message value from the backend side", data["message"]);
+    const stackmessage = data["stack"].slice(0, data["stack"].indexOf("("));
+    console.log(" this is stack messages", stackmessage);
+
+    const project = await prisma.project.findUnique({
+      where: {
+        id: body.projectId,
+      },
+    });
+    console.log("response of finding project of specific id:- ", project);
+    if (!project) {
+      console.log("returned");
+      return NextResponse.json({ message: "Invalid project ID" });
+    }
+    const response = await prisma.error.create({
+      data: {
+        message: stackmessage,
+        error: body.error,
+        projectId: body.projectId,
+      },
+    });
+
+    return NextResponse.json({
+      message: "Error stored successfully",
+      response,
+    });
+
     return NextResponse.json({ message: "error fetched successfully", body });
   } catch (error) {
     return NextResponse.json({

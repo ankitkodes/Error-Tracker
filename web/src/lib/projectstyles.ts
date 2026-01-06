@@ -9,4 +9,14 @@ export const setactive = {
   InActive: "bg-red-500 text-emerald-50 border-red-700",
 };
 
+export const SeverityStyle = {
+  Error: "bg-red-600 text-[#ffffff] border-[#dc2626]",
+  Warning: "bg-yellow-500 text-[#FFFFFF] border-[#F59E0B]",
+};
+
+export const StatusStyle = {
+  Bug: "bg-red-900 text-white border border-red-600",
+  InProcess: "bg-blue-900 text-white border border-blue-500",
+  Fixed: "bg-green-900 text-white border border-green-500",
+};
 // export const projectStatus: Record
