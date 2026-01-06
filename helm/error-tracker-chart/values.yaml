@@ -8,7 +8,7 @@ image:
   repository: abhi0874/error-tracker:v1
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "20727170184"
 
 service:
   type: LoadBalancer
