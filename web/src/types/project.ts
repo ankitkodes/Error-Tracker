@@ -4,8 +4,4 @@ export enum Environment {
   Development,
 }
 
-export const EnvStyle: Record<string, string> = {
-  Production: "bg-[#FEE2E2] text-[#991B1B] border-[#EF4444]",
-  Staging: "bg-[#FEF3C7] text-[#92400E] border-[#F59E0B]",
-  Development: "bg-[#DCFCE7] text-[#166534] border-[#22C55E]",
-};
+

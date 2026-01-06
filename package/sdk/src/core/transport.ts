@@ -9,6 +9,7 @@ export async function sendError(error: any) {
       url: DSN_URL,
       data: {
         error: data,
+        projectId: config.projectId,
         APIKEY: config.APIKEY,
       },
     });

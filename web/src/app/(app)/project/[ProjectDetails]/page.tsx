@@ -1,58 +1,62 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { Settings, EllipsisVertical } from "lucide-react";
-import { EnvStyle, setactive } from "@/lib/projectstyles";
+import { EnvStyle, setactive, StatusStyle } from "@/lib/projectstyles";
 import ProjectCredential from "@/components/project/project-credential";
 import ProjectHealth from "@/components/project/project-health";
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import axios from "axios";
+import { SeverityStyle } from "@/lib/projectstyles";
 
 export default function Page({}) {
-  const errorlog = [
-    {
-      id: 1,
-      errormessage: "TypeError:Cannot read property map of unified",
-      severity: "Error",
-      occurences: 678,
-      lastseen: "2 minutes ago",
-      environment: "production",
-      status: "open",
-    },
-    {
-      id: 2,
-      errormessage: "ReferenceError:user is not defined",
-      severity: "Error",
-      occurences: 78,
-      lastseen: "17 minutes ago",
-      environment: "Staging",
-      status: "open",
-    },
-    {
-      id: 3,
-      errormessage: "Network request timeout",
-      severity: "Error",
-      occurences: 67,
-      lastseen: "1 hour ago",
-      environment: "Development",
-      status: "resolved",
-    },
-    {
-      id: 4,
-      errormessage: "TypeError:Cannot read property map of unified",
-      severity: "Warning",
-      occurences: 68,
-      lastseen: "3 hour ago",
-      environment: "production",
-      status: "ignored",
-    },
-  ];
+  const [project, getProject] = useState({
+    name: "",
+    id: "",
+    apikey: "",
+    language: "",
+    environment: "",
+  });
+  const [error, getErrorlog] = useState([]);
+  const projectid = useParams().ProjectDetails;
+
+  useEffect(() => {
+    async function getProjectdetails() {
+      const response = await axios({
+        method: "GET",
+        url: `/api/projects/${projectid}`,
+      });
+      const data = response.data.project;
+      getProject(data);
+    }
+
+    getProjectdetails();
+  }, []);
+
+  useEffect(() => {
+    async function Geterror() {
+      console.log("function started");
+      const response = await axios({
+        method: "GET",
+        url: `/api/errorlog/${projectid}`,
+      });
+      const data = response.data;
+      getErrorlog(data.errorlog);
+      console.log("collection of errror", data.errorlog);
+      console.log("error message", data.errorlog[0].message);
+    }
+
+    Geterror();
+  }, []);
 
   return (
     <>
       <div>
         <div className="flex gap-2 justify-between align-baseline">
           <div className="flex gap-2">
-            <div className="font-semibold text-xl">Blogging Website</div>
+            <div className="font-semibold text-xl">{project.name} </div>
             <button className="px-2 py-[1px] text-xs font-medium rounded-lg border-gray-400 bg-gray-300 h-min-content">
-              Nodejs
+              {project.language}
             </button>
             <button
               className={cn(
@@ -60,7 +64,7 @@ export default function Page({}) {
                 EnvStyle["Staging"]
               )}
             >
-              Production
+              {project.environment}
             </button>
             <button
               className={cn(
@@ -82,7 +86,7 @@ export default function Page({}) {
             </button>
           </div>
         </div>
-        <ProjectCredential />
+        <ProjectCredential project_Id={project.id} APIkey={project.apikey} />
         {/* <ProjectHealth /> */}
         <div className="border-2 rounded-md p-2">
           <div className="font-semibold">Error in this Project</div>
@@ -93,26 +97,38 @@ export default function Page({}) {
                 <td className="border-b-2 py-3 px-4">Severity</td>
                 <td className="border-b-2 py-3 px-4">Occurrences</td>
                 <td className="border-b-2 py-3 px-4">Last Seen</td>
-                <td className="border-b-2 py-3 px-4">Environment</td>
                 <td className="border-b-2 py-3 px-4">Statue</td>
               </tr>
 
-              {errorlog.map((items: any) => (
+              {error.map((items: any) => (
                 <>
                   <tr className="text-sm">
-                    <td className="border-b-2  py-3 px-4">
-                      {items.errormessage}
+                    <td className="border-b-2  py-3 px-4">{items.message}</td>
+                    <td className="border-b-2 py-3 px-4">
+                      <button
+                        className={cn(
+                          "rounded-lg px-2 py-1 text-xs font-medium text-center",
+                          SeverityStyle["Warning"]
+                        )}
+                      >
+                        {items.severity}
+                      </button>
                     </td>
-                    <td className="border-b-2 py-3 px-4">{items.severity} </td>
                     <td className="border-b-2 py-3 px-4">
                       {" "}
-                      {items.occurences}{" "}
+                      {items.errorCount}{" "}
                     </td>
-                    <td className="border-b-2 py-3 px-4">{items.lastseen} </td>
+                    <td className="border-b-2 py-3 px-4">12 minutes ago </td>
                     <td className="border-b-2 py-3 px-4">
-                      {items.environment}{" "}
+                      <button
+                        className={cn(
+                          "rounded-lg px-2 py-1 text-xs font-medium text-center cursor-pointer",
+                          StatusStyle["Fixed"]
+                        )}
+                      >
+                        {items.status}
+                      </button>
                     </td>
-                    <td className="border-b-2 py-3 px-4">{items.status} </td>
                   </tr>
                 </>
               ))}
@@ -122,4 +138,7 @@ export default function Page({}) {
       </div>
     </>
   );
+}
+function UseEffect(arg0: () => void, arg1: never[]) {
+  throw new Error("Function not implemented.");
 }

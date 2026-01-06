@@ -2,10 +2,16 @@ import { Eye, Copy, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
-export default function ProjectCredential() {
+interface projectcredential {
+  project_Id: string;
+  APIkey: string;
+}
+
+export default function ProjectCredential({
+  project_Id,
+  APIkey,
+}: projectcredential) {
   const [visible, setVisible] = useState(false);
-  const apikey = "hnksdfnloeknlsdfnl45678";
-  const project_id = "Proj_c4hy7nkh7oj";
 
   return (
     <>
@@ -15,14 +21,14 @@ export default function ProjectCredential() {
           <label className="text-gray-400 mb-2">Project ID</label>
           <div className="flex justify-between gap-4">
             <input
-              value={project_id}
+              value={project_Id}
               readOnly
               className="bg-[#f5f5f5] grow ... px-2 py-1 rounded-md text-sm"
             />
 
             <button
               onClick={() => {
-                navigator.clipboard.writeText(project_id);
+                navigator.clipboard.writeText(project_Id);
                 toast.success("project_id Copied Successfully");
               }}
               className="text-xs gap-2 grow-0 ... border-2 rounded-md font-medium px-2 py-1 cursor-pointer"
@@ -36,7 +42,7 @@ export default function ProjectCredential() {
           <div className="flex gap-2">
             <input
               type={visible ? "text" : "password"}
-              value={apikey}
+              value={APIkey}
               readOnly
               className="bg-[#f5f5f5] grow ... px-2 py-1 rounded-md text-sm"
             />
@@ -53,7 +59,7 @@ export default function ProjectCredential() {
             </button>
             <button
               onClick={() => {
-                navigator.clipboard.writeText(apikey);
+                navigator.clipboard.writeText(APIkey);
                 toast.success("API key copied successfully");
               }}
               className="text-xs gap-2 flex-none ... border-2 rounded-md font-medium px-2 py-1 cursor-pointer"

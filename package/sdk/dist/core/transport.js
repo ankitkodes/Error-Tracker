@@ -14,6 +14,7 @@ async function sendError(error) {
             url: utils_1.DSN_URL,
             data: {
                 error: data,
+                projectId: utils_1.config.projectId,
                 APIKEY: utils_1.config.APIKEY,
             },
         });
