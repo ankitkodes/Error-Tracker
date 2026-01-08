@@ -13,9 +13,6 @@ export async function GET(
     if (!session) {
       return NextResponse.json({ message: "please login and signup" });
     }
-
-    console.log("the value of projectId of specific project", projectId);
-    console.log("type of projectid", typeof projectId);
     const errorlog = await prisma.error.findMany({
       where: {
         projectId: projectId,
