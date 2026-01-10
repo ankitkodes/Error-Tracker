@@ -3,13 +3,14 @@ import { cn } from "@/lib/utils";
 import { Settings, EllipsisVertical } from "lucide-react";
 import { EnvStyle, setactive, StatusStyle } from "@/lib/projectstyles";
 import ProjectCredential from "@/components/project/project-credential";
-import ProjectHealth from "@/components/project/project-health";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import axios from "axios";
 import { SeverityStyle } from "@/lib/projectstyles";
+import { RotatingLines } from "react-loader-spinner";
 
 export default function Page({}) {
+  const [loading, setloading] = useState(true);
   const [project, getProject] = useState({
     name: "",
     id: "",
@@ -28,10 +29,11 @@ export default function Page({}) {
       });
       const data = response.data.project;
       getProject(data);
+      setloading(false);
     }
 
     getProjectdetails();
-  }, []);
+  }, [projectid]);
 
   useEffect(() => {
     async function Geterror() {
@@ -47,7 +49,27 @@ export default function Page({}) {
     }
 
     Geterror();
-  }, []);
+  }, [projectid]);
+
+  if (loading) {
+    return (
+      <>
+        <div className="h-screen flex items-center justify-center">
+          <RotatingLines
+            visible={true}
+            height="96"
+            width="96"
+            color="grey"
+            strokeWidth="5"
+            animationDuration="0.75"
+            ariaLabel="rotating-lines-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+          />
+        </div>
+      </>
+    );
+  }
 
   return (
     <>

@@ -1,6 +1,7 @@
 "use client";
 import AddProjectModal from "@/components/Modal/AddProjectModal";
 import ProjectDetails from "@/components/project/project-details";
+import { ProjectDetailsSkeleton } from "@/components/skeleton";
 import axios from "axios";
 import Link from "next/link";
 import { useState, useEffect } from "react";
@@ -23,7 +24,6 @@ export default function Project() {
       });
       getProject(response.data.projectdetails);
       setloading(false);
-      console.log("the value of data", response);
     }
 
     getProjectdetails();
@@ -50,18 +50,28 @@ export default function Project() {
           <AddProjectModal open={open} onClose={closeprojectmodal} />
         </div>
         <div className="my-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-4">
-            {project.map((items: any) => (
-              <>
-                <Link href={`/project/${items.id}`} className="cursor-pointer">
-                  <ProjectDetails
-                    name={items.name}
-                    environment={items.environment}
-                  />
-                </Link>
-              </>
-            ))}
-          </div>
+          {loading ? (
+            <div className="flex">
+              <ProjectDetailsSkeleton />
+              <ProjectDetailsSkeleton />
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-4">
+              {project.map((items: any) => (
+                <>
+                  <Link
+                    href={`/project/${items.id}`}
+                    className="cursor-pointer"
+                  >
+                    <ProjectDetails
+                      name={items.name}
+                      environment={items.environment}
+                    />
+                  </Link>
+                </>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </>

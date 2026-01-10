@@ -1,9 +1,8 @@
 "use client";
 import { X } from "lucide-react";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
-import { METHODS } from "http";
 
 export type modal = {
   open: boolean;
