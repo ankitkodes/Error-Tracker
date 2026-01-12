@@ -6,6 +6,14 @@ import axios from "axios";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
+interface ProjectDetailsInterface {
+  id: string;
+  environment: string;
+  apikey: string;
+  language: string;
+  name: string;
+}
+
 export default function Project() {
   const [open, setOpen] = useState(false);
   const [project, getProject] = useState([]);
@@ -22,6 +30,7 @@ export default function Project() {
         method: "GET",
         url: "/api/projects",
       });
+      console.log("projece details for interface", response.data);
       getProject(response.data.projectdetails);
       setloading(false);
     }
@@ -57,7 +66,7 @@ export default function Project() {
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-4">
-              {project.map((items: any) => (
+              {project.map((items: ProjectDetailsInterface) => (
                 <>
                   <Link
                     href={`/project/${items.id}`}

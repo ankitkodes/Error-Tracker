@@ -8,7 +8,15 @@ import { useParams } from "next/navigation";
 import axios from "axios";
 import { SeverityStyle } from "@/lib/projectstyles";
 import { RotatingLines } from "react-loader-spinner";
-
+interface ErrorlogInterface {
+  error: string;
+  errorCount: number;
+  id: number;
+  message: string;
+  projectId: string;
+  severity: string;
+  status: string;
+}
 export default function Page({}) {
   const [loading, setloading] = useState(true);
   const [project, getProject] = useState({
@@ -122,7 +130,7 @@ export default function Page({}) {
                 <td className="border-b-2 py-3 px-4">Statue</td>
               </tr>
 
-              {error.map((items: any) => (
+              {error.map((items: ErrorlogInterface) => (
                 <>
                   <tr className="text-sm">
                     <td className="border-b-2  py-3 px-4">{items.message}</td>
@@ -160,7 +168,4 @@ export default function Page({}) {
       </div>
     </>
   );
-}
-function UseEffect(arg0: () => void, arg1: never[]) {
-  throw new Error("Function not implemented.");
 }

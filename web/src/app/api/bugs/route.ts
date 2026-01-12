@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
         id: body.projectId,
       },
     });
-    
+
     if (!project) {
       console.log("returned");
       return NextResponse.json({ message: "Invalid project ID" });
@@ -34,6 +34,23 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     return NextResponse.json({
       message: "Some Invalid error has occured",
+      error,
+    });
+  }
+}
+
+// All Error of the user
+
+export async function GET() {
+  try {
+    const bulkError = "lasjdfklsajdfls";
+    return NextResponse.json({
+      message: "All Error fetched successfully",
+      bulkError,
+    });
+  } catch (error) {
+    return NextResponse.json({
+      message: "some Invalid error has occured !",
       error,
     });
   }
