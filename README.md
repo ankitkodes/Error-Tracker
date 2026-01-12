@@ -84,7 +84,7 @@ Follow these steps to set up the project locally.
     ```bash
     npm run dev
     ```
-    The dashboard will be available at `http://localhost:3000`.
+    The website will be available at `http://localhost:3000`.
 
 ## 📦 SDK Integration
 
@@ -119,3 +119,11 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
+
+## 👥 Meet the Team
+
+| Name | Role | GitHub |
+| :--- | :--- | :--- |
+| **Ankit Kumar** | 💻 Development | [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ankitkodes) |
+| **Abhijeet Kumar** | 🚀 Deployment | [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/abhijeet32) |
+
