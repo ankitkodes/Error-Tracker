@@ -3,13 +3,22 @@ import { cn } from "@/lib/utils";
 import { Settings, EllipsisVertical } from "lucide-react";
 import { EnvStyle, setactive, StatusStyle } from "@/lib/projectstyles";
 import ProjectCredential from "@/components/project/project-credential";
-import ProjectHealth from "@/components/project/project-health";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import axios from "axios";
 import { SeverityStyle } from "@/lib/projectstyles";
-
+import { RotatingLines } from "react-loader-spinner";
+interface ErrorlogInterface {
+  error: string;
+  errorCount: number;
+  id: number;
+  message: string;
+  projectId: string;
+  severity: string;
+  status: string;
+}
 export default function Page({}) {
+  const [loading, setloading] = useState(true);
   const [project, getProject] = useState({
     name: "",
     id: "",
@@ -28,10 +37,11 @@ export default function Page({}) {
       });
       const data = response.data.project;
       getProject(data);
+      setloading(false);
     }
 
     getProjectdetails();
-  }, []);
+  }, [projectid]);
 
   useEffect(() => {
     async function Geterror() {
@@ -47,7 +57,27 @@ export default function Page({}) {
     }
 
     Geterror();
-  }, []);
+  }, [projectid]);
+
+  if (loading) {
+    return (
+      <>
+        <div className="h-screen flex items-center justify-center">
+          <RotatingLines
+            visible={true}
+            height="96"
+            width="96"
+            color="grey"
+            strokeWidth="5"
+            animationDuration="0.75"
+            ariaLabel="rotating-lines-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+          />
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -100,7 +130,7 @@ export default function Page({}) {
                 <td className="border-b-2 py-3 px-4">Statue</td>
               </tr>
 
-              {error.map((items: any) => (
+              {error.map((items: ErrorlogInterface) => (
                 <>
                   <tr className="text-sm">
                     <td className="border-b-2  py-3 px-4">{items.message}</td>
@@ -138,7 +168,4 @@ export default function Page({}) {
       </div>
     </>
   );
-}
-function UseEffect(arg0: () => void, arg1: never[]) {
-  throw new Error("Function not implemented.");
 }

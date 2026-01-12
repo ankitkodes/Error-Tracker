@@ -5,7 +5,7 @@ import prisma from "@/lib/db";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { projectId: string } }
+  { params }: { params: Promise<{ projectId: string }> }
 ) {
   try {
     const { projectId } = await params;

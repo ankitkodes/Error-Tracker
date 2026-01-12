@@ -1,9 +1,18 @@
 "use client";
 import AddProjectModal from "@/components/Modal/AddProjectModal";
 import ProjectDetails from "@/components/project/project-details";
+import { ProjectDetailsSkeleton } from "@/components/skeleton";
 import axios from "axios";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+
+interface ProjectDetailsInterface {
+  id: string;
+  environment: string;
+  apikey: string;
+  language: string;
+  name: string;
+}
 
 export default function Project() {
   const [open, setOpen] = useState(false);
@@ -21,9 +30,9 @@ export default function Project() {
         method: "GET",
         url: "/api/projects",
       });
+      console.log("projece details for interface", response.data);
       getProject(response.data.projectdetails);
       setloading(false);
-      console.log("the value of data", response);
     }
 
     getProjectdetails();
@@ -50,18 +59,28 @@ export default function Project() {
           <AddProjectModal open={open} onClose={closeprojectmodal} />
         </div>
         <div className="my-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-4">
-            {project.map((items: any) => (
-              <>
-                <Link href={`/project/${items.id}`} className="cursor-pointer">
-                  <ProjectDetails
-                    name={items.name}
-                    environment={items.environment}
-                  />
-                </Link>
-              </>
-            ))}
-          </div>
+          {loading ? (
+            <div className="flex">
+              <ProjectDetailsSkeleton />
+              <ProjectDetailsSkeleton />
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-4">
+              {project.map((items: ProjectDetailsInterface) => (
+                <>
+                  <Link
+                    href={`/project/${items.id}`}
+                    className="cursor-pointer"
+                  >
+                    <ProjectDetails
+                      name={items.name}
+                      environment={items.environment}
+                    />
+                  </Link>
+                </>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </>

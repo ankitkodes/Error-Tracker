@@ -7,7 +7,7 @@ enum Role {
   Team_Lead,
   Admin,
 }
-export async function CreateUser(prevState: any, formData: FormData) {
+export async function CreateUser(prevState: unknown, formData: FormData) {
   try {
     const name = formData.get("fullname") as string;
     const useremail = formData.get("email") as string;

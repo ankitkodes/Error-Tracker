@@ -5,17 +5,14 @@ import prisma from "@/lib/db";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { projectId: string } }
+  context: { params: Promise<{ projectId: string }> }
 ) {
   try {
-    const { projectId } = await params;
+    const { projectId } = await context.params;
     const session = await getServerSession(authOptions);
     if (!session) {
       return NextResponse.json({ message: "please login and signup" });
     }
-
-    console.log("the value of projectId of specific project", projectId);
-    console.log("type of projectid", typeof projectId);
     const errorlog = await prisma.error.findMany({
       where: {
         projectId: projectId,

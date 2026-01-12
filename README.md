@@ -48,12 +48,14 @@ Follow these steps to set up the project locally.
 ### Installation
 
 1.  **Clone the repository**
+
     ```bash
     git clone https://github.com/ankitdeveloper7/Error-Tracker.git
     cd Error-Tracker
     ```
 
 2.  **Install dependencies**
+
     ```bash
     npm install
     # or
@@ -62,13 +64,16 @@ Follow these steps to set up the project locally.
 
 3.  **Environment Setup**
     Create a `.env` file in the `web` directory:
+
     ```bash
     cp web/.env.example web/.env
     ```
+
     Update the `.env` file with your database credentials and other secrets.
 
 4.  **Database Setup**
     Initialize the database using Prisma:
+
     ```bash
     cd web
     npx prisma generate
@@ -90,12 +95,12 @@ npm install bugtrace-sdk
 ```
 
 ```typescript
-import { init } from 'bugtrace-sdk';
+import { init } from "bugtrace-sdk";
 
 init({
   projectId: "YOUR_PROJECT_ID",
   user_id: "USER_ID", // Optional: For tracking affected users
-  Environment: "Production" // or "Development"
+  Environment: "Production", // or "Development"
 });
 ```
 
@@ -114,5 +119,3 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
-
-Built with ❤️ by [Ankit Kumar](https://github.com/ankitdeveloper7)

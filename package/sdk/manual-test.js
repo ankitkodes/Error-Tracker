@@ -1,7 +1,7 @@
 const { NodeInit, captureError } = require("./dist/node/index");
 
 console.log("Initializing SDK...");
-NodeInit("Z2ZgttGcieTCO7vzct9Tx", "Mediu_74b15367-61b3-4c44-8cab-52775ddfa43b");
+NodeInit("Z2ZgttGcieTCO7vzct9Tx", "e-com_e2825372-13ef-44bf-ba9a-aca1be4895e3");
 
 /**
  * 1️⃣ Handle uncaught exceptions (sync errors)
