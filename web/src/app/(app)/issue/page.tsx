@@ -1,5 +1,6 @@
 import ErrorCard from "@/components/error-card";
 import { ErrorInterface } from "@/components/error-card";
+import { Search } from "lucide-react";
 export default function Page() {
   const errorLogs = [
     {
@@ -75,11 +76,12 @@ export default function Page() {
           </p>
         </div>
         <div className="border py-8 px-4 rounded-md">
-          <div>
+          <div className=" relative w-full">
+            <Search size={20} className="absolute left-2 top-2 inset-y-0" />
             <input
               type="text"
               placeholder="Search errors..."
-              className="w-full border rounded-md p-1"
+              className="w-full border rounded-md p-1 pl-8"
             />
           </div>
           <div className="my-2 flex gap-3">
