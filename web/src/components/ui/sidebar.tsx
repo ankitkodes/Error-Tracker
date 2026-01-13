@@ -87,7 +87,7 @@ export const SidebarBody = (
   }
 ) => {
   return (
-    <div className="bg-white text-black">
+    <div className="bg-white text-black sticky right-0">
       <DesktopSidebar {...props} />
       <MobileSidebar {...(props as React.ComponentProps<"div">)} />
     </div>
