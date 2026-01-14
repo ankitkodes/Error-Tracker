@@ -44,10 +44,10 @@ export default function DashboardLayout({
             </SidebarBody>
           </Sidebar>
           {/* <Dashboard /> */}
-          <div className="flex flex-1 verflow-y-auto">
-            <div className="flex min-h-full w-full flex-1 flex-col gap-2  border border-border">
-              <main className="dark:bg-background dark:text-foreground bg-white text-black h-screen">
-                <div className="w-full hidden md:contents">
+          <div className="flex flex-1 overflow-y-auto h-full">
+            <div className="flex w-full flex-1 flex-col gap-2 border border-border">
+              <main className="dark:bg-background dark:text-foreground bg-white text-black">
+                <div className="w-full hidden md:contents md:">
                   <DashboardNavbar />
                   <hr />
                 </div>

@@ -40,7 +40,7 @@ export default function Project() {
 
   return (
     <>
-      <div className="">
+      <div className="h-screen">
         <div className="relative">
           <div className="inline-block">
             <h1 className="text-2xl font-bold">Project</h1>
@@ -58,7 +58,7 @@ export default function Project() {
           </div>
           <AddProjectModal open={open} onClose={closeprojectmodal} />
         </div>
-        <div className="my-8">
+        <div className="my-8 flex-1">
           {loading ? (
             <div className="flex">
               <ProjectDetailsSkeleton />

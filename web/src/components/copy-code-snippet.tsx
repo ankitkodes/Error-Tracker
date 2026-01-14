@@ -5,7 +5,7 @@ export default function CodeSnippet({ code }: { code: string }) {
   const [copied, setCopied] = useState(false);
   return (
     <>
-      <div className="flex justify-between border px-2 py-2 rounded-md bg-gray-100 font-serif">
+      <div className="flex dark:bg-background justify-between border px-2 py-2 rounded-md bg-gray-100 font-serif">
         <pre className="text-xs px-1 py-2 whitespace-pre-wrap">{code}</pre>
 
         <div>
