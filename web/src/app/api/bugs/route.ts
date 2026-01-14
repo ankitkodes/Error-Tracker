@@ -1,5 +1,7 @@
 import prisma from "@/lib/db";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
+import { authOptions } from "../auth/[...nextauth]/options";
 
 export async function POST(req: NextRequest) {
   try {
@@ -43,7 +45,30 @@ export async function POST(req: NextRequest) {
 
 export async function GET() {
   try {
-    const bulkError = "lasjdfklsajdfls";
+    const session = await getServerSession(authOptions);
+    const bulkError = await prisma.error.findMany({
+      where: {
+        project: {
+          userId: Number(session?.user.id),
+        },
+      },
+      select: {
+        id: true,
+        message: true,
+        severity: true,
+        error: true,
+        status: true,
+        errorCount: true,
+        createdAt: true,
+        project: {
+          select: {
+            name: true,
+            language: true,
+            environment: true,
+          },
+        },
+      },
+    });
     return NextResponse.json({
       message: "All Error fetched successfully",
       bulkError,

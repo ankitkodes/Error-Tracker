@@ -87,7 +87,7 @@ export const SidebarBody = (
   }
 ) => {
   return (
-    <div className="bg-white text-black">
+    <div className="bg-sidebar text-sidebar-foreground sticky right-0">
       <DesktopSidebar {...props} />
       <MobileSidebar {...(props as React.ComponentProps<"div">)} />
     </div>
@@ -132,7 +132,7 @@ export const DesktopSidebar = ({
                   animate={{ opacity: 1, width: "auto" }}
                   exit={{ opacity: 0, width: 0 }}
                   transition={{ duration: 0.2, ease: "easeInOut" }}
-                  className="font-medium text-neutral-800 dark:text-neutral-200 whitespace-pre overflow-hidden"
+                  className="font-medium text-sidebar-foreground whitespace-pre overflow-hidden"
                 >
                   BugTrace
                 </motion.div>
@@ -148,7 +148,7 @@ export const DesktopSidebar = ({
                 exit={{ opacity: 0 }}
               >
                 <IconLayoutSidebar
-                  className="text-neutral-800 dark:text-neutral-200 cursor-pointer h-5 w-5"
+                  className="text-sidebar-foreground cursor-pointer h-5 w-5"
                   onClick={(e) => {
                     e.stopPropagation();
                     setOpen(false);
@@ -174,16 +174,16 @@ export const MobileSidebar = ({
     <>
       <div
         className={cn(
-          "h-10 px-4 py-4 flex flex-row md:hidden  items-center justify-between  w-full bg-white border-b border-neutral-200"
+          "h-10 px-4 py-4 flex flex-row md:hidden  items-center justify-between  w-full bg-sidebar border-b border-sidebar-border"
         )}
         {...props}
       >
-        <div className="font-medium whitespace-pre text-black dark:text-white cursor-pointer">
+        <div className="font-medium whitespace-pre text-sidebar-foreground cursor-pointer">
           BugTrace
         </div>
         <div className="flex justify-end z-20 w-full cursor-pointer">
           <IconMenu2
-            className="text-neutral-800 dark:text-neutral-200"
+            className="text-sidebar-foreground"
             onClick={() => setOpen(!open)}
           />
         </div>
@@ -208,12 +208,12 @@ export const MobileSidebar = ({
                   ease: "easeInOut",
                 }}
                 className={cn(
-                  "fixed h-full w-[80%] max-w-[300px] left-0 top-0 p-10 z-[100] flex flex-col justify-between bg-white dark:bg-neutral-900 shadow-xl",
+                  "fixed h-full w-[80%] max-w-[300px] left-0 top-0 p-10 z-[100] flex flex-col justify-between bg-sidebar shadow-xl",
                   className
                 )}
               >
                 <div
-                  className="absolute right-5 top-5 z-50 text-neutral-800 dark:text-neutral-200 cursor-pointer"
+                  className="absolute right-5 top-5 z-50 text-sidebar-foreground cursor-pointer"
                   onClick={() => setOpen(!open)}
                 >
                   <IconX />
@@ -260,16 +260,16 @@ export const SidebarLink = ({
         className
       )}
       {...props}
-      // onClick={() => udpatename(link.label)}
+    // onClick={() => udpatename(link.label)}
     >
-      <Iconcomp className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200 focus:text-[#00ffb2]" />
+      <Iconcomp className="h-5 w-5 shrink-0 text-sidebar-foreground focus:text-[#00ffb2]" />
 
       <motion.span
         animate={{
           display: animate ? (open ? "inline-block" : "none") : "inline-block",
           opacity: animate ? (open ? 1 : 0) : 1,
         }}
-        className="text-neutral-700 dark:text-neutral-200 text-sm  transition duration-150 whitespace-pre inline-block !p-0 !m-0"
+        className="text-sidebar-foreground text-sm  transition duration-150 whitespace-pre inline-block !p-0 !m-0"
       >
         {link.label}
       </motion.span>
