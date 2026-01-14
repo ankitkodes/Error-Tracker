@@ -85,7 +85,7 @@ export default function Page({}) {
         <div className="flex gap-2 justify-between align-baseline">
           <div className="flex gap-2">
             <div className="font-semibold text-xl">{project.name} </div>
-            <button className="px-2 py-[1px] text-xs font-medium rounded-lg border-gray-400 bg-gray-300 h-min-content">
+            <button className="px-2 py-[1px] text-xs font-medium rounded-lg dark:text-black border-gray-400 bg-gray-300 h-min-content">
               {project.language}
             </button>
             <button

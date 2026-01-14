@@ -1,70 +1,38 @@
+"use client";
 import ErrorCard from "@/components/error-card";
-import { ErrorInterface } from "@/components/error-card";
+import axios from "axios";
 import { Search } from "lucide-react";
+import { useEffect, useState } from "react";
+
+interface AllError {
+  id: number;
+  message: string;
+  severity: string;
+  status: string;
+  environment: string;
+  projectName: string;
+  occurences: number;
+  project: {
+    environment: string;
+    name: string;
+  };
+  errorCount: number;
+}
 export default function Page() {
-  const errorLogs = [
-    {
-      key: 1,
-      errormessage:
-        "TypeError: Cannot read properties of undefined (reading 'map')",
-      severity: "Error",
-      status: "Bug",
-      environment: "production",
-      projectName: "Error Tracker Dashboard",
-      occurrences: 128,
-      lastseen: "2026-01-12T18:42:11Z",
-    },
-    {
-      key: 2,
-      errormessage: "MongoNetworkError: failed to connect to server",
-      severity: "Error",
-      status: "InProcess",
-      environment: "production",
-      projectName: "Auth Service",
-      occurrences: 54,
-      lastseen: "2026-01-12T21:10:45Z",
-    },
-    {
-      key: 3,
-      errormessage: "ReferenceError: window is not defined",
-      severity: "Warning",
-      status: "Fixed",
-      environment: "staging",
-      projectName: "Next.js Web App",
-      occurrences: 32,
-      lastseen: "2026-01-11T09:15:30Z",
-    },
-    {
-      key: 4,
-      errormessage: "JWTExpiredError: jwt expired",
-      severity: "Warning",
-      status: "Bug",
-      environment: "production",
-      projectName: "User API",
-      occurrences: 76,
-      lastseen: "2026-01-13T01:05:02Z",
-    },
-    {
-      key: 4,
-      errormessage: "UnhandledPromiseRejection: Timeout exceeded",
-      severity: "Error",
-      status: "InProcess",
-      environment: "production",
-      projectName: "Payment Service",
-      occurrences: 19,
-      lastseen: "2026-01-12T23:58:44Z",
-    },
-    {
-      key: 5,
-      errormessage: "PrismaClientKnownRequestError: Unique constraint failed",
-      severity: "Warning",
-      status: "Fixed",
-      environment: "development",
-      projectName: "Admin Panel",
-      occurrences: 11,
-      lastseen: "2026-01-10T14:22:09Z",
-    },
-  ];
+  const [allError, GetallError] = useState([]);
+
+  useEffect(() => {
+    async function fetallError() {
+      const response = await axios({
+        method: "GET",
+        url: "/api/bugs",
+      });
+      const data = response.data;
+      GetallError(data.bulkError);
+    }
+
+    fetallError();
+  }, []);
 
   return (
     <>
@@ -86,7 +54,7 @@ export default function Page() {
           </div>
           <div className="my-2 flex gap-3">
             <select
-              className="h-10 min-w-[160px] rounded-lg border border-gray-300 bg-white px-3 pr-8 text-sm
+              className="h-10 min-w-[160px] rounded-lg border border-gray-300 bg-white px-3 pr-8 text-sm text-gray-900
                focus:outline-none focus:ring-2 focus:ring-blue-500
                hover:border-gray-400"
             >
@@ -123,15 +91,15 @@ export default function Page() {
         <div className="p-4 border rounded-md my-4">
           <div className="text-lg font-medium">All Issues (8)</div>
           <div>
-            {errorLogs.map((items: ErrorInterface) => (
+            {allError.map((items: AllError) => (
               <ErrorCard
-                key={items.key}
-                errormessage={items.errormessage}
+                key={items.id}
+                message={items.message}
                 severity={items.severity}
                 status={items.status}
-                environment={items.environment}
-                projectName={items.projectName}
-                occurrences={items.occurrences}
+                environment={items.project.environment}
+                projectName={items.project.name}
+                occurrences={items.errorCount}
                 lastseen="12 minutes ago"
               />
             ))}

@@ -28,7 +28,7 @@ export default function DashboardLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} `}>
         <div
           className={cn(
-            "mx-auto flex w-full  flex-1 flex-col overflow-hidden   text-black  md:flex-row ",
+            "mx-auto flex w-full bg-background text-foreground flex-1 flex-col overflow-hidden md:flex-row ",
             "h-screen" // for your use case, use `h-screen` instead of `h-[60vh]`
           )}
         >
@@ -44,9 +44,9 @@ export default function DashboardLayout({
             </SidebarBody>
           </Sidebar>
           {/* <Dashboard /> */}
-          <div className="flex flex-1 text-black bg-white overflow-y-auto">
-            <div className="flex min-h-full w-full flex-1 flex-col gap-2  border border-neutral-200">
-              <main className="text-black bg-white">
+          <div className="flex flex-1 verflow-y-auto">
+            <div className="flex min-h-full w-full flex-1 flex-col gap-2  border border-border">
+              <main className="dark:bg-background dark:text-foreground bg-white text-black h-screen">
                 <div className="w-full hidden md:contents">
                   <DashboardNavbar />
                   <hr />
