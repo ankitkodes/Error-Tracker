@@ -3,10 +3,6 @@ on:
   push:
     branches:
       - main
-    paths-ignore:
-      - 'README.md'
-      - 'helm/**'
-      - 'k8s/**'
 
   pull_request:
     branches:
@@ -16,6 +12,9 @@ on:
 
 jobs:
   Build:
+    if: |
+      github.actor != 'github-actions[bot]' &&
+      ! contains(github.event.head_commit.message, 'update tag in helm chart')
     runs-on: ubuntu-latest
     steps:
     - name: Code checkout
@@ -94,6 +93,10 @@ jobs:
       uses: actions/checkout@v4
       with:
         token: ${{secrets.GIT_TOKEN}}
+
+    - name: Pull latest before editing
+      run: |
+        git pull --rebase
 
     - name: Update tag in helm chart
       run: |
