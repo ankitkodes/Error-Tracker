@@ -3,7 +3,7 @@ export default function page() {
   return (
     <>
       <div className="">
-        <p>this is this dashboard section</p>
+        <h1 className="text-2xl font-bold">Dashboard</h1>
         {/* <SignupForm /> */}
       </div>
     </>

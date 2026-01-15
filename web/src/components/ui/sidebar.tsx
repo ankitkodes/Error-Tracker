@@ -13,7 +13,7 @@ import {
   IconLayoutSidebar,
   IconBugFilled,
 } from "@tabler/icons-react";
-import { Zap } from "lucide-react";
+import { Bug } from "lucide-react";
 import Link from "next/link";
 
 interface Links {
@@ -123,7 +123,7 @@ export const DesktopSidebar = ({
         >
           <div className="flex items-center gap-2">
             <div className=" border-1 border-[#00ffb2] bg-[#00ffb2] p-1  rounded-lg cursor-pointer">
-              <Zap className="h-5 w-5 shrink-0" />
+              <Bug className="w-5 h-5 text-black" />
             </div>
             <AnimatePresence>
               {open && (
@@ -260,7 +260,7 @@ export const SidebarLink = ({
         className
       )}
       {...props}
-    // onClick={() => udpatename(link.label)}
+      // onClick={() => udpatename(link.label)}
     >
       <Iconcomp className="h-5 w-5 shrink-0 text-sidebar-foreground focus:text-[#00ffb2]" />
 

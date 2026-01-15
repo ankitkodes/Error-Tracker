@@ -47,11 +47,11 @@ export default function DashboardLayout({
           <div className="flex flex-1 overflow-y-auto h-full">
             <div className="flex w-full flex-1 flex-col gap-2 border border-border">
               <main className="dark:bg-background dark:text-foreground bg-white text-black">
-                <div className="w-full hidden md:contents md:">
+                <div className="w-full hidden md:contents">
                   <DashboardNavbar />
                   <hr />
                 </div>
-                <div className="p-2 md:p-4">{children}</div>
+                <div className="p-2 md:p-4 h-full">{children}</div>
               </main>
             </div>
           </div>

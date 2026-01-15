@@ -4,7 +4,7 @@ export default function Alerts() {
   return (
     <>
       <div className="">
-        <p>this is alert section section</p>
+        <h1 className="text-2xl font-bold">Alerts</h1>
       </div>
     </>
   );
