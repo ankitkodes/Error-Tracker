@@ -91,18 +91,22 @@ export default function Page() {
         <div className="p-4 border rounded-md my-4">
           <div className="text-lg font-medium">All Issues (8)</div>
           <div className="">
-            {allError.map((items: AllError) => (
-              <ErrorCard
-                key={items.id}
-                message={items.message}
-                severity={items.severity}
-                status={items.status}
-                environment={items.project.environment}
-                projectName={items.project.name}
-                occurrences={items.errorCount}
-                lastseen="12 minutes ago"
-              />
-            ))}
+            {allError ? (
+              allError.map((items: AllError) => (
+                <ErrorCard
+                  key={items.id}
+                  message={items.message}
+                  severity={items.severity}
+                  status={items.status}
+                  environment={items.project.environment}
+                  projectName={items.project.name}
+                  occurrences={items.errorCount}
+                  lastseen="12 minutes ago"
+                />
+              ))
+            ) : (
+              <div>Loading...</div>
+            )}
           </div>
         </div>
       </div>

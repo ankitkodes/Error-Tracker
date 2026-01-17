@@ -26,14 +26,13 @@ export default function Page() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  console.log("this is value fo state ", state);
   useEffect(() => {
-    if (state.message) {
-      if (state.success) {
-        toast.success("Account created successfully!");
-        setTimeout(() => router.push("/signin"), 1500);
-      } else {
-        toast.error(state.message);
-      }
+    if (state.success) {
+      toast.success("Account created successfully!");
+      setTimeout(() => router.push("/signin"), 1500);
+    } else {
+      toast.error(state.message);
     }
   }, [state, router]);
 
