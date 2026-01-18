@@ -12,7 +12,7 @@ export default function Features() {
       <section id="features">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 text-base">
           <div className="border-b-2  md:border-b-0 sm:border-r-2 border-[#202026] py-8 px-4 text-left grid gap-1">
-            <div className="rounded-lg flex w-10 h-10 bg-[#222222] items-center justify-center text-white">
+            <div className="rounded-full flex w-20 h-20 bg-radial from-[#0a0a0a] from-40% to-[#202026] items-center justify-center text-white">
               <MonitorSmartphone />
             </div>
             <p className="font-semibold">Real-time Error Monitoring</p>
@@ -22,7 +22,7 @@ export default function Features() {
             </p>
           </div>
           <div className=" border-b-2 md:border-b-0 md:border-r-2 border-[#202026] py-8 px-4  grid gap-1">
-            <div className="rounded-lg flex w-10 h-10 bg-[#222222] items-center justify-center text-white">
+            <div className="rounded-full flex w-20 h-20 bg-radial from-[#0a0a0a] from-40% to-[#202026] items-center justify-center text-white">
               <CodeXml />
             </div>
             <p className="font-semibold py-2">Stack trace visibility</p>
@@ -32,7 +32,7 @@ export default function Features() {
             </p>
           </div>
           <div className="border-b-2 sm:border-b-0 sm:border-r-2 border-[#202026]  py-8 px-4  grid gap-1">
-            <div className="rounded-lg flex w-10 h-10 bg-[#222222] items-center justify-center text-white">
+            <div className="rounded-full flex w-20 h-20 bg-radial from-[#0a0a0a] from-40% to-[#202026] items-center justify-center text-white">
               <ChartNoAxesCombined />
             </div>
             <p className="font-semibold py-2">Error Status Tracking</p>
@@ -42,7 +42,7 @@ export default function Features() {
             </p>
           </div>
           <div className="py-8 px-4 grid gap-1">
-            <div className="rounded-lg flex w-10 h-10 bg-[#222222] items-center justify-center text-white">
+            <div className="rounded-full flex w-20 h-20 bg-radial from-[#0a0a0a] from-40% to-[#202026] items-center justify-center text-white">
               <FileChartColumnIncreasing />
             </div>
             <p className="font-semibold py-2">Multi-Project Support</p>

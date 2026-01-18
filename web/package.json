@@ -45,7 +45,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@tailwindcss/postcss": "^4",
+    "@tailwindcss/postcss": "^4.1.18",
     "@types/bcrypt": "^6.0.0",
     "@types/dotenv": "^6.1.1",
     "@types/node": "^20",
