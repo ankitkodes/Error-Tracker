@@ -2,9 +2,17 @@ name: error-tracker-workflow
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - 'README.md'
+      - 'helm/**'
+      - 'k8s/**'
 
   pull_request:
     branches: [main]
+    paths-ignore:
+      - 'README.md'
+      - 'helm/**'
+      - 'k8s/**'
 
   workflow_dispatch:
 
@@ -20,9 +28,6 @@ jobs:
   Build:
     needs: Check-upstream
     runs-on: ubuntu-latest
-    if: |
-      github.actor != 'github-actions[bot]' && !contains(github.event.head_commit.message,'update tag in helm chart')
-    
     steps:
     - name: Code checkout
       uses: actions/checkout@v4
