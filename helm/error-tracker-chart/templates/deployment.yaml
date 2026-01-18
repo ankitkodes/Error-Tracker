@@ -23,6 +23,11 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
         - containerPort: {{ .Values.containerPort}}
+
+        envFrom:
+        - secretRef:
+            name: error-tracker-secret 
+
         livenessProbe:
           {{ toYaml .Values.livenessProbe | nindent 12}}
         readinessProbe:
