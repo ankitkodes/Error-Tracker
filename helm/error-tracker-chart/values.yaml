@@ -7,7 +7,7 @@ replicaCount: 2
 image:
   repository: abhi0874/error-tracker
   pullPolicy: IfNotPresent
-  tag: "21116773541"
+  tag: "21116836173"
 
 service:
   type: LoadBalancer
