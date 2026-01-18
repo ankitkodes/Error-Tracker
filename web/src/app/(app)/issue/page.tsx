@@ -44,7 +44,7 @@ export default function Page() {
           </p>
         </div>
         <div className="border py-8 px-4 rounded-md">
-          <div className=" relative w-full">
+          <div className=" relative w-full pb-2">
             <Search size={20} className="absolute left-2 top-2 inset-y-0" />
             <input
               type="text"
@@ -52,7 +52,7 @@ export default function Page() {
               className="w-full border rounded-md p-1 pl-8"
             />
           </div>
-          <div className="my-2 flex gap-3">
+          <div className="my-2 flex gap-4 flex-col md:flex-row">
             <select
               className="h-10 min-w-[160px] rounded-lg border border-gray-300 bg-white px-3 pr-8 text-sm text-gray-900
                focus:outline-none focus:ring-2 focus:ring-blue-500
@@ -90,19 +90,23 @@ export default function Page() {
         </div>
         <div className="p-4 border rounded-md my-4">
           <div className="text-lg font-medium">All Issues (8)</div>
-          <div>
-            {allError.map((items: AllError) => (
-              <ErrorCard
-                key={items.id}
-                message={items.message}
-                severity={items.severity}
-                status={items.status}
-                environment={items.project.environment}
-                projectName={items.project.name}
-                occurrences={items.errorCount}
-                lastseen="12 minutes ago"
-              />
-            ))}
+          <div className="">
+            {allError ? (
+              allError.map((items: AllError) => (
+                <ErrorCard
+                  key={items.id}
+                  message={items.message}
+                  severity={items.severity}
+                  status={items.status}
+                  environment={items.project.environment}
+                  projectName={items.project.name}
+                  occurrences={items.errorCount}
+                  lastseen="12 minutes ago"
+                />
+              ))
+            ) : (
+              <div>Loading...</div>
+            )}
           </div>
         </div>
       </div>

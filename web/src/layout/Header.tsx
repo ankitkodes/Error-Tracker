@@ -25,10 +25,12 @@ export default function Header() {
         >
           <div className="flex">
             <a href="#" className="m-1.5 p-1.5">
-              <span className="text-2xl font-bold  align-baseline">
-                <Bug size={30} className="inline-block gap-2 text-[#00ffb2]" />{" "}
-                BugTrace
-              </span>
+              <div className="flex items-center justify-center gap-2">
+                <div className="p-2 rounded-lg bg-[#00ffb2]">
+                  <Bug className="w-5 h-5 text-black" />
+                </div>
+                <span className="text-xl font-bold">BugTrace</span>
+              </div>
             </a>
           </div>
 

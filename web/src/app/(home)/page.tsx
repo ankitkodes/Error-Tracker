@@ -8,7 +8,7 @@ import Header from "@/layout/Header";
 
 export default function Home() {
   return (
-    <div className="max-w-7xl mx-auto px-2 relative">
+    <div className="max-w-7xl mx-auto px-2 relative overflow-x-hidden">
       <Header />
       <div>
         <center className="mb-4 px-2">

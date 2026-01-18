@@ -19,7 +19,7 @@ export default function Setup() {
         <div className="py-4">
           <div className="font-medium text-xs text-gray-500 py-2">PLATFORM</div>
           <div className=" flex gap-2">
-            <button className=" text-sm   border px-2 py-2 rounded-md cursor-pointer focus:text-white focus:bg-black flex items-center gap-1">
+            <button className=" text-sm   border px-2 py-2 rounded-md cursor-pointer focus:dark:text-black focus:dark:bg-white focus:text-white focus:bg-black flex items-center gap-1">
               <Hexagon size={14} />
               Node.js
             </button>

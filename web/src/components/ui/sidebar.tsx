@@ -13,7 +13,7 @@ import {
   IconLayoutSidebar,
   IconBugFilled,
 } from "@tabler/icons-react";
-import { Zap } from "lucide-react";
+import { Bug } from "lucide-react";
 import Link from "next/link";
 
 interface Links {
@@ -29,7 +29,7 @@ interface SidebarContextProps {
 }
 
 const SidebarContext = createContext<SidebarContextProps | undefined>(
-  undefined
+  undefined,
 );
 
 export const useSidebar = () => {
@@ -84,10 +84,10 @@ export const Sidebar = ({
 export const SidebarBody = (
   props: React.ComponentProps<typeof motion.div> & {
     children?: React.ReactNode;
-  }
+  },
 ) => {
   return (
-    <div className="bg-sidebar text-sidebar-foreground sticky right-0">
+    <div className="dark:bg-background dark:text-foreground bg-white text-black sticky right-0">
       <DesktopSidebar {...props} />
       <MobileSidebar {...(props as React.ComponentProps<"div">)} />
     </div>
@@ -107,7 +107,7 @@ export const DesktopSidebar = ({
       <motion.div
         className={cn(
           "h-full px-4 py-4 hidden  md:flex md:flex-col w-[200px] shrink-0",
-          className
+          className,
         )}
         animate={{
           width: animate ? (open ? "200px" : "60px") : "200px",
@@ -118,12 +118,12 @@ export const DesktopSidebar = ({
         <div
           className={cn(
             "mb-4 flex items-center",
-            open ? "justify-between" : "justify-center"
+            open ? "justify-between" : "justify-center",
           )}
         >
           <div className="flex items-center gap-2">
             <div className=" border-1 border-[#00ffb2] bg-[#00ffb2] p-1  rounded-lg cursor-pointer">
-              <Zap className="h-5 w-5 shrink-0" />
+              <Bug className="w-5 h-5 text-black" />
             </div>
             <AnimatePresence>
               {open && (
@@ -174,7 +174,7 @@ export const MobileSidebar = ({
     <>
       <div
         className={cn(
-          "h-10 px-4 py-4 flex flex-row md:hidden  items-center justify-between  w-full bg-sidebar border-b border-sidebar-border"
+          "h-10 px-4 py-4 flex flex-row md:hidden  items-center justify-between  w-full bg-sidebar border-b border-sidebar-border",
         )}
         {...props}
       >
@@ -209,7 +209,7 @@ export const MobileSidebar = ({
                 }}
                 className={cn(
                   "fixed h-full w-[80%] max-w-[300px] left-0 top-0 p-10 z-[100] flex flex-col justify-between bg-sidebar shadow-xl",
-                  className
+                  className,
                 )}
               >
                 <div
@@ -257,7 +257,7 @@ export const SidebarLink = ({
       href={link.href}
       className={cn(
         "flex items-center justify-start gap-2  group/sidebar py-2",
-        className
+        className,
       )}
       {...props}
     // onClick={() => udpatename(link.label)}

@@ -77,11 +77,15 @@ export default function AddProjectModal({ open, onClose }: modal) {
                         required
                         onChange={(e) => setLanguage(e.target.value)}
                       >
-                        <option value="Nodejs" className="">
+                        <option value="Nodejs" className="bg-[#0a0a0a]">
                           Nodejs
                         </option>
-                        <option value="Nextjs">Nextjs</option>
-                        <option value="Reactjs">Reactjs</option>
+                        <option value="Nextjs" className="bg-[#0a0a0a]">
+                          Nextjs
+                        </option>
+                        <option value="Reactjs" className="bg-[#0a0a0a]">
+                          Reactjs
+                        </option>
                       </select>
                     </div>
                   </div>
@@ -95,9 +99,15 @@ export default function AddProjectModal({ open, onClose }: modal) {
                         required
                         onChange={(e) => setEnv(e.target.value)}
                       >
-                        <option value="Production">Production</option>
-                        <option value="Staging">Staging</option>
-                        <option value="Development">Development</option>
+                        <option value="Production" className="bg-[#0a0a0a]">
+                          Production
+                        </option>
+                        <option value="Staging" className="bg-[#0a0a0a]">
+                          Staging
+                        </option>
+                        <option value="Development" className="bg-[#0a0a0a]">
+                          Development
+                        </option>
                       </select>
                     </div>
                   </div>

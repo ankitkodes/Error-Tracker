@@ -40,7 +40,7 @@ export default function Project() {
 
   return (
     <>
-      <div className="h-screen">
+      <div className="">
         <div className="relative">
           <div className="inline-block">
             <h1 className="text-2xl font-bold">Project</h1>
@@ -60,7 +60,7 @@ export default function Project() {
         </div>
         <div className="my-8 flex-1">
           {loading ? (
-            <div className="flex">
+            <div className="flex gap-4">
               <ProjectDetailsSkeleton />
               <ProjectDetailsSkeleton />
             </div>
