@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: error-tracker-container
-        image: "{{ .Values.image.repository }}"
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
         - containerPort: {{ .Values.containerPort}}

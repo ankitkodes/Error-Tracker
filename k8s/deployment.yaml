@@ -19,6 +19,6 @@ spec:
     spec:
       containers:
       - name: error-tracker-container
-        image: abhi0874/error-tracker:v1
+        image: abhi0874/error-tracker:21030837690
         ports:
         - containerPort: 3000

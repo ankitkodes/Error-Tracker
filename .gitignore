@@ -57,3 +57,4 @@ override.tf.json
 terraform.rc
 node_modules/
 web/prisma/generated/
+secrets.yaml
