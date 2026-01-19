@@ -8,9 +8,9 @@ image:
   repository: abhi0874/error-tracker
   pullPolicy: IfNotPresent
 <<<<<<< HEAD
-  tag: "21119217610"
+  tag: "21147304174"
 =======
-  tag: "21119217610"
+  tag: "21147304174"
 >>>>>>> c578bc14bda27d592d871d7976dbdb8ce51921fb
 
 service:
