@@ -15,6 +15,12 @@ export async function POST(req: NextRequest) {
       },
     });
 
+    const errortraced = await prisma.error.findMany({
+      where: {
+        error: body.error,
+      },
+    });
+
     if (!project) {
       console.log("returned");
       return NextResponse.json({ message: "Invalid project ID" });

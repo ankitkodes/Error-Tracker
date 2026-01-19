@@ -28,7 +28,7 @@ export default function RootLayout({
     <html lang="en">
       <AuthProvider>
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden bg-[#08070e]`}
         >
           {children}
           <SpeedInsights />
