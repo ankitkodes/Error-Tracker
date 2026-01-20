@@ -9,7 +9,8 @@ const utils_1 = require("./utils");
 async function sendError(error) {
     try {
         const data = JSON.stringify(error, Object.getOwnPropertyNames(error));
-        await (0, axios_1.default)({
+        console.log("data from the user", data);
+        const response = await (0, axios_1.default)({
             method: "POST",
             url: utils_1.DSN_URL,
             data: {
@@ -18,6 +19,7 @@ async function sendError(error) {
                 APIKEY: utils_1.config.APIKEY,
             },
         });
+        console.log("response from the frontend", response);
     }
     catch (error) {
         return console.log("Unable to send Error to backend", error);

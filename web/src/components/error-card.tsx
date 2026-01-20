@@ -29,7 +29,7 @@ export default function ErrorCard({
             <button
               className={cn(
                 "rounded-md px-2 py-1 text-xs font-medium text-center",
-                SeverityStyle[severity]
+                SeverityStyle[severity],
               )}
             >
               {severity}{" "}
@@ -37,7 +37,7 @@ export default function ErrorCard({
             <button
               className={cn(
                 "rounded-md px-2 py-1 text-xs font-medium text-center cursor-pointer",
-                StatusStyle[status]
+                StatusStyle[status],
               )}
             >
               {status}{" "}
@@ -45,7 +45,7 @@ export default function ErrorCard({
             <button
               className={cn(
                 "rounded-md inline-block text-xs font-medium text-yellow-200 px-2 py-[1px]",
-                EnvStyle["Staging"]
+                EnvStyle[environment],
               )}
             >
               {environment}{" "}

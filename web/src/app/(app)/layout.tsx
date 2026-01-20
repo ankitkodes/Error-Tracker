@@ -31,14 +31,14 @@ export default function DashboardLayout({
         </SidebarBody>
       </Sidebar>
       {/* <Dashboard /> */}
-      <div className="flex flex-1 overflow-y-auto h-full dark:bg-background dark:text-foreground bg-white text-black">
-        <div className="flex w-full flex-1 flex-col gap-2 border border-border">
+      <div className="flex flex-1 overflow-y-auto h-full dark:bg-background dark:text-foreground bg-white text-black border-l border-border">
+        <div className="flex w-full flex-1 flex-col gap-2">
           <main className="flex flex-col flex-1 w-full">
             <div className="w-full hidden md:contents">
               <DashboardNavbar />
               <hr />
             </div>
-            <div className="p-2 md:p-4 flex-1 h-full">{children}</div>
+            <div className="p-2 md:p-4 flex-1">{children}</div>
           </main>
         </div>
       </div>

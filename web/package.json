@@ -25,6 +25,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "generate-api-key": "^1.0.2",
+    "hash-generator-md5": "^2.19.0",
     "lucide-react": "^0.536.0",
     "motion": "^12.23.24",
     "next": "^15.5.9",

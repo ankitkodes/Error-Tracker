@@ -9,5 +9,6 @@ export function NodeInit(APIKEY: string, projectId: string) {
 }
 
 export async function captureError(error: any) {
+  console.log("error from the user file :- ", error);
   await sendError(error);
 }

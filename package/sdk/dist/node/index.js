@@ -11,5 +11,6 @@ function NodeInit(APIKEY, projectId) {
         (0, errorListener_1.UncaughtException)());
 }
 async function captureError(error) {
+    console.log("error from the user file :- ", error);
     await (0, transport_1.sendError)(error);
 }

@@ -2,12 +2,30 @@ import prisma from "@/lib/db";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../auth/[...nextauth]/options";
+import { createHash } from "crypto";
 
+// store error
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const data = JSON.parse(body.error);
-    const stackmessage = data["stack"].slice(0, data["stack"].indexOf("("));
+    const stackmessage = data["stack"].slice(0, data["stack"].indexOf("\n"));
+    const hashdata = JSON.stringify(data) + body.projectId;
+    const issuehashId = createHash("md5").update(hashdata).digest("hex");
+
+    try {
+      const start = data["stack"].indexOf("(");
+      const end = data["stack"].indexOf(")");
+      let filename = " ";
+      if (start != -1 && end != -1) {
+        if (start < end) {
+          filename = data["stack"].slice(start, end + 1);
+        }
+      }
+      console.log("this is the value of filestace", filename);
+    } catch (error) {
+      console.log("error of file stace:- ", error);
+    }
 
     const project = await prisma.project.findUnique({
       where: {
@@ -15,30 +33,28 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    const errortraced = await prisma.error.findMany({
-      where: {
-        error: body.error,
-      },
-    });
-
     if (!project) {
-      console.log("returned");
       return NextResponse.json({ message: "Invalid project ID" });
     }
-    const response = await prisma.error.create({
-      data: {
+
+    await prisma.error.upsert({
+      where: {
+        issuehashId: issuehashId,
+        projectId: body.projectId,
+      },
+      update: {
+        errorCount: { increment: 1 },
+      },
+      create: {
         message: stackmessage,
         error: body.error,
         projectId: body.projectId,
+        issuehashId: issuehashId,
       },
     });
-
     return NextResponse.json({
       message: "Error stored successfully",
-      response,
     });
-
-    return NextResponse.json({ message: "error fetched successfully", body });
   } catch (error) {
     return NextResponse.json({
       message: "Some Invalid error has occured",
