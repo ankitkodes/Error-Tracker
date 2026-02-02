@@ -1,5 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
+/* app/globals.css */
 
 @custom-variant dark (&:is(.dark *));
 
@@ -127,6 +129,7 @@
     --background: #0a0a0a;
     --foreground: #ededed;
   }
-} 
+}
 
-@theme {}
+@theme {
+}

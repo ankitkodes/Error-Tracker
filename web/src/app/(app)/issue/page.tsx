@@ -11,7 +11,7 @@ interface AllError {
   status: string;
   environment: string;
   projectName: string;
-  occurences: number;
+  occurrence: number;
   project: {
     environment: string;
     name: string;
@@ -25,10 +25,10 @@ export default function Page() {
     async function fetallError() {
       const response = await axios({
         method: "GET",
-        url: "/api/bugs",
+        url: "/api/ingest",
       });
       const data = response.data;
-      GetallError(data.bulkError);
+      GetallError(data.allError);
     }
 
     fetallError();
@@ -100,7 +100,7 @@ export default function Page() {
                   status={items.status}
                   environment={items.project.environment}
                   projectName={items.project.name}
-                  occurrences={items.errorCount}
+                  occurrences={items.occurrence}
                   lastseen="12 minutes ago"
                 />
               ))

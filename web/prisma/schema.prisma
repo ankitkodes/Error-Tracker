@@ -18,7 +18,7 @@ generator client {
 model User{
   id       Int @unique @default(autoincrement())
   name     String
-  email    String
+  email    String @unique
   password String
   organizationName String?
   role   Role
@@ -40,12 +40,17 @@ model Project{
 
 model Error{
   id         Int @unique @default(autoincrement())
+  errorType String?
   message    String
+  fileName String?
+  lineNumber Int
+  error String
+  occurrence Int @default(1)
   severity   Severity @default(Error)
   status     Status @default(Bug)
-  error String
+  
   issuehashId String? @unique
-  errorCount Int @default(1)
+ 
   createdAt  DateTime @default(now())
   projectId  String
   project    Project @relation(fields: [projectId], references: [id])

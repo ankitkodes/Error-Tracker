@@ -22,7 +22,7 @@ export default function SignInPage() {
       redirect: false,
     });
 
-    setLoading(false);
+   
 
     if (res?.error) {
       toast.error("Invalid email or password");
@@ -30,6 +30,7 @@ export default function SignInPage() {
     }
 
     window.location.href = "/dashboard";
+     setLoading(false);
   }
 
   return (

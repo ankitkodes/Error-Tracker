@@ -10,14 +10,14 @@ import { SeverityStyle } from "@/lib/projectstyles";
 import { RotatingLines } from "react-loader-spinner";
 interface ErrorlogInterface {
   error: string;
-  errorCount: number;
+  occurrence: number;
   id: number;
   message: string;
   projectId: string;
   severity: string;
   status: string;
 }
-export default function Page({}) {
+export default function Page() {
   const [loading, setloading] = useState(true);
   const [project, getProject] = useState({
     name: "",
@@ -36,6 +36,7 @@ export default function Page({}) {
         url: `/api/projects/${projectid}`,
       });
       const data = response.data.project;
+      console.log("this is project details", data);
       getProject(data);
       setloading(false);
     }
@@ -48,12 +49,10 @@ export default function Page({}) {
       console.log("function started");
       const response = await axios({
         method: "GET",
-        url: `/api/errorlog/${projectid}`,
+        url: `/api/errors/${projectid}`,
       });
       const data = response.data;
-      getErrorlog(data.errorlog);
-      console.log("collection of errror", data.errorlog);
-      console.log("error message", data.errorlog[0].message);
+      getErrorlog(data.errors);
     }
 
     Geterror();
@@ -91,7 +90,7 @@ export default function Page({}) {
             <button
               className={cn(
                 "rounded-md inline-block text-xs font-medium text-yellow-200 px-2 py-[1px]",
-                EnvStyle["Staging"]
+                EnvStyle["Staging"],
               )}
             >
               {project.environment}
@@ -99,7 +98,7 @@ export default function Page({}) {
             <button
               className={cn(
                 "rounded-lg px-2 py-[1px] text-xs font-medium",
-                setactive["Active"]
+                setactive["Active"],
               )}
             >
               Active
@@ -138,7 +137,7 @@ export default function Page({}) {
                       <button
                         className={cn(
                           "rounded-lg px-2 py-1 text-xs font-medium text-center",
-                          SeverityStyle["Warning"]
+                          SeverityStyle["Warning"],
                         )}
                       >
                         {items.severity}
@@ -146,14 +145,14 @@ export default function Page({}) {
                     </td>
                     <td className="border-b-2 py-3 px-4">
                       {" "}
-                      {items.errorCount}{" "}
+                      {items.occurrence}{" "}
                     </td>
                     <td className="border-b-2 py-3 px-4">12 minutes ago </td>
                     <td className="border-b-2 py-3 px-4">
                       <button
                         className={cn(
                           "rounded-lg px-2 py-1 text-xs font-medium text-center cursor-pointer",
-                          StatusStyle["Fixed"]
+                          StatusStyle["Fixed"],
                         )}
                       >
                         {items.status}

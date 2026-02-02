@@ -2,9 +2,9 @@
 
 export const links = [
   {
-    label: "Dashboard",
-    href: "/dashboard",
-    icon: "IconBrandTabler",
+    label: "Analytics",
+    href: "/analytics",
+    icon: "IconChartPie2",
   },
   {
     label: "Project",
@@ -16,11 +16,11 @@ export const links = [
     href: "/issue",
     icon: "IconBugFilled",
   },
-  {
-    label: "Reports",
-    href: "/report",
-    icon: "IconReport",
-  },
+  // {
+  //   label: "Reports",
+  //   href: "/report",
+  //   icon: "IconReport",
+  // },
   {
     label: "Alerts",
     href: "/alerts",

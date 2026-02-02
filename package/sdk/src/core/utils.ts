@@ -3,4 +3,4 @@ export const config = {
   projectId: "",
 };
 
-export const DSN_URL = "http://localhost:3000/api/bugs";
+export const DSN_URL = "http://localhost:3000/api/ingest";

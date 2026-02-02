@@ -3,30 +3,26 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../auth/[...nextauth]/options";
 import { createHash } from "crypto";
+import { parse } from "stacktrace-parser";
 
 // store error
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
+
     const data = JSON.parse(body.error);
-    const stackmessage = data["stack"].slice(0, data["stack"].indexOf("\n"));
     const hashdata = JSON.stringify(data) + body.projectId;
-    const issuehashId = createHash("md5").update(hashdata).digest("hex");
 
-    try {
-      const start = data["stack"].indexOf("(");
-      const end = data["stack"].indexOf(")");
-      let filename = " ";
-      if (start != -1 && end != -1) {
-        if (start < end) {
-          filename = data["stack"].slice(start, end + 1);
-        }
-      }
-      console.log("this is the value of filestace", filename);
-    } catch (error) {
-      console.log("error of file stace:- ", error);
-    }
+    // extracting errorMessage
+    const stackMessage = data["stack"].slice(0, data["stack"].indexOf("\n"));
 
+    // error stacking
+    const errorStack = parse(data["stack"]);
+
+    // hashing error
+    const issueHashId = createHash("md5").update(hashdata).digest("hex");
+
+    // validation project details
     const project = await prisma.project.findUnique({
       where: {
         id: body.projectId,
@@ -39,17 +35,20 @@ export async function POST(req: NextRequest) {
 
     await prisma.error.upsert({
       where: {
-        issuehashId: issuehashId,
+        issuehashId: issueHashId,
         projectId: body.projectId,
       },
       update: {
-        errorCount: { increment: 1 },
+        occurrence: { increment: 1 },
       },
       create: {
-        message: stackmessage,
+        errorType: errorStack[0].methodName,
+        message: stackMessage,
+        fileName: errorStack[0].file,
+        lineNumber: Number(errorStack[0].lineNumber),
         error: body.error,
         projectId: body.projectId,
-        issuehashId: issuehashId,
+        issuehashId: issueHashId,
       },
     });
     return NextResponse.json({
@@ -68,7 +67,7 @@ export async function POST(req: NextRequest) {
 export async function GET() {
   try {
     const session = await getServerSession(authOptions);
-    const bulkError = await prisma.error.findMany({
+    const allError = await prisma.error.findMany({
       where: {
         project: {
           userId: Number(session?.user.id),
@@ -80,7 +79,7 @@ export async function GET() {
         severity: true,
         error: true,
         status: true,
-        errorCount: true,
+        occurrence: true,
         createdAt: true,
         project: {
           select: {
@@ -93,7 +92,7 @@ export async function GET() {
     });
     return NextResponse.json({
       message: "All Error fetched successfully",
-      bulkError,
+      allError,
     });
   } catch (error) {
     return NextResponse.json({

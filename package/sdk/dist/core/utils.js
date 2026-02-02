@@ -5,4 +5,4 @@ exports.config = {
     APIKEY: "",
     projectId: "",
 };
-exports.DSN_URL = "http://localhost:3000/api/bugs";
+exports.DSN_URL = "http://localhost:3000/api/ingest";

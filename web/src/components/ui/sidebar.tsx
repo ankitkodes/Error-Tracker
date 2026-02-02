@@ -5,7 +5,7 @@ import { IconMenu2, IconX } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 import {
   IconArrowLeft,
-  IconBrandTabler,
+  IconChartPie2,
   IconFolder,
   IconReport,
   IconAlertHexagon,
@@ -241,7 +241,7 @@ export const SidebarLink = ({
 
   const icon = {
     IconArrowLeft,
-    IconBrandTabler,
+    IconChartPie2,
     IconFolder,
     IconReport,
     IconAlertHexagon,
@@ -260,7 +260,7 @@ export const SidebarLink = ({
         className,
       )}
       {...props}
-    // onClick={() => udpatename(link.label)}
+      // onClick={() => udpatename(link.label)}
     >
       <Iconcomp className="h-5 w-5 shrink-0 text-sidebar-foreground focus:text-[#00ffb2]" />
 

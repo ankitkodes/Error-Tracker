@@ -5,7 +5,7 @@ import prisma from "@/lib/db";
 
 export async function GET(
   req: NextRequest,
-  context: { params: Promise<{ projectId: string }> }
+  context: { params: Promise<{ projectId: string }> },
 ) {
   try {
     const { projectId } = await context.params;
@@ -13,14 +13,14 @@ export async function GET(
     if (!session) {
       return NextResponse.json({ message: "please login and signup" });
     }
-    const errorlog = await prisma.error.findMany({
+    const errors = await prisma.error.findMany({
       where: {
         projectId: projectId,
       },
     });
     return NextResponse.json({
       message: "successfully fetched all the error",
-      errorlog,
+      errors,
     });
   } catch (error) {
     console.log(error);

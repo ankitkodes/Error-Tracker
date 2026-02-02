@@ -10,11 +10,11 @@ enum Role {
 export async function CreateUser(prevState: unknown, formData: FormData) {
   try {
     const name = formData.get("fullname") as string;
-    const useremail = formData.get("email") as string;
+    const email = formData.get("email") as string;
     const password = formData.get("password") as string;
     const confirmPassword = formData.get("confirmpassword") as string;
-    const organame = formData.get("orgname") as string;
-    const roleValue = formData.get("role") as keyof typeof Role;
+    const organizationName = formData.get("orgname") as string;
+    const role = formData.get("role") as keyof typeof Role;
 
     if (password !== confirmPassword) {
       return { message: "Confirm password is not matching to password" };
@@ -22,12 +22,12 @@ export async function CreateUser(prevState: unknown, formData: FormData) {
     if (password.length < 8) {
       return { message: "password must be minimum 8 character" };
     }
-    if (!name || !useremail || !password || !roleValue) {
+    if (!name || !email || !password || !role) {
       return { message: "please fill all the required details" };
     }
-    const userExist = await prisma.user.findFirst({
+    const userExist = await prisma.user.findUnique({
       where: {
-        email: useremail,
+        email: email,
       },
     });
     if (userExist) {
@@ -38,16 +38,17 @@ export async function CreateUser(prevState: unknown, formData: FormData) {
     const response = await prisma.user.create({
       data: {
         name: name,
-        email: useremail,
+        email: email,
         password: hashpassword,
-        organizationName: organame,
-        role: roleValue,
+        organizationName: organizationName,
+        role: role,
       },
     });
     console.log(response);
     return { success: true };
-  } catch (error) {
-    console.log("this is the error occured", error);
-    return { message: "some Invalid error has occured", error };
+  } catch (err) {
+    console.log("this is the error occured", err);
+    const errorMessage = err instanceof Error ? err.message : String(err);
+    return { message: "some Invalid error has occured", error: errorMessage };
   }
 }
