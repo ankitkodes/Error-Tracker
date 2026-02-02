@@ -9,7 +9,8 @@ import { Bug } from "lucide-react";
 
 const navigation = [
   { name: "Product", href: "#" },
-  { name: "Docs", href: "#" },
+  { name: "Docs", href: "/setup" },
+  { name: "GitHub", href: "https://github.com/ankitkodes/Error-Tracker" },
   { name: "Blog", href: "#howitwork" },
 ];
 
@@ -17,14 +18,27 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div>
-      <header className="absolute inset-x-0 top-0 z-50">
+    <div className="relative min-h-screen overflow-hidden">
+      <div
+        className="absolute top-1/2 -translate-y-1/2 -right-[45%]
+        w-5xl h-[900px] rounded-full
+        bg-[radial-gradient(circle,rgba(255,255,255,0.10)_20%,rgba(255,255,255,0.04)_45%,transparent_90%)]
+        blur-2xl"
+      />
+      <div
+        className="absolute -left-[50%] -top-[50%]
+        w-5xl h-[900px] rounded-full
+        bg-[radial-gradient(circle,rgba(255,255,255,0.10)_20%,rgba(255,255,255,0.04)_45%,transparent_90%)]
+        blur-3xl"
+      />
+
+      <header className="max-w-7xl mx-auto px-2 relative overflow-x-hidden md:overflow-visible absolute inset-x-0 top-0 z-50">
         <nav
           aria-label="Global"
           className="flex items-center justify-between p-4 lg:px-8"
         >
           <div className="flex">
-            <a href="#" className="m-1.5 p-1.5">
+            <a href="#" className="m-1.5 pb-3 p-1.5">
               <div className="flex items-center justify-center gap-2">
                 <div className="p-2 rounded-lg bg-[#00ffb2]">
                   <Bug className="w-5 h-5 text-black" />
@@ -121,8 +135,8 @@ export default function Header() {
       </header>
 
       {/* Hero Section */}
-      <div className="relative isolate px-6 pt-20 lg:px-8">
-        <div className="mx-auto max-w-2xl py-20 sm:py-28 lg:py-36 text-center">
+      <div className="relative isolate px-6 pt-10 lg:px-8">
+        <div className="mx-auto max-w-2xl py-15 sm:py-23 lg:py-30 text-center">
           <h1 className="text-5xl tracking-tight text-[#F5F5F5] sm:text-7xl">
             Catch Bugs Before Your Users Do.
           </h1>

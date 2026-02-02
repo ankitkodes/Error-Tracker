@@ -18,7 +18,7 @@ export default function DashboardNavbar() {
           <input
             type="search"
             placeholder="Search error , Project.."
-            className="border-2 rounded-md pl-8 px-4 py-1 w-64 focus:outline-black dark:focus:outline-white dark:bg-black dark:text-white"
+            className="border-2 rounded-md pl-8 px-4 py-1 w-2xl focus:outline-black dark:focus:outline-white dark:bg-black dark:text-white"
           />
         </div>
         <div className="flex gap-4 absolute right-6">

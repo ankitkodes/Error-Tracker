@@ -1,12 +1,16 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: ["./app/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
-  theme: {
-    extend: {
-      fontFamily: {
-        sans: ["DM Sans", "DM Sans Placeholder", "sans-serif"],
-      },
+export const content = [
+  "./app/**/*.{js,ts,jsx,tsx}",
+  "./components/**/*.{js,ts,jsx,tsx}",
+];
+export const theme = {
+  extend: {
+    fontFamily: {
+      sans: ["var(--font-inter)", "ui-sans-serif", "system-ui"],
+    },
+    colors: {
+      customHover: "#081114",
     },
   },
-  plugins: [],
 };
+export const plugins = [];
