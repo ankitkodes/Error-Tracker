@@ -24,6 +24,22 @@ export default function page() {
           </div>
         </div>
         <ProjectHealth />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <div className="border">
+            <ApexAreaChart />
+          </div>
+          <div className="border flex justify-center">
+            <ApexPieChart />{" "}
+          </div>
+        </div>
+        <div>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae,
+          natus, architecto accusamus blanditiis fugiat mollitia cumque
+          necessitatibus voluptatibus ipsam dignissimos iste a sunt possimus
+          tempore facere expedita consequuntur. Sequi deleniti voluptate,
+          quaerat aspernatur praesentium, optio aliquam accusamus perferendis
+          provident error unde deserunt? Quisquam, autem corrupti!
+        </div>
       </div>
     </>
   );
