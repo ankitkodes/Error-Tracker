@@ -24,14 +24,6 @@ export default function page() {
           </div>
         </div>
         <ProjectHealth />
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-          <div className="border">
-            <ApexAreaChart />
-          </div>
-          <div className="border flex justify-center">
-            <ApexPieChart />{" "}
-          </div>
-        </div>
       </div>
     </>
   );
