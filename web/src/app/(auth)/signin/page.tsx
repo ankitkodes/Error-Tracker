@@ -22,15 +22,13 @@ export default function SignInPage() {
       redirect: false,
     });
 
-   
-
     if (res?.error) {
       toast.error("Invalid email or password");
       return;
     }
 
-    window.location.href = "/dashboard";
-     setLoading(false);
+    window.location.href = "/analytics";
+    setLoading(false);
   }
 
   return (
@@ -124,7 +122,7 @@ export default function SignInPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full h-11 rounded-full bg-[#00ffb2] hover:bg-[#66ffd1] text-black font-semibold transition disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full h-11 rounded-full bg-[#00ffb2] hover:bg-[#66ffd1]  text-black font-semibold transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? (
               <span className="flex items-center justify-center gap-2">

@@ -25,7 +25,7 @@ export default function Page() {
     async function fetallError() {
       const response = await axios({
         method: "GET",
-        url: "/api/ingest",
+        url: "/api/errors",
       });
       const data = response.data;
       GetallError(data.allError);

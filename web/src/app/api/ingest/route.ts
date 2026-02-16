@@ -64,40 +64,4 @@ export async function POST(req: NextRequest) {
 
 // All Error of the user
 
-export async function GET() {
-  try {
-    const session = await getServerSession(authOptions);
-    const allError = await prisma.error.findMany({
-      where: {
-        project: {
-          userId: Number(session?.user.id),
-        },
-      },
-      select: {
-        id: true,
-        message: true,
-        severity: true,
-        error: true,
-        status: true,
-        occurrence: true,
-        createdAt: true,
-        project: {
-          select: {
-            name: true,
-            language: true,
-            environment: true,
-          },
-        },
-      },
-    });
-    return NextResponse.json({
-      message: "All Error fetched successfully",
-      allError,
-    });
-  } catch (error) {
-    return NextResponse.json({
-      message: "some Invalid error has occured !",
-      error,
-    });
-  }
-}
+

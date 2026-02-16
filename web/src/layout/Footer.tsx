@@ -9,7 +9,7 @@ export default function Footer() {
       <div className="grid grid-cols-1 sm:grid-cols-3 font-sans">
         <div className="col-span-2 px-4 py-8">
           {/* <p className="mb-3 text-2xl font-bold text-[#00ffb2]"> */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 py-2">
             <div className="p-2 rounded-lg bg-[#00ffb2]">
               <Bug className="w-5 h-5 text-black" />
             </div>
