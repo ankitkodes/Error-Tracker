@@ -1,7 +1,7 @@
 export default function ProjectHealth() {
   return (
     <>
-      <div>
+      <div className="my-4">
         <div className="font-semibold mb-2">Project Health</div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
           <div className="border-2 rounded-md p-2">

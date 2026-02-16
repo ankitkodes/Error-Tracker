@@ -29,12 +29,11 @@ export default function Page() {
   console.log("this is value fo state ", state);
   useEffect(() => {
     if (state.message) {
-      if (state.success) {
-        toast.success("Account created successfully!");
-        setTimeout(() => router.push("/signin"), 1500);
-      } else {
-        toast.error(state.message);
-      }
+      toast.error(state.message);
+    }
+    if (state.success) {
+      toast.success("Account created successfully!");
+      setTimeout(() => router.push("/signin"), 1500);
     }
   }, [state, router]);
 
