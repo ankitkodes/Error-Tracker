@@ -1,8 +1,9 @@
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-import { authOptions } from "../../auth/[...nextauth]/options";
 import prisma from "@/lib/db";
+import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 
+// fetching all the error of specific project
 export async function GET(
   req: NextRequest,
   context: { params: Promise<{ projectId: string }> },

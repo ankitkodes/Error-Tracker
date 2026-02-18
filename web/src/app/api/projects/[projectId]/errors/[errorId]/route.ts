@@ -1,6 +1,7 @@
 import prisma from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
+// fetch specific error of the specific project
 export async function GET(
   req: NextRequest,
   { params }: { params: { errorId: string } },
@@ -18,6 +19,7 @@ export async function GET(
   }
 }
 
+// update the status of error
 export async function PUT(
   req: NextRequest,
   { params }: { params: { errorId: string } },
@@ -42,6 +44,7 @@ export async function PUT(
   }
 }
 
+// delete the error
 export async function DELETE(
   req: NextRequest,
   { params }: { params: { errorId: string } },
