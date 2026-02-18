@@ -8,6 +8,8 @@ import { useParams } from "next/navigation";
 import axios from "axios";
 import { SeverityStyle } from "@/lib/projectstyles";
 import { RotatingLines } from "react-loader-spinner";
+import { UseErrorId } from "@/lib/store";
+import ErrorDrawer from "@/components/Error-Drawer";
 interface ErrorlogInterface {
   error: string;
   occurrence: number;
@@ -18,6 +20,8 @@ interface ErrorlogInterface {
   status: string;
 }
 export default function Page() {
+  const setErrorId = UseErrorId((state) => state.setErrorId);
+  const setErrorDrawer = UseErrorId((state) => state.setErrorDrawer);
   const [loading, setloading] = useState(true);
   const [project, getProject] = useState({
     name: "",
@@ -132,7 +136,19 @@ export default function Page() {
               {error.map((items: ErrorlogInterface) => (
                 <>
                   <tr className="text-sm">
-                    <td className="border-b-2  py-3 px-4">{items.message}</td>
+                    <td className="border-b-2  py-3 px-4">
+                      {" "}
+                      <button
+                        onClick={() => {
+                          setErrorId(items.id);
+                          setErrorDrawer(true);
+                        }}
+                        className="cursor-pointer"
+                      >
+                        {items.message}{" "}
+                      </button>
+                    </td>
+
                     <td className="border-b-2 py-3 px-4">
                       <button
                         className={cn(
@@ -165,6 +181,7 @@ export default function Page() {
           </table>
         </div>
       </div>
+      <ErrorDrawer />
     </>
   );
 }
