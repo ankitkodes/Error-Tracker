@@ -4,6 +4,37 @@ import { authOptions } from "../auth/[...nextauth]/options";
 import generateApiKey from "generate-api-key";
 import prisma from "@/lib/db";
 
+/**
+ * @swagger
+ * /api/projects:
+ *   post:
+ *     summary: Create a new project
+ *     tags: [Projects]
+ *     security:
+ *       - cookieAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *             properties:
+ *               name:
+ *                 type: string
+ *               environment:
+ *                 type: string
+ *               language:
+ *                 type: string
+ *               team:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Project created successfully
+ *       401:
+ *         description: Unauthorized
+ */
 export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
@@ -35,6 +66,20 @@ export async function POST(req: NextRequest) {
   }
 }
 
+/**
+ * @swagger
+ * /api/projects:
+ *   get:
+ *     summary: Get all projects for the current user
+ *     tags: [Projects]
+ *     security:
+ *       - cookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Successfully fetched projects
+ *       401:
+ *         description: Unauthorized
+ */
 export async function GET() {
   try {
     const session = await getServerSession(authOptions);

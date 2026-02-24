@@ -22,15 +22,13 @@ export default function SignInPage() {
       redirect: false,
     });
 
-   
-
     if (res?.error) {
       toast.error("Invalid email or password");
       return;
     }
 
-    window.location.href = "/dashboard";
-     setLoading(false);
+    window.location.href = "/analytics";
+    setLoading(false);
   }
 
   return (

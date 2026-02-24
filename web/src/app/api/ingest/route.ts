@@ -6,6 +6,32 @@ import { createHash } from "crypto";
 import { parse } from "stacktrace-parser";
 
 // store error
+/**
+ * @swagger
+ * /api/ingest:
+ *   post:
+ *     summary: Ingest a new error report
+ *     tags: [Errors]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - projectId
+ *               - error
+ *             properties:
+ *               projectId:
+ *                 type: string
+ *               error:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Error stored successfully
+ *       400:
+ *         description: Invalid input
+ */
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();

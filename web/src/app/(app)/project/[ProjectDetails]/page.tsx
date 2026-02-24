@@ -21,6 +21,7 @@ interface ErrorlogInterface {
 }
 export default function Page() {
   const setErrorId = UseErrorId((state) => state.setErrorId);
+  const setProjectId = UseErrorId((state) => state.setProjectId);
   const setErrorDrawer = UseErrorId((state) => state.setErrorDrawer);
   const [loading, setloading] = useState(true);
   const [project, getProject] = useState({
@@ -40,7 +41,6 @@ export default function Page() {
         url: `/api/projects/${projectid}`,
       });
       const data = response.data.project;
-      console.log("this is project details", data);
       getProject(data);
       setloading(false);
     }
@@ -50,10 +50,9 @@ export default function Page() {
 
   useEffect(() => {
     async function Geterror() {
-      console.log("function started");
       const response = await axios({
         method: "GET",
-        url: `/api/errors/${projectid}`,
+        url: `/api/projects/${projectid}/errors`,
       });
       const data = response.data;
       getErrorlog(data.errors);
@@ -181,7 +180,7 @@ export default function Page() {
           </table>
         </div>
       </div>
-      <ErrorDrawer />
+      <ErrorDrawer projectid={projectid} />
     </>
   );
 }

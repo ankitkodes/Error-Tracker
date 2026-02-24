@@ -7,12 +7,16 @@ export async function GET(
   { params }: { params: { errorId: string } },
 ) {
   try {
-    const errorId = params.errorId;
+    const { errorId } = await params;
+    console.log("this is errorid values:- ", errorId);
+
     const error = await prisma.error.findUnique({
       where: {
         id: Number(errorId),
       },
     });
+
+    // console.log("this is error details:- ", error);
     return NextResponse.json({ message: "error returned successfully", error });
   } catch (error) {
     return NextResponse.json({ message: "failed to fetch the errors", error });
@@ -26,7 +30,7 @@ export async function PUT(
 ) {
   try {
     const statusupdate = await req.json();
-    const errorId = params.errorId;
+    const { errorId } = await params;
     await prisma.error.update({
       where: {
         id: Number(errorId),
@@ -50,7 +54,7 @@ export async function DELETE(
   { params }: { params: { errorId: string } },
 ) {
   try {
-    const errorId = params.errorId;
+    const { errorId } = await params;
     await prisma.error.delete({
       where: {
         id: Number(errorId),

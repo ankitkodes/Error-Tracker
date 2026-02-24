@@ -30,7 +30,6 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden bg-[#08070e]`}
       >
-        {children}
         <Providers>
           <AuthProvider>
             {children}
