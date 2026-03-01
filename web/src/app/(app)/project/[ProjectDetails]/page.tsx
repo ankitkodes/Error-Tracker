@@ -152,7 +152,7 @@ export default function Page() {
                       <button
                         className={cn(
                           "rounded-lg px-2 py-1 text-xs font-medium text-center",
-                          SeverityStyle["Warning"],
+                          SeverityStyle[items.severity],
                         )}
                       >
                         {items.severity}
@@ -167,7 +167,7 @@ export default function Page() {
                       <button
                         className={cn(
                           "rounded-lg px-2 py-1 text-xs font-medium text-center cursor-pointer",
-                          StatusStyle["Fixed"],
+                          StatusStyle[items.status],
                         )}
                       >
                         {items.status}

@@ -23,6 +23,7 @@ model User{
   organizationName String?
   role   Role
   project Project[]
+  analytics ErrorAnalytics[]
 
 }
 
@@ -36,6 +37,7 @@ model Project{
   userId      Int 
   user        User @relation(fields: [userId], references: [id])
   error        Error[]
+  projecthealth ProjectHealth[]
 }
 
 model Error{
@@ -56,10 +58,36 @@ model Error{
   project    Project @relation(fields: [projectId], references: [id])
 }
 
+model ErrorAnalytics{
+  id Int @default(autoincrement())
+  date String @unique
+  error Int
+  resolvederror Int
+  createdAt DateTime @default(now())
+  userId      Int @unique
+  user        User @relation(fields: [userId], references: [id])
+}
+
+model ProjectHealth{
+  id Int  @default(autoincrement())
+  totalerrors Int
+  resolvederror Int
+  uptimepercentage Float
+  status Projectstatus @default(Healthy)
+  projectId String @unique
+  project Project @relation(fields: [projectId], references: [id])
+}
+
+enum Projectstatus{
+  Healthy
+  Warning
+  Critical
+}
+
 enum Status{
   Bug
   InProcess
-  Fixed
+  Resolved
 }
 
 enum Role{

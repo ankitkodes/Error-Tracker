@@ -59,6 +59,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: "Invalid project ID" });
     }
 
+    // storing the error or updating the error occurences in error table
     await prisma.error.upsert({
       where: {
         issuehashId: issueHashId,
@@ -77,6 +78,42 @@ export async function POST(req: NextRequest) {
         issuehashId: issueHashId,
       },
     });
+
+    // transaction for updating the totalerrors and uptimepercentage
+    await prisma.$transaction(async (tsx) => {
+      const health = await tsx.projectHealth.upsert({
+        where: { projectId: body.projectId },
+        update: {
+          totalerrors: { increment: 1 },
+        },
+        create: {
+          totalerrors: 1,
+          resolvederror: 0,
+          uptimepercentage: 100,
+          projectId: body.projectId,
+        },
+      });
+      const healthpercentage =
+        (health.resolvederror / health.totalerrors) * 100;
+
+      await tsx.projectHealth.update({
+        where: { projectId: body.projectId },
+        data: { uptimepercentage: healthpercentage },
+      });
+    });
+
+    // finding userId from ProjectId
+    const response = await prisma.project.findUnique({
+      where: {
+        id: body.projectId,
+      },
+      select: {
+        userId: true,
+      },
+    });
+
+    console.log("this is userid:- ", response);
+
     return NextResponse.json({
       message: "Error stored successfully",
     });

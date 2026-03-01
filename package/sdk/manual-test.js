@@ -3,7 +3,7 @@ const { NodeInit, captureError } = require("./dist/node/index");
 console.log("Initializing SDK...");
 NodeInit(
   "6pYfDHWr3jzyC92O6CjMk6",
-  "e-com_37bf9ef4-30df-4b6a-a5a9-9bcd7c66ce27",
+  "prepe_7a5fe852-81ba-4971-a1dd-ccd1cc4b7cda",
 );
 
 function executeWithCapture(fn) {

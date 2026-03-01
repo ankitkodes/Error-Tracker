@@ -49,6 +49,18 @@ export default function ErrorDrawer({ projectid }: any) {
     }
   }, [errorId, isOpen, projectid]);
 
+  async function onPress() {
+    const response = await axios({
+      method: "PUT",
+      url: `/api/projects/${projectid}/errors/${errorId}`,
+      data: {
+        status: "Resolved",
+      },
+    });
+    console.log("this is response from the frontend :-", response);
+    alert("function ran successfully");
+  }
+
   const formatDate = (dateString: string) => {
     if (!dateString) return "N/A";
     return new Date(dateString).toLocaleString("en-US", {
@@ -156,11 +168,12 @@ export default function ErrorDrawer({ projectid }: any) {
                       >
                         {errorDetails.severity}
                       </span>
-                      <span
+                      <button
+                        onClick={onPress}
                         className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${getStatusColor(errorDetails.status)}`}
                       >
                         {errorDetails.status}
-                      </span>
+                      </button>
                     </div>
                     <h2 className="text-xl font-bold text-white tracking-tight leading-tight">
                       <span className="text-red-500/90 font-mono text-lg mr-2 opacity-80">
