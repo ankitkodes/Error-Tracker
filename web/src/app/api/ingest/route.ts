@@ -112,7 +112,26 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    console.log("this is userid:- ", response);
+    if (!response) {
+      return NextResponse.json({ message: "projectId is not correct" });
+    }
+
+    // current time
+    const dateLocal = new Date().toLocaleDateString();
+
+    // storing error data everyday
+    await prisma.errorAnalytics.upsert({
+      where: { date: dateLocal },
+      update: {
+        error: { increment: 1 },
+      },
+      create: {
+        date: dateLocal,
+        error: 1,
+        resolvederror: 0,
+        userId: response.userId,
+      },
+    });
 
     return NextResponse.json({
       message: "Error stored successfully",

@@ -1,4 +1,6 @@
+import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import prisma from "@/lib/db";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 // fetch specific error of the specific project
@@ -28,6 +30,12 @@ export async function PUT(
   { params }: { params: { errorId: string; projectId: string } },
 ) {
   try {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json({
+        message: "unable to find user , please login again",
+      });
+    }
     const statusupdate = await req.json();
     const { errorId } = await params;
     const { projectId } = await params;
@@ -44,6 +52,22 @@ export async function PUT(
         where: { projectId },
         data: {
           resolvederror: { increment: 1 },
+        },
+      });
+
+      const dateLocal = new Date().toLocaleDateString();
+
+      // updating the resolvederror count in ErrorAnalytics table
+      await tsx.errorAnalytics.upsert({
+        where: { date: dateLocal },
+        update: {
+          resolvederror: { increment: 1 },
+        },
+        create: {
+          error: 0,
+          date: dateLocal,
+          resolvederror: 1,
+          userId: Number(session.user.id),
         },
       });
 

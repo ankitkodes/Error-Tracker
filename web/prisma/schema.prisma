@@ -64,7 +64,7 @@ model ErrorAnalytics{
   error Int
   resolvederror Int
   createdAt DateTime @default(now())
-  userId      Int @unique
+  userId      Int
   user        User @relation(fields: [userId], references: [id])
 }
 
