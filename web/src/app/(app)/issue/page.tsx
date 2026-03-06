@@ -1,8 +1,7 @@
 "use client";
 import ErrorCard from "@/components/error-card";
-import axios from "axios";
+import { useIssues } from "@/lib/services/issues/issues.hooks";
 import { Search } from "lucide-react";
-import { useEffect, useState } from "react";
 
 interface AllError {
   id: number;
@@ -19,20 +18,14 @@ interface AllError {
   errorCount: number;
 }
 export default function Page() {
-  const [allError, GetallError] = useState([]);
-
-  useEffect(() => {
-    async function fetallError() {
-      const response = await axios({
-        method: "GET",
-        url: "/api/ingest",
-      });
-      const data = response.data;
-      GetallError(data.allError);
-    }
-
-    fetallError();
-  }, []);
+  const{isLoading , isError, data} = useIssues();
+  
+  if(isLoading){
+    return <p>loading issues page</p>
+  }
+  if(isError){
+    return <p>unable to load issues page</p>
+  }
 
   return (
     <>
@@ -91,8 +84,8 @@ export default function Page() {
         <div className="p-4 border rounded-md my-4">
           <div className="text-lg font-medium">All Issues (8)</div>
           <div className="">
-            {allError ? (
-              allError.map((items: AllError) => (
+            {data.allError ? (
+              data.allError.map((items: AllError) => (
                 <ErrorCard
                   key={items.id}
                   message={items.message}

@@ -7,3 +7,11 @@ export async function fetchData(url:string){
     });
     return response.data;
 }
+
+export async function sendData(url:string){
+    const response = await axios({
+        method:'POST',
+        url:url
+    });
+    return response.data;
+}
