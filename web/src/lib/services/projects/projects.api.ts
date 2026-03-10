@@ -15,6 +15,10 @@ export async function getProjectError(projectId:string){
   return fetchData(`/api/projects/${projectId}/errors`)
 }
 
+export async function getProjectReport(projectId:string){
+  return fetchData(`/api/projects/${projectId}/reports`)
+}
+
 interface project{
   name:string,
   language:string,

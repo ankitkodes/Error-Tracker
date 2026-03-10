@@ -23,10 +23,11 @@ interface Error {
 export default function Page() {
   const[searchquery , GetSearchQuery] = useState("");
   const{isLoading , isError, data} = useIssues();
-  const debouncedSearch = debounce((value: string) => GetSearchQuery(value), 300);
+  const debouncedSearch = debounce((value: string) => GetSearchQuery(value), 100);
   const searchresult = useGetSearchResult(searchquery);
 
-  if(isLoading){
+  console.log("this is result in frontend:-",searchresult.data)
+  if(isLoading && !searchquery){
     return <p>loading issues page</p>
   }
   if(isError){
@@ -41,7 +42,6 @@ export default function Page() {
           <p className="text-sm text-gray-500">
             Track and manage all errors across your applications.
           </p>
-          {searchquery}
         </div>
         <div className="border py-8 px-4 rounded-md">
           <div className=" relative w-full pb-2">
@@ -90,9 +90,13 @@ export default function Page() {
           </div>
         </div>
         <div className="p-4 border rounded-md my-4">
-          <div className="text-lg font-medium">All Issues (8)</div>
+          <div className="text-lg font-medium">All Issues ({searchquery && searchresult.data?searchresult.data.data.length:data.error.length})</div>
           <div className="">
-            {searchquery && searchresult?searchresult.error.map((items: Error) => (
+            {searchquery && searchresult.data?(
+            <>
+            {searchresult.isLoading && <p>searching...</p>}
+
+            {searchresult.data.data.map((items: Error) => (
                 <ErrorCard
                   key={items.id}
                   message={items.message}
@@ -103,7 +107,9 @@ export default function Page() {
                   occurrences={items.occurrence}
                   lastseen="12 minutes ago"
                 />
-              )):data.error.map((items: Error) => (
+               
+              ))}
+              </>) : (data.error.map((items: Error) => (
                 <ErrorCard
                   key={items.id}
                   message={items.message}
@@ -113,7 +119,7 @@ export default function Page() {
                   projectName={items.project.name}
                   occurrences={items.occurrence}
                   lastseen="12 minutes ago"
-                />
+                />)
               ))
             }
           </div>

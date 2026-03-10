@@ -5,6 +5,8 @@ import { links } from "@/config/sidebarMenu";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import DashboardNavbar from "@/components/Dasboard-navbar";
+import { useSession, signOut } from "next-auth/react";
+import { LogOut, User } from "lucide-react";
 
 export default function DashboardLayout({
   children,
@@ -12,6 +14,8 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
+  const { data: session } = useSession();
+
   return (
     <div
       className={cn(
@@ -20,13 +24,45 @@ export default function DashboardLayout({
       )}
     >
       <Sidebar open={open} setOpen={setOpen}>
-        <SidebarBody className="">
+        <SidebarBody className="flex flex-col h-full justify-between">
           <div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto relative ">
             <div className="mt-2 flex flex-col gap-2 ">
               {links.map((link, idx) => (
                 <SidebarLink key={idx} link={link} />
               ))}
             </div>
+          </div>
+
+          <div className="mt-4 flex flex-col gap-2 border-t border-border pt-4">
+            {open ? (
+              <div className="flex items-center justify-between px-2 overflow-hidden">
+                <div className="flex flex-col truncate w-full pr-2">
+                  <span className="text-sm text-foreground font-medium truncate">
+                    {session?.user?.name || "User"}
+                  </span>
+                  <span className="text-xs text-muted-foreground truncate">
+                    {session?.user?.email || "No Email"}
+                  </span>
+                </div>
+                <button
+                  onClick={() => signOut()}
+                  className="p-1 text-muted-foreground hover:text-foreground transition-colors cursor-pointer shrink-0"
+                  title="Sign out"
+                >
+                  <LogOut size={18} />
+                </button>
+              </div>
+            ) : (
+              <div className="flex justify-center">
+                <button
+                  onClick={() => signOut()}
+                  className="p-2 text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                  title="Sign out"
+                >
+                  <LogOut size={20} />
+                </button>
+              </div>
+            )}
           </div>
         </SidebarBody>
       </Sidebar>

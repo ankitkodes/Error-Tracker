@@ -6,10 +6,10 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 // error of specific project
 export async function GET(
   req: NextRequest,
-  context: { params: Promise<{ projectId: string }> },
+  context: { params: { projectId: string } },
 ) {
   try {
-    const { projectId } = await context.params;
+    const { projectId } =await context.params;
     const session = await getServerSession(authOptions);
     if (!session) {
       return NextResponse.json({ message: "please login and signup" });

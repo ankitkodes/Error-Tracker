@@ -7,11 +7,12 @@ import { useParams } from "next/navigation";
 import ErrorDrawer from "@/components/Error-Drawer";
 import { useProject,} from "@/lib/services/projects/projects.query";
 import ProjectError from "@/components/project/project-errors";
+import ProjectHealth from "@/components/project/project-health";
 
 
 
 export default function Page() {
-  const projectid = useParams().ProjectDetails || " ";
+  const projectid:any = useParams().ProjectDetails;
 
   const {data , isLoading , isError} = useProject(projectid);
 
@@ -59,7 +60,7 @@ export default function Page() {
           </div>
         </div>
         <ProjectCredential project_Id={data.project.id} APIkey={data.project.apikey} />
-        {/* <ProjectHealth /> */}
+        <ProjectHealth projectid={projectid} />
         <ProjectError />
       </div>
       <ErrorDrawer projectid={projectid} />

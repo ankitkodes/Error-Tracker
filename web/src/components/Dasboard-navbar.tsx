@@ -1,12 +1,22 @@
 import { Sun, Bell, User, Search } from "lucide-react";
+import React, { useEffect } from "react";
 
 export default function DashboardNavbar() {
+  // sync theme on mount so reloads keep the selected mode
+  useEffect(() => {
+    const saved = localStorage.getItem("theme-tailwind-playlist");
+    if (saved === "dark") {
+      document.documentElement.classList.add("dark");
+    } else if (saved === "light") {
+      document.documentElement.classList.remove("dark");
+    }
+  }, []);
+
   function handleThemeChange(): void {
-    const currentTheme = document.documentElement.classList.contains("dark")
-      ? "light"
-      : "dark";
+    const isDark = document.documentElement.classList.contains("dark");
+    const newTheme = isDark ? "light" : "dark";
     document.documentElement.classList.toggle("dark");
-    localStorage.setItem("theme-tailwind-playlist", currentTheme);
+    localStorage.setItem("theme-tailwind-playlist", newTheme);
   }
 
   return (
@@ -30,9 +40,6 @@ export default function DashboardNavbar() {
           </button>
           <button className="rounded-lg flex w-10 h-10 hover:bg-gray-100 dark:hover:bg-neutral-800 items-center justify-center cursor-pointer">
             <Bell />
-          </button>
-          <button className="rounded-lg flex w-10 h-10 hover:bg-gray-100 dark:hover:bg-neutral-800 items-center justify-center cursor-pointer">
-            <User />
           </button>
         </div>
       </div>

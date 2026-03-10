@@ -1,5 +1,5 @@
 import {useQuery} from "@tanstack/react-query";
-import {getProject, getProjectError, getProjects } from "./projects.api";
+import {getProject, getProjectError, getProjectReport, getProjects } from "./projects.api";
 
 // fetching all projects
 export function useProjects(){
@@ -15,6 +15,14 @@ export function useProject(projectId:string){
         queryKey:["getproject", projectId],
         queryFn: () => getProject(projectId),
         enabled: !! projectId,
+    })
+}
+
+// fetching project reports 
+export function useProjectReport(projectId:string){
+    return useQuery({
+        queryKey:["projectreport", projectId],
+        queryFn:()=> getProjectReport(projectId)
     })
 }
 

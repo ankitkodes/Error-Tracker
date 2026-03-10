@@ -1,6 +1,7 @@
 "use client";
 import AddProjectModal from "@/components/Modal/AddProjectModal";
 import ProjectDetails from "@/components/project/project-details";
+import ProjectHealth from "@/components/project/project-health";
 import { ProjectDetailsSkeleton } from "@/components/skeleton";
 import { useProjects } from "@/lib/services/projects/projects.query";
 import axios from "axios";
@@ -51,6 +52,8 @@ if(isLoading){
             </button>
           </div>
           <AddProjectModal open={open} onClose={closeprojectmodal} />
+        </div>
+        <div>
         </div>
         <div className="my-8 flex-1">
           

@@ -1,9 +1,11 @@
 import ApexAreaChart from "@/components/Analytics/ApexAreaChart";
 import ApexPieChart from "@/components/Analytics/ApexPieChart";
-import ProjectHealth from "@/components/project/project-health";
+import { useErrorAnalytics } from "@/lib/services/analytics/analytics.query";
 
-// import SignupForm from "@/components/SignupForm";
+
 export default function page() {
+  const{isLoading, isError , data} = useErrorAnalytics();
+  console.log("this is analytics details of the user;- ", data);
   return (
     <>
       <div className="">
@@ -23,23 +25,15 @@ export default function page() {
             </button>
           </div>
         </div>
-        <ProjectHealth />
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-          <div className="border">
+        <div className="my-4"></div>
+        
+          <div className="border p-6">
             <ApexAreaChart />
           </div>
-          <div className="border flex justify-center">
+          <div className="border flex justify-center my-4">
             <ApexPieChart />{" "}
           </div>
-        </div>
-        <div>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae,
-          natus, architecto accusamus blanditiis fugiat mollitia cumque
-          necessitatibus voluptatibus ipsam dignissimos iste a sunt possimus
-          tempore facere expedita consequuntur. Sequi deleniti voluptate,
-          quaerat aspernatur praesentium, optio aliquam accusamus perferendis
-          provident error unde deserunt? Quisquam, autem corrupti!
-        </div>
+        
       </div>
     </>
   );

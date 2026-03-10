@@ -12,7 +12,9 @@ export async function GET(req:NextRequest){
         if(!query){
             return;
         }
-        const data = await prisma.error.findMany({
+
+        // searching for query 
+        const data= await prisma.error.findMany({
             where:{
              project:{
                 userId:Number(session?.user.id)
@@ -21,10 +23,26 @@ export async function GET(req:NextRequest){
                 contains:query,
                 mode:"insensitive"
              }
-            }
+            },
+            select: {
+        id: true,
+        message: true,
+        severity: true,
+        error: true,
+        status: true,
+        occurrence: true,
+        createdAt: true,
+        project: {
+          select: {
+            name: true,
+            language: true,
+            environment: true,
+          },
+        },
+      },
         })
-        console.log("the value of query:- ", data)
-        return NextResponse.json({message:"successfully fetched the query data", data});
+        // console.log("the value of query:- ", error)
+        return NextResponse.json({data});
     } catch (error) {
         console.log("unable to fetch the data , here is the error of searchlog :- ", error)
         return NextResponse.json({message:"unable to fetch the data", error});

@@ -1,13 +1,18 @@
 import prisma from "@/lib/db";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 // return project health
-export async function GET({ params }: { params: { projectId: string } }) {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: Promise<{ projectId: string }> },
+) {
   try {
     const { projectId } = await params;
-    console.log("this is projectId");
+
     const projecthealth = await prisma.projectHealth.findUnique({
-      where: { projectId },
+      where: {
+        projectId: projectId
+      },
       select: {
         totalerrors: true,
         resolvederror: true,
@@ -20,6 +25,7 @@ export async function GET({ params }: { params: { projectId: string } }) {
       projecthealth,
     });
   } catch (error) {
+    console.log("project health report:- ", error)
     return NextResponse.json({
       message: "unable to fetch project health",
       error,
