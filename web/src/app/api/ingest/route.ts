@@ -149,7 +149,7 @@ export async function POST(req: NextRequest) {
 export async function GET() {
   try {
     const session = await getServerSession(authOptions);
-    const allError = await prisma.error.findMany({
+    const error = await prisma.error.findMany({
       where: {
         project: {
           userId: Number(session?.user.id),
@@ -174,7 +174,7 @@ export async function GET() {
     });
     return NextResponse.json({
       message: "All Error fetched successfully",
-      allError,
+    error,
     });
   } catch (error) {
     return NextResponse.json({

@@ -2,36 +2,28 @@
 import { X } from "lucide-react";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { useState } from "react";
-import axios from "axios";
+import { useAddPojects } from "@/lib/services/projects/projects.mutation";
 
 export type modal = {
   open: boolean;
   onClose: () => void;
 };
 
+
+
 export default function AddProjectModal({ open, onClose }: modal) {
-  const [projectname, setProjectName] = useState("");
+  const [name, setProjectName] = useState("");
   const [language, setLanguage] = useState("Nodejs");
   const [env, setEnv] = useState("Production");
   const [team, setTeam] = useState("");
-  const [status, setStatus] = useState(false);
+
+  const mutation = useAddPojects();
 
   async function CreateProject() {
-    setStatus(true);
-    const reponse = await axios({
-      method: "POST",
-      url: "/api/projects",
-      data: {
-        name: projectname,
-        language: language,
-        environment: env,
-        team: team,
-      },
-    });
-    console.log(reponse);
-    onClose();
-    setStatus(false);
+   mutation.mutate({name , language, env, team});
+   onClose();
   }
+
   return (
     <div>
       <Dialog open={open} onClose={onClose} className="relative z-10">
@@ -128,7 +120,7 @@ export default function AddProjectModal({ open, onClose }: modal) {
                   type="submit"
                   onClick={CreateProject}
                 >
-                  {status ? "Creating....." : "Create Project"}
+                  {mutation.isPending ? "Creating....." : "Create Project"}
                 </button>
                 <button
                   onClick={onClose}

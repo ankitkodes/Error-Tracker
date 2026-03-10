@@ -1,9 +1,12 @@
 "use client";
 import ErrorCard from "@/components/error-card";
-import { useIssues } from "@/lib/services/issues/issues.hooks";
+import debounce from 'lodash.debounce';
+import { useGetSearchResult } from "@/lib/services/errors/errors.query";
+import { useIssues } from "@/lib/services/issues/issues.query";
 import { Search } from "lucide-react";
+import { useState } from "react";
 
-interface AllError {
+interface Error {
   id: number;
   message: string;
   severity: string;
@@ -18,8 +21,11 @@ interface AllError {
   errorCount: number;
 }
 export default function Page() {
+  const[searchquery , GetSearchQuery] = useState("");
   const{isLoading , isError, data} = useIssues();
-  
+  const debouncedSearch = debounce((value: string) => GetSearchQuery(value), 300);
+  const searchresult = useGetSearchResult(searchquery);
+
   if(isLoading){
     return <p>loading issues page</p>
   }
@@ -35,6 +41,7 @@ export default function Page() {
           <p className="text-sm text-gray-500">
             Track and manage all errors across your applications.
           </p>
+          {searchquery}
         </div>
         <div className="border py-8 px-4 rounded-md">
           <div className=" relative w-full pb-2">
@@ -43,6 +50,7 @@ export default function Page() {
               type="text"
               placeholder="Search errors..."
               className="w-full border rounded-md p-1 pl-8"
+              onChange={(e)=>(debouncedSearch(e.target.value))}
             />
           </div>
           <div className="my-2 flex gap-4 flex-col md:flex-row">
@@ -84,8 +92,18 @@ export default function Page() {
         <div className="p-4 border rounded-md my-4">
           <div className="text-lg font-medium">All Issues (8)</div>
           <div className="">
-            {data.allError ? (
-              data.allError.map((items: AllError) => (
+            {searchquery && searchresult?searchresult.error.map((items: Error) => (
+                <ErrorCard
+                  key={items.id}
+                  message={items.message}
+                  severity={items.severity}
+                  status={items.status}
+                  environment={items.project.environment}
+                  projectName={items.project.name}
+                  occurrences={items.occurrence}
+                  lastseen="12 minutes ago"
+                />
+              )):data.error.map((items: Error) => (
                 <ErrorCard
                   key={items.id}
                   message={items.message}
@@ -97,9 +115,7 @@ export default function Page() {
                   lastseen="12 minutes ago"
                 />
               ))
-            ) : (
-              <div>Loading...</div>
-            )}
+            }
           </div>
         </div>
       </div>

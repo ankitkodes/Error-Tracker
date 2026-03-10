@@ -106,7 +106,7 @@ export default function SignInPage() {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#666] hover:text-white transition cursor-pointer"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#666]  transition cursor-pointer"
                 aria-label="Toggle password visibility"
               >
                 {showPassword ? (

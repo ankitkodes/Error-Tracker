@@ -2,7 +2,7 @@
 import AddProjectModal from "@/components/Modal/AddProjectModal";
 import ProjectDetails from "@/components/project/project-details";
 import { ProjectDetailsSkeleton } from "@/components/skeleton";
-import { useProjects } from "@/lib/services/projects/projects.hooks";
+import { useProjects } from "@/lib/services/projects/projects.query";
 import axios from "axios";
 import Link from "next/link";
 import { useState, useEffect } from "react";

@@ -1,5 +1,5 @@
 import { SeverityStyle, StatusStyle } from "@/lib/projectstyles";
-import { useprojectError } from "@/lib/services/projects/projects.hooks";
+import { useprojectError } from "@/lib/services/projects/projects.query";
 import { UseErrorId } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import { useParams } from "next/navigation";

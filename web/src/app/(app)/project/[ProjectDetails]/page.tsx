@@ -5,7 +5,7 @@ import { EnvStyle, setactive} from "@/lib/projectstyles";
 import ProjectCredential from "@/components/project/project-credential";
 import { useParams } from "next/navigation";
 import ErrorDrawer from "@/components/Error-Drawer";
-import { useProject,} from "@/lib/services/projects/projects.hooks";
+import { useProject,} from "@/lib/services/projects/projects.query";
 import ProjectError from "@/components/project/project-errors";
 
 

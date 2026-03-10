@@ -1,6 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
-import { getProject, getProjectError, getProjects } from "./projects.api";
+import {useQuery} from "@tanstack/react-query";
+import {getProject, getProjectError, getProjects } from "./projects.api";
 
+// fetching all projects
 export function useProjects(){
     return useQuery({
         queryKey:["projects"],
@@ -8,6 +9,7 @@ export function useProjects(){
     });
 }
 
+// fetch specific project details
 export function useProject(projectId:string){
     return useQuery({
         queryKey:["getproject", projectId],
@@ -16,6 +18,7 @@ export function useProject(projectId:string){
     })
 }
 
+// fetch all error of specific project 
 export function useprojectError(projectId:string){
     return useQuery({
         queryKey:["projectError", projectId],
@@ -23,3 +26,4 @@ export function useprojectError(projectId:string){
         enabled:!! projectId,
     })
 }
+ 
