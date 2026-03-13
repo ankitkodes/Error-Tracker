@@ -12,7 +12,8 @@ import ProjectHealth from "@/components/project/project-health";
 
 
 export default function Page() {
-  const projectid:any = useParams().ProjectDetails;
+  const params= useParams();
+  const projectid = params.ProjectDetails as string;
 
   const {data , isLoading , isError} = useProject(projectid);
 

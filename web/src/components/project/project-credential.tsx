@@ -1,6 +1,7 @@
 import { Eye, Copy, EyeOff } from "lucide-react";
 import { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+// import { ToastContainer, toast } from "react-toastify";
+import toast, { Toaster } from 'react-hot-toast';
 
 interface projectcredential {
   project_Id: string;
@@ -29,7 +30,7 @@ export default function ProjectCredential({
             <button
               onClick={() => {
                 navigator.clipboard.writeText(project_Id);
-                toast.success("project_id Copied Successfully");
+                toast("project_id Copied Successfully", {duration:4000 ,position:"bottom-right"});
               }}
               className="text-xs gap-2 grow-0 ... border-2 rounded-md font-medium px-2 py-1 cursor-pointer"
             >
@@ -69,7 +70,7 @@ export default function ProjectCredential({
           </div>
         </div>
       </div>
-      <ToastContainer />
+      <Toaster />
     </>
   );
 }

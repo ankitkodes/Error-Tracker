@@ -1,11 +1,9 @@
+"use client"
 import ApexAreaChart from "@/components/Analytics/ApexAreaChart";
-import ApexPieChart from "@/components/Analytics/ApexPieChart";
-import { useErrorAnalytics } from "@/lib/services/analytics/analytics.query";
+import ErrorAnalytics from "@/components/Analytics/error-analytics";
 
 
 export default function page() {
-  const{isLoading, isError , data} = useErrorAnalytics();
-  console.log("this is analytics details of the user;- ", data);
   return (
     <>
       <div className="">
@@ -25,14 +23,17 @@ export default function page() {
             </button>
           </div>
         </div>
+        <div>
+          <ErrorAnalytics />
+        </div>
         <div className="my-4"></div>
         
           <div className="border p-6">
-            <ApexAreaChart />
+            <ApexAreaChart/>
           </div>
-          <div className="border flex justify-center my-4">
+          {/* <div className="border flex justify-center my-4">
             <ApexPieChart />{" "}
-          </div>
+          </div> */}
         
       </div>
     </>

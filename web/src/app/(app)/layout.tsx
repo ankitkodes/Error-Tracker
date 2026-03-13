@@ -6,7 +6,8 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import DashboardNavbar from "@/components/Dasboard-navbar";
 import { useSession, signOut } from "next-auth/react";
-import { LogOut, User } from "lucide-react";
+import { LogOut} from "lucide-react";
+import Link from "next/link";
 
 export default function DashboardLayout({
   children,
@@ -36,14 +37,14 @@ export default function DashboardLayout({
           <div className="mt-4 flex flex-col gap-2 border-t border-border pt-4">
             {open ? (
               <div className="flex items-center justify-between px-2 overflow-hidden">
-                <div className="flex flex-col truncate w-full pr-2">
+                <Link href="/profile" className="flex flex-col truncate w-full pr-2">
                   <span className="text-sm text-foreground font-medium truncate">
                     {session?.user?.name || "User"}
                   </span>
                   <span className="text-xs text-muted-foreground truncate">
                     {session?.user?.email || "No Email"}
                   </span>
-                </div>
+                </Link>
                 <button
                   onClick={() => signOut()}
                   className="p-1 text-muted-foreground hover:text-foreground transition-colors cursor-pointer shrink-0"

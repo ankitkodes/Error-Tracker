@@ -1,4 +1,4 @@
-import { Sun, Bell, User, Search } from "lucide-react";
+import { Sun, Bell,Search } from "lucide-react";
 import React, { useEffect } from "react";
 
 export default function DashboardNavbar() {

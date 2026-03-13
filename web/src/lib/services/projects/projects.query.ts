@@ -27,7 +27,7 @@ export function useProjectReport(projectId:string){
 }
 
 // fetch all error of specific project 
-export function useprojectError(projectId:string){
+export function useProjectError(projectId:string){
     return useQuery({
         queryKey:["projectError", projectId],
         queryFn:() => getProjectError(projectId),

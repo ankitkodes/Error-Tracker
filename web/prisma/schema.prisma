@@ -68,6 +68,14 @@ model ErrorAnalytics{
   user        User @relation(fields: [userId], references: [id])
 }
 
+model ErrorType{
+  id String @unique @id @default(uuid())
+  typename String @unique
+  occurrence Int
+  userId Int
+  user User @relation(fields:[userId], references:[id])
+}
+
 model ProjectHealth{
   id Int  @default(autoincrement())
   totalerrors Int

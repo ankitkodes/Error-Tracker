@@ -3,34 +3,25 @@
 import React, { useEffect, useState, useMemo } from "react";
 import dynamic from "next/dynamic";
 import { ApexOptions } from "apexcharts";
+import { useErrorAnalytics } from "@/lib/services/analytics/analytics.query";
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
 
-function generateDayWiseTimeSeries(
-  baseval: number,
-  count: number,
-  yrange: { min: number; max: number },
-) {
-  const series: [number, number][] = [];
-  let x = baseval;
-
-  for (let i = 0; i < count; i++) {
-    series.push([
-      x,
-      Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min,
-    ]);
-    x += 86400000;
-  }
-
-  return series;
-}
+type Analytics = {
+  date: string;
+  error: number;
+  resolvederror: number;
+};
 
 export default function ApexAreaChart() {
+  const { isLoading, isError, data } = useErrorAnalytics();
+
+  console.log("this is analytics details of the user:- ", data);
+
   const [isDark, setIsDark] = useState(false);
 
-  // Detect Tailwind dark mode
   useEffect(() => {
     const checkTheme = () => {
       setIsDark(document.documentElement.classList.contains("dark"));
@@ -47,33 +38,42 @@ export default function ApexAreaChart() {
     return () => observer.disconnect();
   }, []);
 
-  const series = useMemo(
-    () => [
-      {
-        name: "Resolved",
-        data: generateDayWiseTimeSeries(
-          new Date("11 Feb 2024 GMT").getTime(),
-          20,
-          { min: 20, max: 60 },
-        ),
-      },
+  const series = useMemo(() => {
+    const analytics: Analytics[] = data?.analytics ?? [];
+
+    if (!analytics.length) return [];
+
+    const sorted = [...analytics].sort(
+      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+    );
+
+    const errors = sorted.map((item) => ({
+      x: new Date(item.date).getTime(),
+      y: item.error,
+    }));
+
+    const resolved = sorted.map((item) => ({
+      x: new Date(item.date).getTime(),
+      y: item.resolvederror,
+    }));
+
+    return [
       {
         name: "Errors",
-        data: generateDayWiseTimeSeries(
-          new Date("11 Feb 2024 GMT").getTime(),
-          20,
-          { min: 5, max: 25 },
-        ),
+        data: errors,
       },
-    ],
-    [],
-  );
+      {
+        name: "Resolved",
+        data: resolved,
+      },
+    ];
+  }, [data]);
 
   const options: ApexOptions = useMemo(
     () => ({
       chart: {
         type: "area",
-        stacked: true,
+        stacked: false,
         background: "transparent",
         toolbar: { show: false },
       },
@@ -82,30 +82,24 @@ export default function ApexAreaChart() {
         mode: isDark ? "dark" : "light",
       },
 
-      colors: ["#22c55e", "#ef4444"],
-
-      dataLabels: {
-        enabled: false,
-      },
+      colors: ["#ef4444", "#22c55e"],
 
       stroke: {
         curve: "smooth",
         width: 2,
       },
 
+      dataLabels: {
+        enabled: false,
+      },
+
       fill: {
         type: "gradient",
         gradient: {
           shade: isDark ? "dark" : "light",
-          type: "vertical",
           opacityFrom: 0.6,
           opacityTo: 0.1,
         },
-      },
-
-      legend: {
-        position: "top",
-        horizontalAlign: "left",
       },
 
       xaxis: {
@@ -120,8 +114,11 @@ export default function ApexAreaChart() {
         theme: isDark ? "dark" : "light",
       },
     }),
-    [isDark],
+    [isDark]
   );
+
+  if (isLoading) return <p>Loading analytics...</p>;
+  if (isError) return <p>Error loading analytics</p>;
 
   return (
     <ReactApexChart

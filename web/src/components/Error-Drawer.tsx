@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
-export default function ErrorDrawer({ projectid }: any) {
+export default function ErrorDrawer({ projectid}: {projectid:string}) {
   const errorId = UseErrorId((state) => state.errorId);
   const isOpen = UseErrorId((state) => state.ErrorDrawer);
   const closeDrawer = UseErrorId((state) => state.setErrorDrawer);
@@ -61,16 +61,7 @@ export default function ErrorDrawer({ projectid }: any) {
     alert("function ran successfully");
   }
 
-  const formatDate = (dateString: string) => {
-    if (!dateString) return "N/A";
-    return new Date(dateString).toLocaleString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
+ 
 
   const getStatusColor = (status: string) => {
     switch (status) {

@@ -1,5 +1,5 @@
 import { SeverityStyle, StatusStyle } from "@/lib/projectstyles";
-import { useprojectError } from "@/lib/services/projects/projects.query";
+import { useProjectError } from "@/lib/services/projects/projects.query";
 import { UseErrorId } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import { useParams } from "next/navigation";
@@ -15,12 +15,13 @@ interface Errorlog{
 }
 
 export default function ProjectError(){ 
-  const projectid = useParams().ProjectDetails || " ";
+  const params = useParams();
+  const projectid = params.ProjectDetails as string;
 
       const setErrorDrawer = UseErrorId((state) => state.setErrorDrawer);
       const setErrorId = UseErrorId((state) => state.setErrorId);
 
-      const {data , isLoading , isError} = useprojectError(projectid);
+      const {data , isLoading , isError} = useProjectError(projectid);
 
        console.log("this is error of projects ", data);
 
