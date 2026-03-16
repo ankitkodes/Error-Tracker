@@ -11,6 +11,8 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 export default function ApexPieChart() {
   const [isDark, setIsDark] = useState(false);
 
+  
+
   // Detect Tailwind dark mode from <html class="dark">
   useEffect(() => {
     const checkTheme = () => {

@@ -9,7 +9,7 @@ export async function GET(
   context: { params: { projectId: string } },
 ) {
   try {
-    const { projectId } =await context.params;
+    const { projectId } = await context.params;
     const session = await getServerSession(authOptions);
     if (!session) {
       return NextResponse.json({ message: "please login and signup" });
@@ -18,6 +18,15 @@ export async function GET(
       where: {
         projectId: projectId,
       },
+      select: {
+        id: true,
+        error: true,
+        occurrence: true,
+        message: true,
+        projectId: true,
+        errorType: true,
+        status: true
+      }
     });
     return NextResponse.json({
       message: "successfully fetched all the error",

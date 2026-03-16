@@ -6,7 +6,7 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import DashboardNavbar from "@/components/Dasboard-navbar";
 import { useSession, signOut } from "next-auth/react";
-import { LogOut} from "lucide-react";
+import { LogOut } from "lucide-react";
 import Link from "next/link";
 
 export default function DashboardLayout({
@@ -57,7 +57,7 @@ export default function DashboardLayout({
               <div className="flex justify-center">
                 <button
                   onClick={() => signOut()}
-                  className="p-2 text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                  className="p-2 text-red-300 transition-colors cursor-pointer"
                   title="Sign out"
                 >
                   <LogOut size={20} />

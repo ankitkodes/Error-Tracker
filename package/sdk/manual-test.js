@@ -1,64 +1,97 @@
 const { NodeInit, captureError } = require("./dist/node/index");
 
-console.log("Initializing SDK...");
+console.log("🚀 Initializing SDK...");
+
 NodeInit(
   "6pYfDHWr3jzyC92O6CjMk6",
-  "prepe_7a5fe852-81ba-4971-a1dd-ccd1cc4b7cda",
+  "prepe_7a5fe852-81ba-4971-a1dd-ccd1cc4b7cda"
 );
 
+/**
+ * Generic wrapper to capture errors
+ */
 function executeWithCapture(fn) {
   try {
     fn();
   } catch (err) {
-    console.log("Error Name:", err.name);
-    console.log("Error Message:", err.message);
+    console.log("Captured Error:");
+    console.log("Name:", err.name);
+    console.log("Message:", err.message);
+
     captureError(err);
   }
 }
 
 /**
- * TypeError example
- */
-function triggerTypeError() {
-  const value = null;
-  value.toString(); // TypeError
-}
-
-/**
- * ReferenceError example
- */
-function triggerReferenceError() {
-  console.log(notDefinedVariable); // ReferenceError
-}
-
-/**
- * RangeError example
+ * RangeError Example
+ * Happens when a number is outside allowed range
  */
 function triggerRangeError() {
-  function recurse() {
-    recurse();
-  }
-  recurse(); // RangeError: Maximum call stack size exceeded
+  const arr = new Array(-5); // Invalid array length
 }
 
 /**
- * SyntaxError example (must be eval)
+ * ReferenceError Example
+ * Happens when accessing undefined variables
+ */
+function triggerReferenceError() {
+  console.log(nonExistentVariable);
+}
+
+/**
+ * TypeError Example
+ * Happens when wrong data type operation occurs
+ */
+function triggerTypeError() {
+  const num = 10;
+  num(); // trying to call a number like a function
+}
+
+/**
+ * SyntaxError Example (dynamic code)
  */
 function triggerSyntaxError() {
-  eval("function () {"); // SyntaxError
+  eval("function () {"); // invalid JS syntax
 }
 
 /**
- * Custom Error example
+ * Promise Rejection Example
  */
-function triggerCustomError() {
-  throw new Error("This is a custom application error");
+async function triggerPromiseError() {
+  return Promise.reject(new Error("Promise rejected unexpectedly"));
+}
+
+/**
+ * Custom Database Error
+ */
+function triggerDatabaseError() {
+  const dbError = new Error("Database connection failed");
+  dbError.name = "DatabaseError";
+  throw dbError;
+}
+
+/**
+ * Timeout Simulation Error
+ */
+function triggerTimeoutError() {
+  const timeoutError = new Error("Request timed out after 5000ms");
+  timeoutError.name = "TimeoutError";
+  throw timeoutError;
 }
 
 /* ---------------- EXECUTION ---------------- */
 
-executeWithCapture(triggerTypeError);
-executeWithCapture(triggerReferenceError);
 executeWithCapture(triggerRangeError);
+executeWithCapture(triggerReferenceError);
+executeWithCapture(triggerTypeError);
 executeWithCapture(triggerSyntaxError);
-executeWithCapture(triggerCustomError);
+executeWithCapture(triggerDatabaseError);
+executeWithCapture(triggerTimeoutError);
+
+// Promise error handled separately
+triggerPromiseError().catch((err) => {
+  console.log("Async Error Captured:");
+  console.log("Name:", err.name);
+  console.log("Message:", err.message);
+  captureError(err);
+});

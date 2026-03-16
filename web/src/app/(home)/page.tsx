@@ -3,14 +3,24 @@ import CTA from "@/components/landingpage/CTA";
 import FAQS from "@/components/landingpage/FAQS";
 import Features from "@/components/landingpage/Features";
 import HowitWork from "@/components/landingpage/Howitwork";
+import dashboard from "../../../public/Images/dashboard.png"
 import Footer from "@/layout/Footer";
+import Image from "next/image";
 import Header from "@/layout/Header";
 
 export default function Home() {
   return (
     <div>
       <Header />
-      <div className="max-w-7xl mx-auto px-2 relative overflow-x-hidden md:overflow-visible">
+      <div className="flex items-center justify-center">
+        
+      <Image
+                  src={dashboard}
+                  alt="Installation Guide"
+                  className="max-w-7xl mt-[-200px] mb-20 border-background rounded-xl"
+                />
+      </div>
+      <div className="max-w-7xl mx-auto pt-2 px-2 relative overflow-x-hidden md:overflow-visible">
         <div>
           <center className="mb-4 px-2">
             <div className="font-semibold text-4xl ">

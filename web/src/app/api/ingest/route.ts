@@ -44,6 +44,7 @@ export async function POST(req: NextRequest) {
 
     // error stacking
     const errorStack = parse(data["stack"]);
+    const errortype = errorStack[0].methodName.replace("trigger", "");
 
     // hashing error
     const issueHashId = createHash("md5").update(hashdata).digest("hex");
@@ -58,7 +59,19 @@ export async function POST(req: NextRequest) {
     if (!project) {
       return NextResponse.json({ message: "Invalid project ID" });
     }
+    // finding userId from ProjectId
+    const response = await prisma.project.findUnique({
+      where: {
+        id: body.projectId,
+      },
+      select: {
+        userId: true,
+      },
+    });
 
+    if (!response) {
+      return NextResponse.json({ message: "projectId is not correct" });
+    }
     // storing the error or updating the error occurences in error table
     await prisma.error.upsert({
       where: {
@@ -69,7 +82,7 @@ export async function POST(req: NextRequest) {
         occurrence: { increment: 1 },
       },
       create: {
-        errorType: errorStack[0].methodName,
+        errorType: errortype,
         message: stackMessage,
         fileName: errorStack[0].file,
         lineNumber: Number(errorStack[0].lineNumber),
@@ -78,6 +91,24 @@ export async function POST(req: NextRequest) {
         issuehashId: issueHashId,
       },
     });
+
+    //  storing errortype and its occurence
+
+    //  await prisma.errorType.upsert({
+    //   where:{
+    //     typename:errortype
+    //   },
+    //   update:{
+    //     occurrence:{increment:1}
+    //   },
+    //   create:{
+    //     typename:errortype,
+    //     occurrence:1,
+    //     userId:response.userId
+
+    //   }
+    // })
+    //  
 
     // transaction for updating the totalerrors and uptimepercentage
     await prisma.$transaction(async (tsx) => {
@@ -102,19 +133,7 @@ export async function POST(req: NextRequest) {
       });
     });
 
-    // finding userId from ProjectId
-    const response = await prisma.project.findUnique({
-      where: {
-        id: body.projectId,
-      },
-      select: {
-        userId: true,
-      },
-    });
 
-    if (!response) {
-      return NextResponse.json({ message: "projectId is not correct" });
-    }
 
     // current time
     const dateLocal = new Date().toLocaleDateString();
@@ -174,7 +193,7 @@ export async function GET() {
     });
     return NextResponse.json({
       message: "All Error fetched successfully",
-    error,
+      error,
     });
   } catch (error) {
     return NextResponse.json({

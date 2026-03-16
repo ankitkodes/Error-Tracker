@@ -24,6 +24,7 @@ model User{
   role   Role
   project Project[]
   analytics ErrorAnalytics[]
+  errorType ErrorType[]
 
 }
 

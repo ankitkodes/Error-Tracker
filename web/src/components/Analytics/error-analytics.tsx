@@ -17,7 +17,7 @@ const healthData = {
               <AlertCircle className="h-5 w-5 text-red-500" />
             </div>
             <div className="p-6 pt-0">
-              <div className="text-3xl font-bold">102</div>
+              <div className="text-xl font-bold">102</div>
               <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                 Errors recorded so far
               </p>
@@ -31,7 +31,7 @@ const healthData = {
               <CheckCircle2 className="h-5 w-5 text-emerald-500" />
             </div>
             <div className="p-6 pt-0">
-              <div className="text-3xl font-bold">72</div>
+              <div className="text-xl font-bold">72</div>
               <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                 Successfully resolved
               </p>
@@ -45,7 +45,7 @@ const healthData = {
               <Activity className="h-5 w-5 text-blue-500" />
             </div>
             <div className="p-6 pt-0">
-              <div className="text-3xl font-bold">65%</div>
+              <div className="text-xl font-bold">65%</div>
               <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                 System uptime
               </p>
@@ -59,7 +59,7 @@ const healthData = {
               <ShieldCheck className={`h-5 w-5 ${(healthData?.status === "Active" || healthData?.status === "Healthy" || healthData?.status === "healthy") ? "text-emerald-500" : "text-yellow-500"}`} />
             </div>
             <div className="p-6 pt-0">
-              <div className="text-3xl font-bold capitalize">{healthData?.status || "Unknown"}</div>
+              <div className="text-xl font-bold capitalize">{healthData?.status || "Unknown"}</div>
               <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                 Current project state
               </p>

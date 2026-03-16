@@ -1,26 +1,28 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { Settings, EllipsisVertical } from "lucide-react";
-import { EnvStyle, setactive} from "@/lib/projectstyles";
+import { EnvStyle, setactive } from "@/lib/projectstyles";
 import ProjectCredential from "@/components/project/project-credential";
 import { useParams } from "next/navigation";
 import ErrorDrawer from "@/components/Error-Drawer";
-import { useProject,} from "@/lib/services/projects/projects.query";
+import { useProject, useProjectError, } from "@/lib/services/projects/projects.query";
 import ProjectError from "@/components/project/project-errors";
 import ProjectHealth from "@/components/project/project-health";
+import ErrorTable from "@/components/project/project-errors";
 
 
 
 export default function Page() {
-  const params= useParams();
+  const params = useParams();
   const projectid = params.ProjectDetails as string;
 
-  const {data , isLoading , isError} = useProject(projectid);
+  const { data, isLoading, isError } = useProject(projectid);
+  const projectError = useProjectError(projectid);
 
-  if(isLoading){
+  if (isLoading) {
     return <p>loading project details</p>
   }
-  if(isError){
+  if (isError) {
     return <p>unable to load project details</p>
   }
   return (
@@ -62,7 +64,11 @@ export default function Page() {
         </div>
         <ProjectCredential project_Id={data.project.id} APIkey={data.project.apikey} />
         <ProjectHealth projectid={projectid} />
-        <ProjectError />
+        <div>
+          <div className="font-semibold">Error in this Project</div>
+          <ErrorTable data={projectError.data?.errors} />
+        </div>
+
       </div>
       <ErrorDrawer projectid={projectid} />
     </>

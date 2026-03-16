@@ -1,24 +1,32 @@
 import { useQuery } from "@tanstack/react-query";
-import { getError, getSearchResult } from "./errors.api";
+import { getError, getSearchResult, getTodayError } from "./errors.api";
 
- export interface ErrorsParams{
-    projectId:string,
-    errorId:string
+export interface ErrorsParams {
+  projectId: string,
+  errorId: string
 }
 
 // get the specific error of specific project 
-export function useGetErrors({projectId,errorId}:ErrorsParams){
+export function useGetErrors({ projectId, errorId }: ErrorsParams) {
   return useQuery({
-    queryKey:["geterror", projectId , errorId],
-    queryFn:() => getError(projectId , errorId),
+    queryKey: ["geterror", projectId, errorId],
+    queryFn: () => getError(projectId, errorId),
   })
 }
 
 // get the search result 
-export function useGetSearchResult(query:string){
+export function useGetSearchResult(query: string) {
   return useQuery({
-    queryKey:["getsearchresult", query],
-    queryFn:() => getSearchResult(query),
-    enabled: !! query
+    queryKey: ["getsearchresult", query],
+    queryFn: () => getSearchResult(query),
+    enabled: !!query
+  })
+}
+
+// get all today error 
+export function useGetTodayError() {
+  return useQuery({
+    queryKey: ["todayerror"],
+    queryFn: getTodayError
   })
 }

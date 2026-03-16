@@ -6,6 +6,7 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { MdArrowOutward } from "react-icons/md";
 import Link from "next/link";
 import { Bug } from "lucide-react";
+import { motion } from "framer-motion";
 
 const navigation = [
   { name: "Product", href: "#" },
@@ -150,10 +151,10 @@ export default function Header() {
               href="/signup"
               className="rounded-full bg-[#00ffb2] px-4 py-2.5 text-sm font-semibold text-black shadow-md cursor-pointer"
             >
-              <div className="align baseline">
+              <motion.button whileHover={{ scale: 1.1 }} className="align baseline">
                 Get Started Now
                 <MdArrowOutward className="pl-1 inline-block" size={22} />
-              </div>
+              </motion.button>
             </Link>
           </div>
         </div>

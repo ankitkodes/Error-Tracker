@@ -1,6 +1,7 @@
 "use client"
 import ApexAreaChart from "@/components/Analytics/ApexAreaChart";
 import ErrorAnalytics from "@/components/Analytics/error-analytics";
+import TodayError from "@/components/errors/today-errors";
 
 
 export default function page() {
@@ -27,14 +28,18 @@ export default function page() {
           <ErrorAnalytics />
         </div>
         <div className="my-4"></div>
-        
-          <div className="border p-6">
-            <ApexAreaChart/>
-          </div>
-          {/* <div className="border flex justify-center my-4">
+
+        <div className="border p-6">
+          <ApexAreaChart />
+        </div>
+
+        {/* <div className="border flex justify-center my-4">
             <ApexPieChart />{" "}
           </div> */}
-        
+        <div>
+          <TodayError />
+        </div>
+
       </div>
     </>
   );
