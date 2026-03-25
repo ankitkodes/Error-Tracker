@@ -132,4 +132,34 @@
 }
 
 @theme {
+  /* 1. Define the 'DNA' */
+  --font-heading: var(--font-heading);
+  --font-body: var(--font-body);
+}
+
+@theme {
+  /* 1. Define the 'DNA' */
+  --font-heading: var(--font-heading);
+  --font-body: var(--font-body);
+}
+
+@layer base {
+
+  /* 2. Set the 'Foundation' */
+  body {
+    font-family: var(--font-body);
+    /* Everything becomes Plus Jakarta Sans */
+    @apply antialiased;
+  }
+
+  h1,
+  h2 {
+    font-family: var(--font-heading);
+    /* All headings become Space Grotesk */
+    @apply font-bold;
+  }
+}
+
+.subheading {
+  color: "#bobobo";
 }

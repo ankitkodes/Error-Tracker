@@ -6,7 +6,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 // error of specific project
 export async function GET(
   req: NextRequest,
-  context: { params: { projectId: string } },
+  context: { params: Promise<{ projectId: string }> },
 ) {
   try {
     const { projectId } = await context.params;

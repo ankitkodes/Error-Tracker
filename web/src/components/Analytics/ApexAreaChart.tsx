@@ -18,8 +18,6 @@ type Analytics = {
 export default function ApexAreaChart() {
   const { isLoading, isError, data } = useErrorAnalytics();
 
-  console.log("this is analytics details of the user:- ", data);
-
   const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {

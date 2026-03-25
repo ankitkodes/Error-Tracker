@@ -1,4 +1,4 @@
-import { Sun, Bell,Search } from "lucide-react";
+import { Sun, Bell, Search } from "lucide-react";
 import React, { useEffect } from "react";
 
 export default function DashboardNavbar() {
@@ -28,7 +28,7 @@ export default function DashboardNavbar() {
           <input
             type="search"
             placeholder="Search error , Project.."
-            className="border-2 rounded-md pl-8 px-4 py-1 w-2xl focus:outline-black dark:focus:outline-white dark:bg-background dark:text-white"
+            className="border rounded-md pl-8 px-4 py-1 w-2xl focus:outline-black dark:focus:outline-white dark:bg-background dark:text-white"
           />
         </div>
         <div className="flex gap-4 absolute right-6">

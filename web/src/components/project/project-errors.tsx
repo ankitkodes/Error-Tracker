@@ -1,9 +1,7 @@
 "use client"
-import { SeverityStyle, StatusStyle } from "@/lib/projectstyles";
-import { useProjectError } from "@/lib/services/projects/projects.query";
+import { StatusStyle } from "@/lib/projectstyles";
 import { UseErrorId } from "@/lib/store";
 import { cn } from "@/lib/utils";
-import { useParams } from "next/navigation";
 
 interface Errorlog {
   error: string;
@@ -21,6 +19,7 @@ export default function ErrorTable({ data }: projectErrorProps) {
 
   const setErrorDrawer = UseErrorId((state) => state.setErrorDrawer);
   const setErrorId = UseErrorId((state) => state.setErrorId);
+  const setProjectId = UseErrorId((state) => state.setProjectId);
 
   if (!data) {
     return <p>loading...</p>
@@ -47,6 +46,7 @@ export default function ErrorTable({ data }: projectErrorProps) {
                     <button
                       onClick={() => {
                         setErrorId(items.id);
+                        setProjectId(items.projectId)
                         setErrorDrawer(true);
                       }}
                       className="cursor-pointer"

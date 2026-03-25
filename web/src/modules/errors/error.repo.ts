@@ -1,6 +1,7 @@
 import prisma from "@/lib/db";
+import { Severity, Status } from "../../../prisma/generated/prisma/enums";
 
-
+//  get today error 
 export async function getDailyError(userId: number) {
     // today date 
 
@@ -20,7 +21,49 @@ export async function getDailyError(userId: number) {
             createdAt: {
                 gte: today,
                 lt: tomorrow
-            }
+            },
+
+        },
+        select: {
+            error: true,
+            occurrence: true,
+            id: true,
+            message: true,
+            projectId: true,
+            errorType: true,
+            status: true
         }
+    })
+}
+
+
+
+// get all the error based on the query 
+export async function getSortedError(userId: number, severity: Severity, status: Status, errorType: string) {
+    return await prisma.error.findMany({
+        where: {
+            project: {
+                userId: userId
+            },
+            ...(severity && { severity }),
+            ...(status && { status }),
+            ...(errorType && { errorType })
+        },
+        select: {
+            id: true,
+            message: true,
+            severity: true,
+            error: true,
+            status: true,
+            occurrence: true,
+            createdAt: true,
+            project: {
+                select: {
+                    name: true,
+                    language: true,
+                    environment: true,
+                },
+            },
+        },
     })
 }

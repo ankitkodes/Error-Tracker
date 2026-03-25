@@ -5,9 +5,10 @@ import { links } from "@/config/sidebarMenu";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import DashboardNavbar from "@/components/Dasboard-navbar";
-import { useSession, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { LogOut } from "lucide-react";
 import Link from "next/link";
+import LogoutModal from "@/components/Modal/LogoutModal";
 
 export default function DashboardLayout({
   children,
@@ -15,6 +16,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const { data: session } = useSession();
 
   return (
@@ -46,8 +48,8 @@ export default function DashboardLayout({
                   </span>
                 </Link>
                 <button
-                  onClick={() => signOut()}
-                  className="p-1 text-muted-foreground hover:text-foreground transition-colors cursor-pointer shrink-0"
+                  onClick={() => setIsLogoutModalOpen(true)}
+                  className="p-1 text-red-500 hover:text-red-600 transition-colors cursor-pointer shrink-0"
                   title="Sign out"
                 >
                   <LogOut size={18} />
@@ -56,8 +58,8 @@ export default function DashboardLayout({
             ) : (
               <div className="flex justify-center">
                 <button
-                  onClick={() => signOut()}
-                  className="p-2 text-red-300 transition-colors cursor-pointer"
+                  onClick={() => setIsLogoutModalOpen(true)}
+                  className="p-2 text-red-500 hover:text-red-400 transition-colors cursor-pointer"
                   title="Sign out"
                 >
                   <LogOut size={20} />
@@ -79,6 +81,7 @@ export default function DashboardLayout({
           </main>
         </div>
       </div>
+      <LogoutModal open={isLogoutModalOpen} onClose={() => setIsLogoutModalOpen(false)} />
     </div>
   );
 }

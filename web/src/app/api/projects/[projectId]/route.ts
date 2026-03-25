@@ -32,10 +32,10 @@ export async function GET(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { projectId: string } },
+  { params }: { params: Promise<{ projectId: string }> },
 ) {
   try {
-    const projectId = params.projectId;
+    const { projectId } = await params;
     await prisma.project.delete({
       where: {
         id: projectId,

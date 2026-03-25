@@ -12,13 +12,13 @@ export default function Home() {
   return (
     <div>
       <Header />
-      <div className="flex items-center justify-center">
-        
-      <Image
-                  src={dashboard}
-                  alt="Installation Guide"
-                  className="max-w-7xl mt-[-200px] mb-20 border-background rounded-xl"
-                />
+      <div className="hidden md:flex items-center justify-center max-w-7xl mx-auto px-7">
+
+        <Image
+          src={dashboard}
+          alt="Installation Guide"
+          className="w-full shadow-xl mt-[-200px] mb-20 border border-[#202026] rounded-xl"
+        />
       </div>
       <div className="max-w-7xl mx-auto pt-2 px-2 relative overflow-x-hidden md:overflow-visible">
         <div>

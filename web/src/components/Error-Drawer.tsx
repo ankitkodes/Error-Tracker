@@ -20,21 +20,24 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
-export default function ErrorDrawer({ projectid}: {projectid:string}) {
+
+
+export default function ErrorDrawer() {
   const errorId = UseErrorId((state) => state.errorId);
+  const projectId = UseErrorId((state) => state.projectId);
   const isOpen = UseErrorId((state) => state.ErrorDrawer);
   const closeDrawer = UseErrorId((state) => state.setErrorDrawer);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [errorDetails, setErrorDetails] = useState<any>(null);
   const [loading, setLoading] = useState(false);
-
   useEffect(() => {
     async function Geterror() {
       if (!errorId || !isOpen) return;
       setLoading(true);
       try {
         const response = await axios.get(
-          `/api/projects/${projectid}/errors/${errorId}`,
+          `/api/projects/${projectId}/errors/${errorId}`,
         );
         setErrorDetails(response.data.error);
       } catch (err) {
@@ -47,12 +50,12 @@ export default function ErrorDrawer({ projectid}: {projectid:string}) {
     if (isOpen) {
       Geterror();
     }
-  }, [errorId, isOpen, projectid]);
+  }, [errorId, isOpen, projectId]);
 
   async function onPress() {
     const response = await axios({
       method: "PUT",
-      url: `/api/projects/${projectid}/errors/${errorId}`,
+      url: `/api/projects/${projectId}/errors/${errorId}`,
       data: {
         status: "Resolved",
       },
@@ -61,7 +64,7 @@ export default function ErrorDrawer({ projectid}: {projectid:string}) {
     alert("function ran successfully");
   }
 
- 
+
 
   const getStatusColor = (status: string) => {
     switch (status) {

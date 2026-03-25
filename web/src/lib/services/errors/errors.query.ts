@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getError, getSearchResult, getTodayError } from "./errors.api";
+import { getError, getSearchResult, getSortedErrorResult, getTodayError } from "./errors.api";
 
 export interface ErrorsParams {
   projectId: string,
@@ -28,5 +28,12 @@ export function useGetTodayError() {
   return useQuery({
     queryKey: ["todayerror"],
     queryFn: getTodayError
+  })
+}
+
+export function useGetallError(query1: string, query2: string, query3: string) {
+  return useQuery({
+    queryKey: ["sortedError", query1, query2, query3],
+    queryFn: () => getSortedErrorResult(query1, query2, query3)
   })
 }

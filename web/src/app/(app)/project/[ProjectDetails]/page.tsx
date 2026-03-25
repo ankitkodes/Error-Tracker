@@ -6,7 +6,6 @@ import ProjectCredential from "@/components/project/project-credential";
 import { useParams } from "next/navigation";
 import ErrorDrawer from "@/components/Error-Drawer";
 import { useProject, useProjectError, } from "@/lib/services/projects/projects.query";
-import ProjectError from "@/components/project/project-errors";
 import ProjectHealth from "@/components/project/project-health";
 import ErrorTable from "@/components/project/project-errors";
 
@@ -68,9 +67,8 @@ export default function Page() {
           <div className="font-semibold">Error in this Project</div>
           <ErrorTable data={projectError.data?.errors} />
         </div>
-
+        <ErrorDrawer />
       </div>
-      <ErrorDrawer projectid={projectid} />
     </>
   );
 }

@@ -70,7 +70,7 @@ export default function FAQS() {
           </p>
         </div>
         <div className="relative">
-          <button className="font-normal  text-lg text-[#00ffb2] cursor-pointer border-[#202026] md:border-t-2 w-full md:absolute md:right-0 md:bottom-0 py-4 hover:bg-customHover">
+          <button className="font-normal  text-lg text-[#00ffb2] cursor-pointer border-[#202026] md:border-t-2 w-full md:absolute md:right-0 md:bottom-0 py-4 hover:bg-[#081114]">
             Start Monitoring Now →
           </button>
         </div>
@@ -104,9 +104,8 @@ export default function FAQS() {
                   className="flex-shrink-0 mt-1"
                 >
                   <Plus
-                    className={`w-6 h-6 transition-colors ${
-                      openIndex === index ? "text-[#00ffb2]" : "text-[#00ffb2]"
-                    }`}
+                    className={`w-6 h-6 transition-colors ${openIndex === index ? "text-[#00ffb2]" : "text-[#00ffb2]"
+                      }`}
                   />
                 </motion.div>
               </div>

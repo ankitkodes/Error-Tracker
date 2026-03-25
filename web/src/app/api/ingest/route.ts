@@ -4,6 +4,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../auth/[...nextauth]/options";
 import { createHash } from "crypto";
 import { parse } from "stacktrace-parser";
+import { Severity, Status } from "../../../../prisma/generated/prisma/enums";
+import { getSortedErrorService } from "@/modules/errors/error.service";
 
 // store error
 /**
@@ -165,40 +167,19 @@ export async function POST(req: NextRequest) {
 
 // All Error of the user
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    const error = await prisma.error.findMany({
-      where: {
-        project: {
-          userId: Number(session?.user.id),
-        },
-      },
-      select: {
-        id: true,
-        message: true,
-        severity: true,
-        error: true,
-        status: true,
-        occurrence: true,
-        createdAt: true,
-        project: {
-          select: {
-            name: true,
-            language: true,
-            environment: true,
-          },
-        },
-      },
-    });
-    return NextResponse.json({
-      message: "All Error fetched successfully",
-      error,
-    });
+    if (!session) {
+      return NextResponse.json({ message: "unable to find user" })
+    }
+    const { searchParams } = new URL(req.url);
+    const severity = searchParams.get('severity') as Severity;
+    const status = searchParams.get('status') as Status;
+    const errortype = searchParams.get('errortype') as string;
+    const Error = await getSortedErrorService(Number(session.user.id), severity, status, errortype)
+    return NextResponse.json({ message: "fetched sorted data successfully", Error })
   } catch (error) {
-    return NextResponse.json({
-      message: "some Invalid error has occured !",
-      error,
-    });
+    return NextResponse.json({ message: 'some invalid error has occured', error })
   }
 }

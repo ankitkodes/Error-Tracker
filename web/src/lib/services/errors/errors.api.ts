@@ -13,3 +13,7 @@ export function getTodayError() {
     return fetchData('/api/analytics/error')
 }
 
+export function getSortedErrorResult(query1: string, query2: string, query3: string) {
+    return fetchData(`/api/sorting?severity=${query1}&status=${query2}&errortype=${query3}`);
+}
+

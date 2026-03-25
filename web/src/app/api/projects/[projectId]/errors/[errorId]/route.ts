@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 // fetch specific error of the specific project
 export async function GET(
   req: NextRequest,
-  { params }: { params: { errorId: string } },
+  { params }: { params: Promise<{ errorId: string }> },
 ) {
   try {
     const { errorId } = await params;
@@ -17,7 +17,6 @@ export async function GET(
       },
     });
 
-    // console.log("this is error details:- ", error);
     return NextResponse.json({ message: "error returned successfully", error });
   } catch (error) {
     return NextResponse.json({ message: "failed to fetch the errors", error });
@@ -27,7 +26,7 @@ export async function GET(
 // update the status of error
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { errorId: string; projectId: string } },
+  { params }: { params: Promise<{ errorId: string; projectId: string }> },
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -96,7 +95,7 @@ export async function PUT(
 // delete the error
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { errorId: string } },
+  { params }: { params: Promise<{ errorId: string }> },
 ) {
   try {
     const { errorId } = await params;
@@ -112,7 +111,7 @@ export async function DELETE(
 }
 
 // helper function to find the project status
-export function ProjectStatus(uptimepercentage: number) {
+function ProjectStatus(uptimepercentage: number) {
   if (uptimepercentage >= 80) {
     return "Healthy";
   } else if (50 <= uptimepercentage && uptimepercentage < 80) {

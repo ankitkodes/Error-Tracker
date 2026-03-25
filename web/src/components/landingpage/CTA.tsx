@@ -13,7 +13,7 @@ export default function CTA() {
               go.
             </p>
             <div className="justify-center">
-              <button className="border-2 px-4 py-2 bg-[#00ffb2] text-black border-[#00ffb2] rounded-full font-semibold cursor-pointer max-w-max ">
+              <button className="border-2 px-4 py-2 bg-[#00ffb2] text-black border-[#00ffb2] rounded-full font-semibold cursor-pointer max-w-max hover:bg-[#081114] ">
                 Get Started for Free
               </button>
             </div>
