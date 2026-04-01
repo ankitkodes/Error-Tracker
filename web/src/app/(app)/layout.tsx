@@ -40,7 +40,7 @@ export default function DashboardLayout({
             {open ? (
               <div className="flex items-center justify-between px-2 overflow-hidden">
                 <Link href="/profile" className="flex flex-col truncate w-full pr-2">
-                  <span className="text-sm text-foreground font-medium truncate">
+                  <span className="text-sm text-black dark:text-foreground font-medium truncate">
                     {session?.user?.name || "User"}
                   </span>
                   <span className="text-xs text-muted-foreground truncate">

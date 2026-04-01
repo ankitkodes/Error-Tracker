@@ -24,10 +24,10 @@ export default function Home() {
         <div>
           <center className="mb-4 px-2">
             <div className="font-semibold text-4xl ">
-              Essential features for tracking errors
+              Debug at the speed of thought
             </div>
             <p className="py-2 text-base text-[#d5d5d5]">
-              Everything you need to catch and fig bugs. Nothing you don&apos;t.
+              A high-performance toolkit designed to help you identify, trace, and resolve bottlenecks before they reach your users.
             </p>
           </center>
           <HorizontalLine />
