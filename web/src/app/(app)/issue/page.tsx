@@ -33,6 +33,7 @@ export default function Page() {
   const setErrorDrawer = UseErrorId((state) => state.setErrorDrawer);
   const setErrorId = UseErrorId((state) => state.setErrorId);
   const setProjectId = UseErrorId((state) => state.setProjectId);
+  console.log("error values in issues project:- ", isError)
 
   if (isError) {
     return <div>some invlid error has occured</div>

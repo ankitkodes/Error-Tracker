@@ -18,7 +18,7 @@ export default function ProjectHealth({ projectid }: { projectid: string }) {
               <AlertCircle className="h-5 w-5 text-red-500" />
             </div>
             <div className="p-6 pt-0">
-              <div className="text-3xl font-bold">{healthData?.totalerrors ?? 0}</div>
+              <div className="text-xl font-bold">{healthData?.totalerrors ?? 0}</div>
               <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                 Errors recorded so far
               </p>
@@ -32,7 +32,7 @@ export default function ProjectHealth({ projectid }: { projectid: string }) {
               <CheckCircle2 className="h-5 w-5 text-emerald-500" />
             </div>
             <div className="p-6 pt-0">
-              <div className="text-3xl font-bold">{healthData?.resolvederror ?? 0}</div>
+              <div className="text-xl font-bold">{healthData?.resolvederror ?? 0}</div>
               <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                 Successfully resolved
               </p>
@@ -46,7 +46,7 @@ export default function ProjectHealth({ projectid }: { projectid: string }) {
               <Activity className="h-5 w-5 text-blue-500" />
             </div>
             <div className="p-6 pt-0">
-              <div className="text-3xl font-bold">{Math.round(Number(healthData?.uptimepercentage ?? 0))}%</div>
+              <div className="text-xl font-bold">{Math.round(Number(healthData?.uptimepercentage ?? 0))}%</div>
               <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                 System uptime
               </p>
@@ -60,7 +60,7 @@ export default function ProjectHealth({ projectid }: { projectid: string }) {
               <ShieldCheck className={`h-5 w-5 ${(healthData?.status === "Active" || healthData?.status === "Healthy" || healthData?.status === "healthy") ? "text-emerald-500" : "text-yellow-500"}`} />
             </div>
             <div className="p-6 pt-0">
-              <div className="text-3xl font-bold capitalize">{healthData?.status || "Unknown"}</div>
+              <div className="text-xl font-bold capitalize">{healthData?.status || "Unknown"}</div>
               <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                 Current project state
               </p>

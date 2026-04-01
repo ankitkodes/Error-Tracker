@@ -3,14 +3,16 @@ import CodeSnippet from "../copy-code-snippet";
 export default function NodeSetup() {
   const nodejs = {
     id: 1,
-    package: "npm install bugtrac-sdk",
+    package: "npm install bugtrace-sdk",
     intializecode: `import ErrorTracker from '@your-org/error-tracker';
 
-ErrorTracker.init({
-  apiKey: "pk_live_************",
-  environment: "production"
+// initialization of bugtrace
+NodeInit({
+  apiKey: "pk_live_************",   // replace with you apikey
+  environment: "production"     // set your project environment
 });`,
     codesnippet: `try{
+ // write you function here
 riskyfunction();
 } catch(err) {
  ErrorTracker.captureError(err);

@@ -30,7 +30,7 @@ export default function ProjectCredential({
             <button
               onClick={() => {
                 navigator.clipboard.writeText(project_Id);
-                toast("project_id Copied Successfully", {duration:4000 ,position:"bottom-right"});
+                toast.success("project_id Copied Successfully", { duration: 4000, position: "bottom-right" });
               }}
               className="text-xs gap-2 grow-0 ... border-2 rounded-md font-medium px-2 py-1 cursor-pointer"
             >
@@ -61,7 +61,7 @@ export default function ProjectCredential({
             <button
               onClick={() => {
                 navigator.clipboard.writeText(APIkey);
-                toast.success("API key copied successfully");
+                toast.success("API key copied successfully", { duration: 4000, position: "bottom-right" });
               }}
               className="text-xs gap-2 flex-none ... border-2 rounded-md font-medium px-2 py-1 cursor-pointer"
             >
@@ -74,3 +74,4 @@ export default function ProjectCredential({
     </>
   );
 }
+
