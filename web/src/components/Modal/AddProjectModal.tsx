@@ -1,5 +1,5 @@
 "use client";
-import { X } from "lucide-react";
+import { X, FolderPlus, ChevronDown } from "lucide-react";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { useState } from "react";
 import { useAddPojects } from "@/lib/services/projects/projects.mutation";
@@ -7,11 +7,12 @@ import { useAddPojects } from "@/lib/services/projects/projects.mutation";
 export type modal = {
   open: boolean;
   onClose: () => void;
+  projectId?: string
 };
 
 
 
-export default function AddProjectModal({ open, onClose }: modal) {
+export default function AddProjectModal({ open, onClose, projectId }: modal) {
   const [name, setProjectName] = useState("");
   const [language, setLanguage] = useState("Nodejs");
   const [env, setEnv] = useState("Production");
@@ -20,114 +21,160 @@ export default function AddProjectModal({ open, onClose }: modal) {
   const mutation = useAddPojects();
 
   async function CreateProject() {
-   mutation.mutate({name , language, env, team});
-   onClose();
+    mutation.mutate({ name, language, env, team });
+    onClose();
   }
+  console.log("values of projectId:- ", projectId)
 
   return (
     <div>
-      <Dialog open={open} onClose={onClose} className="relative z-10">
+      <Dialog open={open} onClose={onClose} className="relative z-50">
         <DialogBackdrop
           transition
-          className="fixed inset-0 bg-gray-900/50 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"
         />
 
         <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+          <div className="flex min-h-full items-center justify-center p-4 text-center">
             <DialogPanel
               transition
-              className="relative transform overflow-hidden rounded-lg bg-gray-800 text-left shadow-xl outline -outline-offset-1 outline-white/10 transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95"
+              className="relative transform overflow-hidden rounded-2xl bg-white dark:bg-[#13121a] border border-black/[0.08] dark:border-white/[0.08] text-left shadow-2xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 w-full max-w-[480px]"
             >
-              <div className="bg-black text-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 relative">
-                <h3 className="text-center font-medium text-xl">
-                  Add Your Project
-                </h3>
-                <form>
-                  <div className="my-4">
-                    <label>
-                      Project Name <span className="text-red-600">*</span>
+              {/* Subtle gradient glow at top */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[1px] bg-gradient-to-r from-transparent via-[#00ffb2]/40 to-transparent" />
+
+              <div className="px-6 pb-6 pt-8 relative">
+                {/* Close button */}
+                <button
+                  onClick={onClose}
+                  className="absolute right-5 top-5 cursor-pointer text-muted-foreground hover:text-foreground transition-colors duration-200 hover:bg-white/[0.06] rounded-lg p-1"
+                >
+                  <X size={18} strokeWidth={2} />
+                </button>
+
+                {/* Header icon */}
+                <div className="flex items-center justify-center mb-5">
+                  <div className="bg-[#00ffb2]/10 border border-[#00ffb2]/20 p-3.5 rounded-2xl flex items-center justify-center">
+                    <FolderPlus className="text-[#00ffb2] w-6 h-6" strokeWidth={2} />
+                  </div>
+                </div>
+
+                {/* Title & subtitle */}
+                <div className="text-center mb-6">
+                  <h3 className="text-[22px] font-semibold text-foreground mb-1.5 tracking-tight">
+                    Add Your Project
+                  </h3>
+                  <p className="text-muted-foreground text-sm">
+                    Set up a new project to start tracking errors
+                  </p>
+                </div>
+
+                {/* Form */}
+                <form className="space-y-4">
+                  {/* Project Name */}
+                  <div>
+                    <label className="block text-sm font-medium text-muted-foreground mb-1.5">
+                      Project Name <span className="text-[#00ffb2]">*</span>
                     </label>
                     <input
                       id="projectname"
                       type="text"
-                      className="w-full px-4 py-2 rounded border-2 mt-2"
+                      className="w-full px-4 py-2.5 rounded-xl bg-white/[0.04] border border-black/[0.08] dark:border-white/[0.08] text-foreground placeholder:text-gray-500 focus:outline-none focus:border-[#00ffb2]/40 focus:ring-1 focus:ring-[#00ffb2]/20 transition-all duration-200 text-sm"
                       name="projectname"
                       placeholder="E-commerce Platform"
                       required
                       onChange={(e) => setProjectName(e.target.value)}
                     />
                   </div>
-                  <div className="my-4">
-                    <label>
-                      Language <span className="text-red-600">*</span>
+
+                  {/* Language */}
+                  <div>
+                    <label className="block text-sm font-medium text-muted-foreground mb-1.5">
+                      Language <span className="text-[#00ffb2]">*</span>
                     </label>
-                    <div>
+                    <div className="relative">
                       <select
                         id="language"
                         name="language"
-                        className="w-full  px-4 py-2 rounded border-2  mt-2"
+                        className="w-full appearance-none px-4 py-2.5 rounded-xl bg-white/[0.04] border border-black/[0.08] dark:border-white/[0.08] text-foreground focus:outline-none focus:border-[#00ffb2]/40 focus:ring-1 focus:ring-[#00ffb2]/20 transition-all duration-200 text-sm cursor-pointer"
                         required
                         onChange={(e) => setLanguage(e.target.value)}
                       >
-                        <option value="Nodejs" className="bg-[#0a0a0a]">
+                        <option value="Nodejs" className="bg-[#13121a] text-foreground">
                           Nodejs
                         </option>
-                        <option value="Nextjs" className="bg-[#0a0a0a]">
+                        <option value="Nextjs" className="bg-[#13121a] text-foreground">
                           Nextjs
                         </option>
-                        <option value="Reactjs" className="bg-[#0a0a0a]">
+                        <option value="Reactjs" className="bg-[#13121a] text-foreground">
                           Reactjs
                         </option>
                       </select>
+                      <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
                     </div>
                   </div>
-                  <div className="my-4">
-                    <label>Environment</label>
-                    <div>
+
+                  {/* Environment */}
+                  <div>
+                    <label className="block text-sm font-medium text-muted-foreground mb-1.5">
+                      Environment
+                    </label>
+                    <div className="relative">
                       <select
                         id="env"
                         name="env"
-                        className="w-full  px-4 py-2 rounded border-2  mt-2"
+                        className="w-full appearance-none px-4 py-2.5 rounded-xl bg-white/[0.04] border border-black/[0.08] dark:border-white/[0.08] text-foreground focus:outline-none focus:border-[#00ffb2]/40 focus:ring-1 focus:ring-[#00ffb2]/20 transition-all duration-200 text-sm cursor-pointer"
                         required
                         onChange={(e) => setEnv(e.target.value)}
                       >
-                        <option value="Production" className="bg-[#0a0a0a]">
+                        <option value="Production" className="bg-[#13121a] text-foreground">
                           Production
                         </option>
-                        <option value="Staging" className="bg-[#0a0a0a]">
+                        <option value="Staging" className="bg-[#13121a] text-foreground">
                           Staging
                         </option>
-                        <option value="Development" className="bg-[#0a0a0a]">
+                        <option value="Development" className="bg-[#13121a] text-foreground">
                           Development
                         </option>
                       </select>
+                      <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
                     </div>
                   </div>
-                  <div className="my-4">
-                    <label>Organization / Team</label>
+
+                  {/* Organization / Team */}
+                  <div>
+                    <label className="block text-sm font-medium text-muted-foreground mb-1.5">
+                      Organization / Team
+                    </label>
                     <input
                       id="organization"
                       type="text"
-                      className="w-full px-4 py-2 rounded border-2 mt-2"
+                      className="w-full px-4 py-2.5 rounded-xl bg-white/[0.04] border border-black/[0.08] dark:border-white/[0.08] text-foreground placeholder:text-gray-500 focus:outline-none focus:border-[#00ffb2]/40 focus:ring-1 focus:ring-[#00ffb2]/20 transition-all duration-200 text-sm"
                       name="team"
                       placeholder="Flipkart-Frontend"
                       onChange={(e) => setTeam(e.target.value)}
                     />
                   </div>
                 </form>
-                <button
-                  className="w-full my-4 py-2 text-black border-2 bg-white rounded cursor-pointer hover:text-black hover:bg-[#00ffb2] hover:border-[#00ffb2]"
-                  type="submit"
-                  onClick={CreateProject}
-                >
-                  {mutation.isPending ? "Creating....." : "Create Project"}
-                </button>
-                <button
-                  onClick={onClose}
-                  className="absolute right-1 top-1 cursor-pointer text-white"
-                >
-                  <X />
-                </button>
+
+                {/* Actions */}
+                <div className="flex flex-row gap-3 mt-6">
+                  <button
+                    className="flex-1 py-2.5 px-4 bg-white/[0.04] border border-black/[0.08] dark:border-white/[0.08] hover:bg-white/[0.08] text-muted-foreground hover:text-foreground font-medium rounded-xl transition-all duration-200 flex items-center justify-center text-sm cursor-pointer"
+                    onClick={onClose}
+                    type="button"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="flex-1 py-2.5 px-4 bg-[#00ffb2] hover:bg-[#00e6a0] text-[#0a0a0a] font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 text-sm cursor-pointer hover:shadow-lg hover:shadow-[#00ffb2]/20"
+                    type="submit"
+                    onClick={CreateProject}
+                  >
+                    <FolderPlus size={16} strokeWidth={2.5} />
+                    {projectId ? "update" : "create"}
+                  </button>
+                </div>
               </div>
             </DialogPanel>
           </div>

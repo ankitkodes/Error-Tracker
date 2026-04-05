@@ -47,7 +47,7 @@ export default function Page() {
             Track and manage all errors across your applications.
           </p>
         </div>
-        <div className="border rounded-md p-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="border border-black/[0.08] dark:border-white/[0.08] rounded-md p-4 grid grid-cols-1 md:grid-cols-3 gap-4 bg-white dark:bg-[#18171D]">
           <div className=" relative w-full pb-2 col-span-2">
             <Search size={18} className="absolute left-2 top-2 inset-y-0" />
             <input
@@ -104,7 +104,7 @@ export default function Page() {
             </div>
           </div>
         </div>
-        <div className="px-4 border rounded-md my-4">
+        <div className="px-4 border border-black/[0.08] dark:border-white/[0.08] rounded-md my-4 bg-white dark:bg-[#18171D]">
           <div className="text-lg font-medium">All Issues ({searchquery && searchresult.data ? searchresult.data?.data.length : data?.Error.length})</div>
           <div className="bg-scroll">
             {isLoading ? <div> loading data...</div> : <>{searchquery && searchresult.data ? (

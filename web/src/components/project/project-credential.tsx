@@ -16,7 +16,7 @@ export default function ProjectCredential({
 
   return (
     <>
-      <div className="flex flex-col border-2 shadow-sm rounded-md p-4 my-4 gap-3">
+      <div className="flex flex-col border border-black/[0.08] dark:border-white/[0.08] shadow-sm rounded-md p-4 my-4 gap-3 bg-white dark:bg-[#18171D]">
         <div className="font-semibold">Project Credentials</div>
         <div>
           <label className="text-gray-400 mb-2">Project ID</label>

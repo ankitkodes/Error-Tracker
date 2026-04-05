@@ -18,18 +18,18 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div className="relative min-h-screen overflow-hidden">
+    <div className="relative overflow-hidden">
       <div
-        className="absolute top-1/2 -translate-y-1/2 -right-[45%]
-        w-5xl h-[900px] rounded-full
+        className="absolute top-1/2 -translate-y-1/2 -right-[20%] sm:-right-[30%] lg:-right-[45%]
+        w-[400px] sm:w-[600px] lg:w-[1000px] h-[400px] sm:h-[600px] lg:h-[900px] rounded-full
         bg-[radial-gradient(circle,rgba(255,255,255,0.10)_20%,rgba(255,255,255,0.04)_45%,transparent_90%)]
-        blur-2xl"
+        blur-2xl pointer-events-none"
       />
       <div
-        className="absolute -left-[50%] -top-[50%]
-        w-5xl h-[900px] rounded-full
+        className="absolute -left-[20%] sm:-left-[30%] lg:-left-[50%] -top-[10%] sm:-top-[30%] lg:-top-[50%]
+        w-[400px] sm:w-[600px] lg:w-[1000px] h-[400px] sm:h-[600px] lg:h-[900px] rounded-full
         bg-[radial-gradient(circle,rgba(255,255,255,0.10)_20%,rgba(255,255,255,0.04)_45%,transparent_90%)]
-        blur-3xl"
+        blur-3xl pointer-events-none"
       />
 
       <header className="max-w-7xl mx-auto px-2 relative overflow-x-hidden md:overflow-visible absolute inset-x-0 top-0 z-50">

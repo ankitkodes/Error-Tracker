@@ -27,7 +27,7 @@ export default function ErrorTable({ data }: projectErrorProps) {
 
   return (
     <>
-      <div className="border-2 rounded-md">
+      <div className="border border-black/[0.08] dark:border-white/[0.08] rounded-md bg-white dark:bg-[#18171D]">
         <table className="border-collapse border-b-2 w-full text-left mt-2">
           <tbody>
             <tr className=" text-sm font-semibold text-muted-foreground">

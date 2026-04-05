@@ -9,6 +9,8 @@ import { useProject, useProjectError, } from "@/lib/services/projects/projects.q
 import ProjectHealth from "@/components/project/project-health";
 import ErrorTable from "@/components/project/project-errors";
 import { useEffect, useRef, useState } from "react";
+import DeleteProjectModal from "@/components/Modal/DeleteProjectModal";
+import AddProjectModal from "@/components/Modal/AddProjectModal";
 
 
 
@@ -16,6 +18,8 @@ export default function Page() {
   const params = useParams();
   const projectid = params.ProjectDetails as string;
   const [projectmenu, setOpenProjectMenu] = useState(false);
+  const [deleteModal, setOpenDeleteModal] = useState(false);
+  const [openUpdateModal, setOpenUpdateModal] = useState(false);
 
   const { data, isLoading, isError } = useProject(projectid);
   const projectError = useProjectError(projectid);
@@ -31,11 +35,19 @@ export default function Page() {
     return () => document.removeEventListener("mousedown", handleClick)
   }, [projectmenu])
 
+  function Update_project_details() {
+    setOpenUpdateModal(!openUpdateModal);
+  }
+
   if (isLoading) {
     return <p>loading project details</p>
   }
   if (isError) {
     return <p>unable to load project details</p>
+  }
+
+  function handleClick() {
+    setOpenDeleteModal(!deleteModal);
   }
   return (
     <>
@@ -89,14 +101,15 @@ export default function Page() {
                   <div className="px-1 pb-1">
                     <button
                       className="w-full flex items-center gap-2.5 px-3 py-2 text-sm rounded-lg text-left hover:bg-gray-100 dark:hover:bg-neutral-800/60 cursor-pointer transition-colors"
-                      onClick={() => setOpenProjectMenu(false)}
+                      onClick={Update_project_details}
                     >
                       <Pencil size={14} className="text-muted-foreground shrink-0" />
                       <span>Edit Project</span>
                     </button>
                     <button
                       className="w-full flex items-center gap-2.5 px-3 py-2 text-sm rounded-lg text-left hover:bg-gray-100 dark:hover:bg-neutral-800/60 cursor-pointer transition-colors"
-                      onClick={() => setOpenProjectMenu(false)}
+
+                      disabled={true}
                     >
                       <FileBarChart size={14} className="text-muted-foreground shrink-0" />
                       <span>Project Report</span>
@@ -106,7 +119,7 @@ export default function Page() {
                   <div className="px-1 py-1">
                     <button
                       className="w-full flex items-center gap-2.5 px-3 py-2 text-sm rounded-lg text-left text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 cursor-pointer transition-colors"
-                      onClick={() => setOpenProjectMenu(false)}
+                      onClick={handleClick}
                     >
                       <Trash2 size={14} className="shrink-0" />
                       <span>Delete Project</span>
@@ -120,11 +133,14 @@ export default function Page() {
         <ProjectCredential project_Id={data.project.id} APIkey={data.project.apikey} />
         <ProjectHealth projectid={projectid} />
         <div>
-          <div className="font-semibold">Error in this Project</div>
+          <div className="font-semibold mb-2">Error in this Project</div>
           <ErrorTable data={projectError.data?.errors} />
         </div>
         <ErrorDrawer />
       </div>
+      <DeleteProjectModal open={deleteModal} onClose={handleClick} projectId={projectid} />
+
+      <AddProjectModal open={openUpdateModal} onClose={Update_project_details} projectId={projectid} />
     </>
   );
 }

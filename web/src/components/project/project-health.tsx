@@ -12,7 +12,7 @@ export default function ProjectHealth({ projectid }: { projectid: string }) {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
 
           {/* Total Error */}
-          <div className="rounded-xl border bg-transparent text-black dark:text-white shadow-sm">
+          <div className="rounded-xl border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#18171D] text-black dark:text-white shadow-sm">
             <div className="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
               <h3 className="tracking-tight text-base font-medium">Total Errors</h3>
               <AlertCircle className="h-5 w-5 text-red-500" />
@@ -26,7 +26,7 @@ export default function ProjectHealth({ projectid }: { projectid: string }) {
           </div>
 
           {/* Resolved Error */}
-          <div className="rounded-xl border bg-transparent text-black dark:text-white shadow-sm">
+          <div className="rounded-xl border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#18171D] text-black dark:text-white shadow-sm">
             <div className="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
               <h3 className="tracking-tight text-base font-medium">Resolved Errors</h3>
               <CheckCircle2 className="h-5 w-5 text-emerald-500" />
@@ -40,7 +40,7 @@ export default function ProjectHealth({ projectid }: { projectid: string }) {
           </div>
 
           {/* Uptime */}
-          <div className="rounded-xl border bg-transparent text-black dark:text-white shadow-sm">
+          <div className="rounded-xl border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#18171D] text-black dark:text-white shadow-sm">
             <div className="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
               <h3 className="tracking-tight text-base font-medium">Uptime</h3>
               <Activity className="h-5 w-5 text-blue-500" />
@@ -54,7 +54,7 @@ export default function ProjectHealth({ projectid }: { projectid: string }) {
           </div>
 
           {/* Status */}
-          <div className="rounded-xl border bg-transparent text-black dark:text-white shadow-sm">
+          <div className="rounded-xl border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#18171D] text-black dark:text-white shadow-sm">
             <div className="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
               <h3 className="tracking-tight text-base font-medium">Status</h3>
               <ShieldCheck className={`h-5 w-5 ${(healthData?.status === "Active" || healthData?.status === "Healthy" || healthData?.status === "healthy") ? "text-emerald-500" : "text-yellow-500"}`} />

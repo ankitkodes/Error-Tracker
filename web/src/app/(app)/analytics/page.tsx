@@ -29,7 +29,7 @@ export default function page() {
         </div>
         <div className="my-4"></div>
 
-        <div className="border p-6">
+        <div className="border border-black/[0.08] dark:border-white/[0.08] p-6 bg-white dark:bg-[#18171D]">
           <ApexAreaChart />
         </div>
 
