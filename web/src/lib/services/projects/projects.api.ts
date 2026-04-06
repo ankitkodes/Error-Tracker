@@ -22,7 +22,8 @@ interface project {
   name: string,
   language: string,
   env: string,
-  team: string
+  team: string,
+  projectId?: string
 }
 
 export async function addProject({ name, language, env, team }: project) {
@@ -44,4 +45,17 @@ export async function deleteProject(projectId: string) {
     method: 'DELETE',
     url: `/api/projects/${projectId}`
   });
+}
+
+export async function UpdateProject({ projectId, name, language, env, team }: project) {
+  return await axios({
+    method: 'PUT',
+    url: `/api/projects/${projectId}`,
+    data: {
+      name: name,
+      language: language,
+      environment: env,
+      team: team,
+    }
+  })
 }

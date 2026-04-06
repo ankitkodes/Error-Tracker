@@ -39,6 +39,7 @@ export async function GET() {
       message: "Successfully Project fetched", projectdetails
     });
   } catch (error) {
+
     return NextResponse.json({ message: "Unable to fetch the Project", error });
   }
 }

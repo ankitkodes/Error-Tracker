@@ -150,9 +150,8 @@ export default function DashboardNavbar() {
                     return (
                       <div
                         key={notif.id}
-                        className={`px-4 py-3 flex gap-3 items-start hover:bg-gray-50 dark:hover:bg-neutral-800/50 cursor-pointer ${
-                          !notif.read ? "bg-blue-50/50 dark:bg-neutral-800/30" : ""
-                        }`}
+                        className={`px-4 py-3 flex gap-3 items-start hover:bg-gray-50 dark:hover:bg-neutral-800/50 cursor-pointer ${!notif.read ? "bg-blue-50/50 dark:bg-neutral-800/30" : ""
+                          }`}
                       >
                         {/* icon */}
                         <div className="mt-0.5 shrink-0">

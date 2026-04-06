@@ -24,7 +24,7 @@ export default function ProjectCredential({
             <input
               value={project_Id}
               readOnly
-              className="dark:bg-background  grow ... px-2 py-1 rounded-md text-sm"
+              className="dark:bg-background  grow ... px-2 py-2 rounded-md text-sm"
             />
 
             <button
@@ -45,7 +45,7 @@ export default function ProjectCredential({
               type={visible ? "text" : "password"}
               value={APIkey}
               readOnly
-              className=" dark:bg-background bg-[#f5f5f5] grow ... px-2 py-1 rounded-md text-sm"
+              className=" dark:bg-background bg-[#f5f5f5] grow ... px-2 py-2 rounded-md text-sm"
             />
 
             <button

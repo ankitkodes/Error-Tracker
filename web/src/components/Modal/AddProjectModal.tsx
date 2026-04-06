@@ -1,8 +1,10 @@
 "use client";
 import { X, FolderPlus, ChevronDown } from "lucide-react";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
-import { useState } from "react";
-import { useAddPojects } from "@/lib/services/projects/projects.mutation";
+import { useEffect, useState } from "react";
+import { useAddPojects, useUpdateProject } from "@/lib/services/projects/projects.mutation";
+import { useProject } from "@/lib/services/projects/projects.query";
+import toast from "react-hot-toast";
 
 export type modal = {
   open: boolean;
@@ -24,7 +26,29 @@ export default function AddProjectModal({ open, onClose, projectId }: modal) {
     mutation.mutate({ name, language, env, team });
     onClose();
   }
-  console.log("values of projectId:- ", projectId)
+
+  const updateMutation = useUpdateProject();
+  async function updateProject() {
+    if (!projectId) {
+      return;
+    }
+    const loadingToast = toast.loading("updating project details", { duration: 5000 });
+    await updateMutation.mutateAsync({ projectId, name, language, env, team });
+    toast.dismiss(loadingToast);
+    onClose();
+  }
+
+  const { data } = useProject(projectId ?? "");
+
+  useEffect(() => {
+    if (!data?.project) return;
+    setProjectName(data.project.name);
+    setLanguage(data.project.language);
+    setEnv(data.project.environment);
+    setTeam(data.project.team ?? "");
+  }, [data])
+
+
 
   return (
     <div>
@@ -79,6 +103,7 @@ export default function AddProjectModal({ open, onClose, projectId }: modal) {
                     <input
                       id="projectname"
                       type="text"
+                      value={name}
                       className="w-full px-4 py-2.5 rounded-xl bg-white/[0.04] border border-black/[0.08] dark:border-white/[0.08] text-foreground placeholder:text-gray-500 focus:outline-none focus:border-[#00ffb2]/40 focus:ring-1 focus:ring-[#00ffb2]/20 transition-all duration-200 text-sm"
                       name="projectname"
                       placeholder="E-commerce Platform"
@@ -96,6 +121,7 @@ export default function AddProjectModal({ open, onClose, projectId }: modal) {
                       <select
                         id="language"
                         name="language"
+                        value={language}
                         className="w-full appearance-none px-4 py-2.5 rounded-xl bg-white/[0.04] border border-black/[0.08] dark:border-white/[0.08] text-foreground focus:outline-none focus:border-[#00ffb2]/40 focus:ring-1 focus:ring-[#00ffb2]/20 transition-all duration-200 text-sm cursor-pointer"
                         required
                         onChange={(e) => setLanguage(e.target.value)}
@@ -123,6 +149,7 @@ export default function AddProjectModal({ open, onClose, projectId }: modal) {
                       <select
                         id="env"
                         name="env"
+                        value={env}
                         className="w-full appearance-none px-4 py-2.5 rounded-xl bg-white/[0.04] border border-black/[0.08] dark:border-white/[0.08] text-foreground focus:outline-none focus:border-[#00ffb2]/40 focus:ring-1 focus:ring-[#00ffb2]/20 transition-all duration-200 text-sm cursor-pointer"
                         required
                         onChange={(e) => setEnv(e.target.value)}
@@ -149,6 +176,7 @@ export default function AddProjectModal({ open, onClose, projectId }: modal) {
                     <input
                       id="organization"
                       type="text"
+                      value={team}
                       className="w-full px-4 py-2.5 rounded-xl bg-white/[0.04] border border-black/[0.08] dark:border-white/[0.08] text-foreground placeholder:text-gray-500 focus:outline-none focus:border-[#00ffb2]/40 focus:ring-1 focus:ring-[#00ffb2]/20 transition-all duration-200 text-sm"
                       name="team"
                       placeholder="Flipkart-Frontend"
@@ -166,14 +194,21 @@ export default function AddProjectModal({ open, onClose, projectId }: modal) {
                   >
                     Cancel
                   </button>
-                  <button
+                  {projectId ? <button
                     className="flex-1 py-2.5 px-4 bg-[#00ffb2] hover:bg-[#00e6a0] text-[#0a0a0a] font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 text-sm cursor-pointer hover:shadow-lg hover:shadow-[#00ffb2]/20"
-                    type="submit"
+                    type="button"
+                    onClick={updateProject}
+                  >
+                    <FolderPlus size={16} strokeWidth={2.5} />
+                    Update
+                  </button> : <button
+                    className="flex-1 py-2.5 px-4 bg-[#00ffb2] hover:bg-[#00e6a0] text-[#0a0a0a] font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 text-sm cursor-pointer hover:shadow-lg hover:shadow-[#00ffb2]/20"
+                    type="button"
                     onClick={CreateProject}
                   >
                     <FolderPlus size={16} strokeWidth={2.5} />
-                    {projectId ? "update" : "create"}
-                  </button>
+                    Create
+                  </button>}
                 </div>
               </div>
             </DialogPanel>

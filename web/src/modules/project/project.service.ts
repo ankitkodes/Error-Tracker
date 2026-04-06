@@ -1,5 +1,5 @@
 import generateApiKey from "generate-api-key";
-import { addProject, deleteProject, getProject, getProjectDetail } from "./project.repo";
+import { addProject, deleteProject, getProject, getProjectDetail, updateProject } from "./project.repo";
 import { ProjectSchema } from "./project.types"
 import z from "zod";
 
@@ -7,7 +7,6 @@ type ProjectInput = z.infer<typeof ProjectSchema>;
 export async function AddProject(userId: number, data: ProjectInput) {
     // validating the data 
     const validateData = ProjectSchema.parse(data);
-    console.log(validateData)
     // create api key for specific project 
     const apikey = generateApiKey({ method: "base62", length: 35 }) as string;
     // create projectId 
@@ -29,5 +28,5 @@ export async function DeleteProject(id: string) {
 
 export async function UpdateProject(projectid: string, data: ProjectInput) {
     const validateData = ProjectSchema.parse(data);
-    console.log("updated project details:- ", validateData)
+    return await updateProject(projectid, data);
 }

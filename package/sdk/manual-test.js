@@ -4,7 +4,7 @@ console.log("🚀 Initializing SDK...");
 
 NodeInit(
   "6pYfDHWr3jzyC92O6CjMk6",
-  "prepe_7a5fe852-81ba-4971-a1dd-ccd1cc4b7cda"
+  "Netwo_3ad4b1dc-90b0-4483-ba54-a9a902d31079"
 );
 
 /**

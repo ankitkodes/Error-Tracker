@@ -42,3 +42,17 @@ export async function deleteProject(id: string) {
         }
     })
 }
+
+export async function updateProject(projectid: string, data: ProjectInput) {
+    return await prisma.project.update({
+        where: {
+            id: projectid
+        },
+        data: {
+            name: data.name,
+            environment: data.environment,
+            language: data.language,
+            team: data.team || "",
+        }
+    })
+}
