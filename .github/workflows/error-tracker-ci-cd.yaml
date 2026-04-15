@@ -89,7 +89,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Install Trivy
-      uses: aquasecurity/trivy-action@0.3.0
+      uses: aquasecurity/trivy-action@master
       with:
         scan-type: 'image'
         image-ref: '${{secrets.DOCKER_USERNAME}}/error-tracker:${{github.run_id}}'
@@ -112,12 +112,12 @@ jobs:
 
     - name: Update tag in helm chart
       run: |
-        sed -i 's/tag: .*/tag: "${{github.run_id}}"/' helm/error-tracker-chart/values.yaml
+        sed -i 's/tag: .*/tag: "${{github.run_id}}"/' infrastructure/helm/error-tracker-chart/values.yaml
 
     - name: Commit and Push Changes
       run: |
         git config --global user.email "kumar27ankitsingh@gmail.com"
         git config --global user.name "Ankit Kumar"
-        git add helm/error-tracker-chart/values.yaml
+        git add infrastructure/helm/error-tracker-chart/values.yaml
         git commit -m "update tag in helm chart"
         git push
