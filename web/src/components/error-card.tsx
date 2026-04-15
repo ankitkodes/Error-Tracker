@@ -23,8 +23,8 @@ export default function ErrorCard({
 }: ErrorInterface) {
   return (
     <>
-      <Link href="#" className="cursor-pointer">
-        <div className="w-full  p-4 border rounded-md my-2 flex flex-col gap-1">
+      <Link href="#" className="">
+        <div className="w-full  p-4 border border-black/[0.08] dark:border-white/[0.08] rounded-md my-2 flex flex-col gap-1 bg-white dark:bg-[#18171D]">
           <div className="flex gap-2">
             <button
               className={cn(

@@ -18,11 +18,13 @@ generator client {
 model User{
   id       Int @unique @default(autoincrement())
   name     String
-  email    String
+  email    String @unique
   password String
   organizationName String?
   role   Role
   project Project[]
+  analytics ErrorAnalytics[]
+  errorType ErrorType[]
 
 }
 
@@ -36,25 +38,65 @@ model Project{
   userId      Int 
   user        User @relation(fields: [userId], references: [id])
   error        Error[]
+  projecthealth ProjectHealth[]
 }
 
 model Error{
   id         Int @unique @default(autoincrement())
+  errorType String?
   message    String
+  fileName String?
+  lineNumber Int
+  error String
+  occurrence Int @default(1)
   severity   Severity @default(Error)
   status     Status @default(Bug)
-  error String
+  
   issuehashId String? @unique
-  errorCount Int @default(1)
+ 
   createdAt  DateTime @default(now())
   projectId  String
   project    Project @relation(fields: [projectId], references: [id])
 }
 
+model ErrorAnalytics{
+  id Int @default(autoincrement())
+  date String @unique
+  error Int
+  resolvederror Int
+  createdAt DateTime @default(now())
+  userId      Int
+  user        User @relation(fields: [userId], references: [id])
+}
+
+model ErrorType{
+  id String @unique @id @default(uuid())
+  typename String @unique
+  occurrence Int
+  userId Int
+  user User @relation(fields:[userId], references:[id])
+}
+
+model ProjectHealth{
+  id Int  @default(autoincrement())
+  totalerrors Int
+  resolvederror Int
+  uptimepercentage Float
+  status Projectstatus @default(Healthy)
+  projectId String @unique
+  project Project @relation(fields: [projectId], references: [id])
+}
+
+enum Projectstatus{
+  Healthy
+  Warning
+  Critical
+}
+
 enum Status{
   Bug
   InProcess
-  Fixed
+  Resolved
 }
 
 enum Role{

@@ -17,6 +17,6 @@ export const SeverityStyle: Record<string, string> = {
 export const StatusStyle: Record<string, string> = {
   Bug: "bg-red-900 text-white border border-red-600",
   InProcess: "bg-blue-900 text-white border border-blue-500",
-  Fixed: "bg-green-900 text-white border border-green-500",
+  Resolved: "bg-green-900 text-white border border-green-500",
 };
 // export const projectStatus: Record

@@ -28,13 +28,13 @@ export default function HowitWork() {
           <div className="text-2xl sm:text-3xl md:text-4xl font-sans font-semibold">
             How it Works
           </div>
-          <div className="text-sm sm:text-base py-2 text-[#d5d5d5]">
+          <div className="text-sm sm:text-base py-2 text-subheading">
             Install once. Errors get captured automatically. Debug everything
             from a single dashboard.
           </div>
         </div>
         <div className="relative">
-          <button className="font-normal  text-base sm:text-lg md:text-lg text-[#00ffb2] cursor-pointer border-[#202026] md:border-t-2 w-full md:absolute md:right-0 md:bottom-0 py-4 hover:bg-[#66ffd1] hover:text-black">
+          <button className="font-normal  text-base sm:text-lg md:text-lg text-[#00ffb2] cursor-pointer border-[#202026] md:border-t-2 w-full md:absolute md:right-0 md:bottom-0 py-4 hover:bg-[#081114]">
             Start Monitoring Now →
           </button>
         </div>
@@ -58,8 +58,8 @@ export default function HowitWork() {
 
               {/* Text content */}
               <div className="flex flex-col gap-2 px-6 pb-4 text-[#f5f5f5]  not-italic">
-                <p className="font-medium text-base sm:text-lg">Add the SDK</p>
-                <p className="font-normal text-sm sm:text-base">
+                <h1 className="font-medium text-base sm:text-lg">Add the SDK</h1>
+                <p className="font-normal text-sm sm:text-base text-subheading">
                   Install our SDK in your project. Works with JavaScript,
                   TypeScript, React, and Node.js.
                 </p>
@@ -81,10 +81,10 @@ export default function HowitWork() {
                 />
               </div>
               <div className="flex flex-col gap-2 px-6 pb-4 text-[#f5f5f5]  not-italic">
-                <p className="font-medium text-base sm:text-lg">
+                <h1 className="font-medium text-base sm:text-lg">
                   Erros get captured automatically
-                </p>
-                <p className="font-normal text-sm sm:text-base">
+                </h1>
+                <p className="font-normal text-sm sm:text-base text-subheading">
                   our SDK listens for error, crashes, and unhandles rejections
                   without extra configuration.
                 </p>
@@ -105,10 +105,10 @@ export default function HowitWork() {
                 />
               </div>
               <div className="flex flex-col gap-2 px-6 pb-4 text-[#f5f5f5]  not-italic">
-                <p className="font-medium text-base sm:text-lg">
+                <h1 className="font-medium text-base sm:text-lg">
                   View and debug in the dashboard
-                </p>
-                <p className="font-normal text-sm sm:text-base">
+                </h1>
+                <p className="font-normal text-sm sm:text-base text-subheading">
                   See errors in real-time with full stack traces, user context,
                   and environment details.
                 </p>

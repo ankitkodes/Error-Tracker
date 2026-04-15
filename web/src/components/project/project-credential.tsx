@@ -1,6 +1,7 @@
 import { Eye, Copy, EyeOff } from "lucide-react";
 import { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+// import { ToastContainer, toast } from "react-toastify";
+import toast, { Toaster } from 'react-hot-toast';
 
 interface projectcredential {
   project_Id: string;
@@ -15,7 +16,7 @@ export default function ProjectCredential({
 
   return (
     <>
-      <div className="flex flex-col border-2 shadow-sm rounded-md p-4 my-4 gap-3">
+      <div className="flex flex-col border border-black/[0.08] dark:border-white/[0.08] shadow-sm rounded-md p-4 my-4 gap-3 bg-white dark:bg-[#18171D]">
         <div className="font-semibold">Project Credentials</div>
         <div>
           <label className="text-gray-400 mb-2">Project ID</label>
@@ -23,13 +24,13 @@ export default function ProjectCredential({
             <input
               value={project_Id}
               readOnly
-              className="dark:bg-background  grow ... px-2 py-1 rounded-md text-sm"
+              className="dark:bg-background  grow ... px-2 py-2 rounded-md text-sm"
             />
 
             <button
               onClick={() => {
                 navigator.clipboard.writeText(project_Id);
-                toast.success("project_id Copied Successfully");
+                toast.success("project_id Copied Successfully", { duration: 4000, position: "bottom-right" });
               }}
               className="text-xs gap-2 grow-0 ... border-2 rounded-md font-medium px-2 py-1 cursor-pointer"
             >
@@ -44,7 +45,7 @@ export default function ProjectCredential({
               type={visible ? "text" : "password"}
               value={APIkey}
               readOnly
-              className=" dark:bg-background bg-[#f5f5f5] grow ... px-2 py-1 rounded-md text-sm"
+              className=" dark:bg-background bg-[#f5f5f5] grow ... px-2 py-2 rounded-md text-sm"
             />
 
             <button
@@ -60,7 +61,7 @@ export default function ProjectCredential({
             <button
               onClick={() => {
                 navigator.clipboard.writeText(APIkey);
-                toast.success("API key copied successfully");
+                toast.success("API key copied successfully", { duration: 4000, position: "bottom-right" });
               }}
               className="text-xs gap-2 flex-none ... border-2 rounded-md font-medium px-2 py-1 cursor-pointer"
             >
@@ -69,7 +70,8 @@ export default function ProjectCredential({
           </div>
         </div>
       </div>
-      <ToastContainer />
+      <Toaster />
     </>
   );
 }
+

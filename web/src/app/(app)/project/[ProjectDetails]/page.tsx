@@ -1,171 +1,146 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { Settings, EllipsisVertical } from "lucide-react";
-import { EnvStyle, setactive, StatusStyle } from "@/lib/projectstyles";
+import { Settings, EllipsisVertical, Pencil, FileBarChart, Trash2 } from "lucide-react";
+import { EnvStyle, setactive } from "@/lib/projectstyles";
 import ProjectCredential from "@/components/project/project-credential";
-import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import axios from "axios";
-import { SeverityStyle } from "@/lib/projectstyles";
-import { RotatingLines } from "react-loader-spinner";
-interface ErrorlogInterface {
-  error: string;
-  errorCount: number;
-  id: number;
-  message: string;
-  projectId: string;
-  severity: string;
-  status: string;
-}
-export default function Page({}) {
-  const [loading, setloading] = useState(true);
-  const [project, getProject] = useState({
-    name: "",
-    id: "",
-    apikey: "",
-    language: "",
-    environment: "",
-  });
-  const [error, getErrorlog] = useState([]);
-  const projectid = useParams().ProjectDetails;
+import ErrorDrawer from "@/components/Error-Drawer";
+import { useProject, useProjectError, } from "@/lib/services/projects/projects.query";
+import ProjectHealth from "@/components/project/project-health";
+import ErrorTable from "@/components/project/project-errors";
+import { useEffect, useRef, useState } from "react";
+import DeleteProjectModal from "@/components/Modal/DeleteProjectModal";
+import AddProjectModal from "@/components/Modal/AddProjectModal";
+
+
+
+export default function Page() {
+  const params = useParams();
+  const projectid = params.ProjectDetails as string;
+  const [projectmenu, setOpenProjectMenu] = useState(false);
+  const [deleteModal, setOpenDeleteModal] = useState(false);
+  const [openUpdateModal, setOpenUpdateModal] = useState(false);
+
+  const { data, isLoading, isError } = useProject(projectid);
+  const projectError = useProjectError(projectid);
+  const panelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    async function getProjectdetails() {
-      const response = await axios({
-        method: "GET",
-        url: `/api/projects/${projectid}`,
-      });
-      const data = response.data.project;
-      getProject(data);
-      setloading(false);
+    function handleClick(e: MouseEvent) {
+      if (panelRef.current && !panelRef.current.contains(e.target as Node)) {
+        setOpenProjectMenu(false);
+      }
     }
+    if (projectmenu) return document.addEventListener("mousedown", handleClick)
+    return () => document.removeEventListener("mousedown", handleClick)
+  }, [projectmenu])
 
-    getProjectdetails();
-  }, [projectid]);
-
-  useEffect(() => {
-    async function Geterror() {
-      console.log("function started");
-      const response = await axios({
-        method: "GET",
-        url: `/api/errorlog/${projectid}`,
-      });
-      const data = response.data;
-      getErrorlog(data.errorlog);
-      console.log("collection of errror", data.errorlog);
-      console.log("error message", data.errorlog[0].message);
-    }
-
-    Geterror();
-  }, [projectid]);
-
-  if (loading) {
-    return (
-      <>
-        <div className="h-screen flex items-center justify-center">
-          <RotatingLines
-            visible={true}
-            height="96"
-            width="96"
-            color="grey"
-            strokeWidth="5"
-            animationDuration="0.75"
-            ariaLabel="rotating-lines-loading"
-            wrapperStyle={{}}
-            wrapperClass=""
-          />
-        </div>
-      </>
-    );
+  function Update_project_details() {
+    setOpenUpdateModal(!openUpdateModal);
   }
 
+  if (isLoading) {
+    return <p>loading project details</p>
+  }
+  if (isError) {
+    return <p>unable to load project details</p>
+  }
+
+  function handleClick() {
+    setOpenDeleteModal(!deleteModal);
+  }
   return (
     <>
       <div>
         <div className="flex gap-2 justify-between align-baseline">
           <div className="flex gap-2">
-            <div className="font-semibold text-xl">{project.name} </div>
-            <button className="px-2 py-[1px] text-xs font-medium rounded-lg dark:text-black border-gray-400 bg-gray-300 h-min-content">
-              {project.language}
-            </button>
-            <button
-              className={cn(
-                "rounded-md inline-block text-xs font-medium text-yellow-200 px-2 py-[1px]",
-                EnvStyle["Staging"]
-              )}
-            >
-              {project.environment}
-            </button>
-            <button
-              className={cn(
-                "rounded-lg px-2 py-[1px] text-xs font-medium",
-                setactive["Active"]
-              )}
-            >
-              Active
-            </button>
+            <div className="font-semibold text-4xl">{data.project.name} </div>
+            <div>
+              <button className="px-2 mx-2 py-1 text-sm font-medium rounded-lg dark:text-black border-gray-400 bg-gray-300 h-min-content">
+                {data.project.language}
+              </button>
+              <button
+                className={cn(
+                  "rounded-md inline-block mx-2 text-sm font-medium text-yellow-200 px-2 py-1",
+                  EnvStyle["Staging"],
+                )}
+              >
+                {data.project.environment}
+              </button>
+              <button
+                className={cn(
+                  "rounded-lg px-2 mx-2 py-1 text-sm font-medium",
+                  setactive["Active"],
+                )}
+              >
+                Active
+              </button>
+            </div>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
             <button className="text-sm gap-2 border-2 rounded-md px-2 py-1 cursor-pointer">
               {" "}
               <Settings className="inline-block mr-1" size={18} />
               Settings
             </button>
-            <button className="cursor-pointer">
-              <EllipsisVertical />{" "}
-            </button>
+
+            {/* Project context menu */}
+            <div className="relative" ref={panelRef}>
+              <button
+                onClick={() => setOpenProjectMenu(!projectmenu)}
+                className="rounded-lg flex w-9 h-9 hover:bg-gray-100 dark:hover:bg-neutral-800 items-center justify-center cursor-pointer transition-colors"
+              >
+                <EllipsisVertical size={18} />
+              </button>
+
+              {projectmenu && (
+                <div className="absolute right-0 top-11 z-50 w-[210px] border rounded-xl bg-white dark:bg-card shadow-xl overflow-hidden">
+                  <div className="px-3 pt-2.5 pb-1.5">
+                    <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Actions</p>
+                  </div>
+                  <div className="px-1 pb-1">
+                    <button
+                      className="w-full flex items-center gap-2.5 px-3 py-2 text-sm rounded-lg text-left hover:bg-gray-100 dark:hover:bg-neutral-800/60 cursor-pointer transition-colors"
+                      onClick={Update_project_details}
+                    >
+                      <Pencil size={14} className="text-muted-foreground shrink-0" />
+                      <span>Edit Project</span>
+                    </button>
+                    <button
+                      className="w-full flex items-center gap-2.5 px-3 py-2 text-sm rounded-lg text-left hover:bg-gray-100 dark:hover:bg-neutral-800/60 cursor-pointer transition-colors"
+
+                      disabled={true}
+                    >
+                      <FileBarChart size={14} className="text-muted-foreground shrink-0" />
+                      <span>Project Report</span>
+                    </button>
+                  </div>
+                  <div className="border-t dark:border-neutral-800" />
+                  <div className="px-1 py-1">
+                    <button
+                      className="w-full flex items-center gap-2.5 px-3 py-2 text-sm rounded-lg text-left text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 cursor-pointer transition-colors"
+                      onClick={handleClick}
+                    >
+                      <Trash2 size={14} className="shrink-0" />
+                      <span>Delete Project</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
-        <ProjectCredential project_Id={project.id} APIkey={project.apikey} />
-        {/* <ProjectHealth /> */}
-        <div className="border-2 rounded-md p-2">
-          <div className="font-semibold">Error in this Project</div>
-          <table className="border-collapse border-b-2 w-full text-left mt-2">
-            <tbody>
-              <tr className=" text-sm font-semibold text-muted-foreground">
-                <td className="border-b-2 py-3 px-4">Error Message</td>
-                <td className="border-b-2 py-3 px-4">Severity</td>
-                <td className="border-b-2 py-3 px-4">Occurrences</td>
-                <td className="border-b-2 py-3 px-4">Last Seen</td>
-                <td className="border-b-2 py-3 px-4">Statue</td>
-              </tr>
-
-              {error.map((items: ErrorlogInterface) => (
-                <>
-                  <tr className="text-sm">
-                    <td className="border-b-2  py-3 px-4">{items.message}</td>
-                    <td className="border-b-2 py-3 px-4">
-                      <button
-                        className={cn(
-                          "rounded-lg px-2 py-1 text-xs font-medium text-center",
-                          SeverityStyle["Warning"]
-                        )}
-                      >
-                        {items.severity}
-                      </button>
-                    </td>
-                    <td className="border-b-2 py-3 px-4">
-                      {" "}
-                      {items.errorCount}{" "}
-                    </td>
-                    <td className="border-b-2 py-3 px-4">12 minutes ago </td>
-                    <td className="border-b-2 py-3 px-4">
-                      <button
-                        className={cn(
-                          "rounded-lg px-2 py-1 text-xs font-medium text-center cursor-pointer",
-                          StatusStyle["Fixed"]
-                        )}
-                      >
-                        {items.status}
-                      </button>
-                    </td>
-                  </tr>
-                </>
-              ))}
-            </tbody>
-          </table>
+        <ProjectCredential project_Id={data.project.id} APIkey={data.project.apikey} />
+        <ProjectHealth projectid={projectid} />
+        <div>
+          <div className="font-semibold mb-2">Error in this Project</div>
+          <ErrorTable data={projectError.data?.errors} />
         </div>
+        <ErrorDrawer />
       </div>
+      <DeleteProjectModal open={deleteModal} onClose={handleClick} projectId={projectid} />
+
+      <AddProjectModal open={openUpdateModal} onClose={Update_project_details} projectId={projectid} />
     </>
   );
 }

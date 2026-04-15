@@ -1,16 +1,20 @@
 import { Activity, CircleAlert } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { EnvStyle } from "@/lib/projectstyles";
+import { randomColor } from "@/utils/randomColor";
+
 interface projecttype {
   name: string;
   environment: string;
 }
 export default function ProjectDetails({ name, environment }: projecttype) {
+  const ColorCode = randomColor();
+
   return (
     <>
-      <div className="w-full p-6 border-2 rounded-lg">
+      <div className="w-full p-6 border border-black/[0.08] dark:border-white/[0.08] rounded-lg bg-white dark:bg-[#18171D]">
         <div className="flex items-center">
-          <div className="p-2 mr-2 w-10 h-10 bg-blue-400 rounded-lg">
+          <div className="p-2 mr-2 w-10 h-10 rounded-lg" style={{ backgroundColor: ColorCode }}>
             <Activity />
           </div>
           <div>
@@ -36,3 +40,4 @@ export default function ProjectDetails({ name, environment }: projecttype) {
     </>
   );
 }
+

@@ -1,17 +1,21 @@
 "use client";
 import ErrorCard from "@/components/error-card";
-import axios from "axios";
+import debounce from 'lodash.debounce';
+import { useGetallError, useGetSearchResult, } from "@/lib/services/errors/errors.query";
 import { Search } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { UseErrorId } from "@/lib/store";
+import ErrorDrawer from "@/components/Error-Drawer";
 
-interface AllError {
+interface Error {
   id: number;
   message: string;
   severity: string;
   status: string;
   environment: string;
   projectName: string;
-  occurences: number;
+  projectId: string;
+  occurrence: number;
   project: {
     environment: string;
     name: string;
@@ -19,21 +23,21 @@ interface AllError {
   errorCount: number;
 }
 export default function Page() {
-  const [allError, GetallError] = useState([]);
+  const [searchquery, GetSearchQuery] = useState("");
+  const [severity, setSeverity] = useState("");
+  const [status, setStatus] = useState("")
+  const [errortype, setErrortype] = useState("");
+  const { isLoading, isError, data } = useGetallError(severity, status, errortype);
+  const debouncedSearch = debounce((value: string) => GetSearchQuery(value), 100);
+  const searchresult = useGetSearchResult(searchquery);
+  const setErrorDrawer = UseErrorId((state) => state.setErrorDrawer);
+  const setErrorId = UseErrorId((state) => state.setErrorId);
+  const setProjectId = UseErrorId((state) => state.setProjectId);
+  console.log("error values in issues project:- ", isError)
 
-  useEffect(() => {
-    async function fetallError() {
-      const response = await axios({
-        method: "GET",
-        url: "/api/bugs",
-      });
-      const data = response.data;
-      GetallError(data.bulkError);
-    }
-
-    fetallError();
-  }, []);
-
+  if (isError) {
+    return <div>some invlid error has occured</div>
+  }
   return (
     <>
       <div>
@@ -43,73 +47,116 @@ export default function Page() {
             Track and manage all errors across your applications.
           </p>
         </div>
-        <div className="border py-8 px-4 rounded-md">
-          <div className=" relative w-full pb-2">
-            <Search size={20} className="absolute left-2 top-2 inset-y-0" />
+        <div className="border border-black/[0.08] dark:border-white/[0.08] rounded-md p-4 grid grid-cols-1 md:grid-cols-3 gap-4 bg-white dark:bg-[#18171D]">
+          <div className=" relative w-full pb-2 col-span-2">
+            <Search size={18} className="absolute left-2 top-2 inset-y-0" />
             <input
               type="text"
               placeholder="Search errors..."
               className="w-full border rounded-md p-1 pl-8"
+              onChange={(e) => (debouncedSearch(e.target.value))}
             />
           </div>
-          <div className="my-2 flex gap-4 flex-col md:flex-row">
-            <select
-              className="h-10 min-w-[160px] rounded-lg border border-gray-300 bg-white px-3 pr-8 text-sm text-gray-900
+          <div className="flex flex-col md:flex-row  gap-2">
+            <div>
+              <select
+                className="h-8 w-full rounded-lg border border-gray-300 bg-white px-3 pr-8 text-sm text-gray-900
                focus:outline-none focus:ring-2 focus:ring-blue-500
                hover:border-gray-400"
-            >
-              <option className="bg-white text-black">All Severities</option>
-              <option className="bg-white text-black">Critical</option>
-              <option className="bg-white text-black">Error</option>
-              <option className="bg-white text-black">Warning</option>
-              <option className="bg-white text-black">Info</option>
-            </select>
-            <select
-              className="h-10 min-w-[140px] rounded-lg border border-gray-300 bg-white px-3 pr-8 text-sm text-gray-900
+                onChange={(e) => setSeverity(e.target.value)}
+              >
+                <option value={""}>All Severities</option>
+                <option value={"Error"} >Error</option>
+                <option value={"Warning"}>Warning</option>
+              </select>
+            </div>
+            <div>
+              <select
+                className="h-8 w-full rounded-lg border border-gray-300 bg-white px-3 pr-8 text-sm text-gray-900
                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                hover:border-gray-400 transition"
-            >
-              <option>All Status</option>
-              <option>Bug</option>
-              <option>InProcess</option>
-              <option>Fixed</option>
-            </select>
-            <select
-              className="h-10 min-w-[200px] rounded-lg border border-gray-300 bg-white px-3 pr-8 text-sm text-gray-900
+
+                onChange={(e) => setStatus(e.target.value)}
+              >
+                <option value="">All Status</option>
+                <option value={"Bug"}>Bug</option>
+                <option value={"InProcess"}>InProcess</option>
+                <option value={"Resolved"}>Resolved</option>
+              </select>
+            </div>
+            <div>
+              <select
+                className="h-8 w-full rounded-lg border border-gray-300 bg-white px-3 pr-8 text-sm text-gray-900
                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                hover:border-gray-400 transition"
-            >
-              <option>All Projects</option>
-              <option>Error Tracker Dashboard</option>
-              <option>Auth Service</option>
-              <option>User API</option>
-              <option>Payment Service</option>
-              <option>Admin Panel</option>
-            </select>
+                onChange={(e) => setErrortype(e.target.value)}
+              >
+                <option value={""}>All ErrorType</option>
+                <option value={"ReferenceError"}>ReferenceError</option>
+                <option value={"TypeError"}>TypeError</option>
+                <option value={"SyntaxError"}>SyntaxError</option>
+                <option value={"RangeError"}>RangeError</option>
+                <option value={"EvalError"}>EvalError</option>
+                <option value={"URIError"}>URIError</option>
+                <option value={"AggregateError"}>AggregateError</option>
+                <option value={"InternalError"}>InternalError</option>
+              </select>
+            </div>
           </div>
         </div>
-        <div className="p-4 border rounded-md my-4">
-          <div className="text-lg font-medium">All Issues (8)</div>
-          <div className="">
-            {allError ? (
-              allError.map((items: AllError) => (
-                <ErrorCard
-                  key={items.id}
-                  message={items.message}
-                  severity={items.severity}
-                  status={items.status}
-                  environment={items.project.environment}
-                  projectName={items.project.name}
-                  occurrences={items.errorCount}
-                  lastseen="12 minutes ago"
-                />
-              ))
-            ) : (
-              <div>Loading...</div>
-            )}
+        <div className="px-4 border border-black/[0.08] dark:border-white/[0.08] rounded-md my-4 bg-white dark:bg-[#18171D]">
+          <div className="text-lg font-medium">All Issues ({searchquery && searchresult.data ? searchresult.data?.data.length : data?.Error.length})</div>
+          <div className="bg-scroll">
+            {isLoading ? <div> loading data...</div> : <>{searchquery && searchresult.data ? (
+              <>
+                {searchresult.isLoading && <p>searching...</p>}
+
+                {(searchresult.data?.data ?? []).map((items: Error) => (
+                  <div key={items.id} onClick={() => {
+                    setErrorId(items.id);
+                    setProjectId(items.projectId)
+                    setErrorDrawer(true);
+                  }}>
+
+
+                    <ErrorCard
+                      key={items.id}
+                      message={items.message}
+                      severity={items.severity}
+                      status={items.status}
+                      environment={items.project.environment}
+                      projectName={items.project.name}
+                      occurrences={items.occurrence}
+                      lastseen="12 minutes ago"
+                    />
+                  </div>
+
+                ))}
+              </>) : (data?.Error ?? []).map((items: Error) => (
+                <div key={items.id} onClick={() => {
+                  setErrorId(items.id);
+                  setProjectId(items.projectId)
+                  setErrorDrawer(true);
+                }}>
+                  <ErrorCard
+                    key={items.id}
+                    message={items.message}
+                    severity={items.severity}
+                    status={items.status}
+                    environment={items.project.environment}
+                    projectName={items.project.name}
+                    occurrences={items.occurrence}
+                    lastseen="12 minutes ago"
+                  />
+                </div>
+              )
+              )
+            }</>}
+
           </div>
         </div>
-      </div>
+      </div >
+      <ErrorDrawer />
     </>
   );
 }

@@ -1,12 +1,12 @@
 "use client";
 import AddProjectModal from "@/components/Modal/AddProjectModal";
 import ProjectDetails from "@/components/project/project-details";
-import { ProjectDetailsSkeleton } from "@/components/skeleton";
-import axios from "axios";
+import { useProjects } from "@/lib/services/projects/projects.query";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-interface ProjectDetailsInterface {
+
+interface Project {
   id: string;
   environment: string;
   apikey: string;
@@ -16,27 +16,20 @@ interface ProjectDetailsInterface {
 
 export default function Project() {
   const [open, setOpen] = useState(false);
-  const [project, getProject] = useState([]);
-  const [loading, setloading] = useState(false);
+  const { data, isLoading, isError } = useProjects();
 
   function closeprojectmodal() {
     setOpen(false);
   }
 
-  useEffect(() => {
-    async function getProjectdetails() {
-      setloading(true);
-      const response = await axios({
-        method: "GET",
-        url: "/api/projects",
-      });
-      console.log("projece details for interface", response.data);
-      getProject(response.data.projectdetails);
-      setloading(false);
-    }
+  if (isError) {
+    return <div className="text-red-500">Error fetching projects. Please try again later.</div>;
+  }
 
-    getProjectdetails();
-  }, []);
+  if (isLoading) {
+    return <div className="text-gray-500">Loading projects...</div>;
+  }
+
 
   return (
     <>
@@ -58,29 +51,26 @@ export default function Project() {
           </div>
           <AddProjectModal open={open} onClose={closeprojectmodal} />
         </div>
+        <div>
+        </div>
         <div className="my-8 flex-1">
-          {loading ? (
-            <div className="flex gap-4">
-              <ProjectDetailsSkeleton />
-              <ProjectDetailsSkeleton />
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-4">
-              {project.map((items: ProjectDetailsInterface) => (
-                <>
-                  <Link
-                    href={`/project/${items.id}`}
-                    className="cursor-pointer"
-                  >
-                    <ProjectDetails
-                      name={items.name}
-                      environment={items.environment}
-                    />
-                  </Link>
-                </>
-              ))}
-            </div>
-          )}
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-4">
+            {data.projectdetails.map((items: Project) => (
+              <>
+                <Link
+                  href={`/project/${items.id}`}
+                  className="cursor-pointer"
+                >
+                  <ProjectDetails
+                    name={items.name}
+                    environment={items.environment}
+                  />
+                </Link>
+              </>
+            ))}
+          </div>
+
         </div>
       </div>
     </>
