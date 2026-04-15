@@ -1,60 +1,64 @@
 const { NodeInit, captureError } = require("./dist/node/index");
 
 console.log("Initializing SDK...");
-NodeInit("Z2ZgttGcieTCO7vzct9Tx", "e-com_e2825372-13ef-44bf-ba9a-aca1be4895e3");
+NodeInit(
+  "6pYfDHWr3jzyC92O6CjMk6",
+  "error_1f9b4da1-9a06-44de-9eb6-4c9d784092c8",
+);
 
-/**
- * 1️⃣ Handle uncaught exceptions (sync errors)
- */
-process.on("uncaughtException", (error) => {
-  console.error("Uncaught Exception:", error.message);
-
+function executeWithCapture(fn) {
   try {
-    captureError(error);
-    console.log("Uncaught exception sent to SDK");
-  } catch (sdkError) {
-    console.error("SDK failed to capture uncaught exception:", sdkError);
+    fn();
+  } catch (err) {
+    console.log("Error Name:", err.name);
+    console.log("Error Message:", err.message);
+    captureError(err);
   }
-
-  // ❗ In real production, you SHOULD exit
-  // process.exit(1);
-});
+}
 
 /**
- * 2️⃣ Handle unhandled promise rejections (async errors)
+ * TypeError example
  */
-process.on("unhandledRejection", (reason) => {
-  const error =
-    reason instanceof Error
-      ? reason
-      : new Error(`Unhandled Rejection: ${JSON.stringify(reason)}`);
-
-  console.error("Unhandled Rejection:", error.message);
-
-  try {
-    captureError(error, "/app/dashboard/page.tsx");
-    console.log("Unhandled rejection sent to SDK");
-  } catch (sdkError) {
-    console.error("SDK failed to capture rejection:", sdkError);
-  }
-});
-
-console.log("Simulating errors...");
+function triggerTypeError() {
+  const value = null;
+  value.toString(); // TypeError
+}
 
 /**
- * 3️⃣ REAL Node.js error examples (not fake/custom)
+ * ReferenceError example
  */
+function triggerReferenceError() {
+  console.log(notDefinedVariable); // ReferenceError
+}
 
-// Example 1: ReferenceError (sync)
-setTimeout(() => {
-  nonExistentFunction(); // ❌ ReferenceError
-}, 100);
+/**
+ * RangeError example
+ */
+function triggerRangeError() {
+  function recurse() {
+    recurse();
+  }
+  recurse(); // RangeError: Maximum call stack size exceeded
+}
 
-// Example 2: Unhandled Promise Rejection (async)
-Promise.reject(new Error("Database connection failed"));
+/**
+ * SyntaxError example (must be eval)
+ */
+function triggerSyntaxError() {
+  eval("function () {"); // SyntaxError
+}
 
-// Example 3: Native Node error
-const fs = require("fs");
-fs.readFile("/path/that/does/not/exist.txt", "utf8", () => {
-  // error thrown internally by Node
-});
+/**
+ * Custom Error example
+ */
+function triggerCustomError() {
+  throw new Error("This is a custom application error");
+}
+
+/* ---------------- EXECUTION ---------------- */
+
+executeWithCapture(triggerTypeError);
+executeWithCapture(triggerReferenceError);
+executeWithCapture(triggerRangeError);
+executeWithCapture(triggerSyntaxError);
+executeWithCapture(triggerCustomError);

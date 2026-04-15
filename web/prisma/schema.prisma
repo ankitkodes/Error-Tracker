@@ -44,7 +44,8 @@ model Error{
   severity   Severity @default(Error)
   status     Status @default(Bug)
   error String
-  errorCount Int? @default(1)
+  issuehashId String? @unique
+  errorCount Int @default(1)
   createdAt  DateTime @default(now())
   projectId  String
   project    Project @relation(fields: [projectId], references: [id])

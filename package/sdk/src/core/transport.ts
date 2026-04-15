@@ -4,7 +4,8 @@ import { config, DSN_URL } from "./utils";
 export async function sendError(error: any) {
   try {
     const data = JSON.stringify(error, Object.getOwnPropertyNames(error));
-    await axios({
+    console.log("data from the user", data);
+    const response = await axios({
       method: "POST",
       url: DSN_URL,
       data: {
@@ -13,6 +14,7 @@ export async function sendError(error: any) {
         APIKEY: config.APIKEY,
       },
     });
+    console.log("response from the frontend", response);
   } catch (error) {
     return console.log("Unable to send Error to backend", error);
   }
