@@ -1,5 +1,5 @@
 "use client";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 
 export default function CTA() {
   return (
@@ -7,7 +7,7 @@ export default function CTA() {
       initial={{ opacity: 0, scale: 0.95, y: 20 }}
       whileInView={{ opacity: 1, scale: 1, y: 0 }}
       viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 0.6, ease: "easeOut" as any }}
+      transition={{ duration: 0.6, ease: "easeOut" as const }}
       className="bg-gradient-to-b pointer-events-none from-white/12 w-full h-1/10 to-transparent blur-4xl"
     >
       <div className=" py-8 flex item-center  justify-center pointer-events-auto">

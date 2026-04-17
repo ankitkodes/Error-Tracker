@@ -7,7 +7,7 @@ import {
   FileChartColumnIncreasing,
 } from "lucide-react";
 import HorizontalLine from "../ui/HorizontalLine";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 
 export default function Features() {
   const containerVariants = {
@@ -22,7 +22,7 @@ export default function Features() {
 
   const itemVariants = {
     hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as any } },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } },
   };
 
   return (

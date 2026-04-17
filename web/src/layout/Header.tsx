@@ -6,7 +6,7 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { MdArrowOutward } from "react-icons/md";
 import Link from "next/link";
 import { Bug } from "lucide-react";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 
 const navigation = [
   { name: "Features", href: "#features" },
@@ -185,7 +185,7 @@ export default function Header() {
           <motion.h1 
             variants={{
               hidden: { opacity: 0, y: 30 },
-              visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as any } },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
             }}
             className="text-4xl tracking-tight text-[#F5F5F5] sm:text-7xl font-bold"
           >
@@ -194,7 +194,7 @@ export default function Header() {
           <motion.p 
             variants={{
               hidden: { opacity: 0, y: 30 },
-              visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as any } },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
             }}
             className="mt-8 text-sm text-[#d5d5d5] sm:text-base md:text-lg"
           >
@@ -205,7 +205,7 @@ export default function Header() {
           <motion.div 
             variants={{
               hidden: { opacity: 0, y: 30 },
-              visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as any } },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
             }}
             className="mt-10 flex items-center justify-center gap-x-6"
           >

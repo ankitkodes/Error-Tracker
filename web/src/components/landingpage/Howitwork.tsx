@@ -5,7 +5,7 @@ import installGuide from "../../../public/Images/installGuide.png";
 import errorLogs from "../../../public/Images/errorlog.png";
 import Image from "next/image";
 import errorGraph from "../../../public/Images/errorGraph.png";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 
 export default function HowitWork() {
   const containerVariants = {
@@ -20,7 +20,7 @@ export default function HowitWork() {
 
   const itemVariants = {
     hidden: { opacity: 0, y: 40 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as any } },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
   };
 
   return (

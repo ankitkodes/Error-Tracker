@@ -1,7 +1,7 @@
 "use client";
 
 import HorizontalLine from "@/components/ui/HorizontalLine";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import CTA from "@/components/landingpage/CTA";
 import FAQS from "@/components/landingpage/FAQS";
 import Features from "@/components/landingpage/Features";
@@ -25,7 +25,7 @@ export default function Home() {
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" as any }}
+          transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" as const }}
           className="w-full relative"
         >
           <Image

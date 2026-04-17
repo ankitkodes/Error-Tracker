@@ -27,6 +27,6 @@ export async function DeleteProject(id: string) {
 }
 
 export async function UpdateProject(projectid: string, data: ProjectInput) {
-    const validateData = ProjectSchema.parse(data);
+    ProjectSchema.parse(data);
     return await updateProject(projectid, data);
 }

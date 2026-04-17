@@ -1,4 +1,4 @@
-import prisma from "@/lib/db";
+
 import { ProjectReport } from "@/modules/report/report.service";
 import { NextRequest, NextResponse } from "next/server";
 
