@@ -6,6 +6,7 @@ import { Search } from "lucide-react";
 import { useState } from "react";
 import { UseErrorId } from "@/lib/store";
 import ErrorDrawer from "@/components/Error-Drawer";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Error {
   id: number;
@@ -98,20 +99,67 @@ export default function Page() {
           </div>
         </div>
         <div className="px-4 border border-black/[0.08] dark:border-white/[0.08] rounded-md my-4 bg-white dark:bg-[#18171D]">
-          <div className="text-lg font-medium">All Issues ({searchquery && searchresult.data ? searchresult.data?.data.length : data?.Error.length})</div>
-          <div className="bg-scroll">
-            {isLoading ? <div> loading data...</div> : <>{searchquery && searchresult.data ? (
-              <>
-                {searchresult.isLoading && <p>searching...</p>}
-
-                {(searchresult.data?.data ?? []).map((items: Error) => (
+          <div className="text-lg font-medium py-2">All Issues ({searchquery && searchresult.data ? searchresult.data?.data.length : data?.Error.length || 0})</div>
+          <div className="bg-scroll space-y-2">
+            {isLoading ? (
+              <div className="space-y-3 pb-4">
+                {[...Array(6)].map((_, i) => (
+                  <div key={i} className="p-4 border border-black/[0.05] dark:border-white/[0.05] rounded-xl bg-white dark:bg-[#1e1d24]">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="space-y-2 grow">
+                        <Skeleton className="h-5 w-3/4" />
+                        <div className="flex gap-2">
+                           <Skeleton className="h-4 w-16" />
+                           <Skeleton className="h-4 w-16" />
+                        </div>
+                      </div>
+                      <Skeleton className="h-6 w-20 rounded-lg" />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div className="flex gap-4">
+                        <Skeleton className="h-4 w-24" />
+                        <Skeleton className="h-4 w-24" />
+                      </div>
+                      <Skeleton className="h-4 w-20" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <>{searchquery && searchresult.data ? (
+                <>
+                  {searchresult.isLoading ? (
+                     <div className="space-y-3 pb-4">
+                        {[...Array(3)].map((_, i) => (
+                          <Skeleton key={i} className="h-24 w-full rounded-xl" />
+                        ))}
+                     </div>
+                  ) : (
+                    (searchresult.data?.data ?? []).map((items: Error) => (
+                      <div key={items.id} onClick={() => {
+                        setErrorId(items.id);
+                        setProjectId(items.projectId)
+                        setErrorDrawer(true);
+                      }} className="cursor-pointer">
+                        <ErrorCard
+                          key={items.id}
+                          message={items.message}
+                          severity={items.severity}
+                          status={items.status}
+                          environment={items.project.environment}
+                          projectName={items.project.name}
+                          occurrences={items.occurrence}
+                          lastseen="12 minutes ago"
+                        />
+                      </div>
+                    ))
+                  )}
+                </>) : (data?.Error ?? []).map((items: Error) => (
                   <div key={items.id} onClick={() => {
                     setErrorId(items.id);
                     setProjectId(items.projectId)
                     setErrorDrawer(true);
-                  }}>
-
-
+                  }} className="cursor-pointer">
                     <ErrorCard
                       key={items.id}
                       message={items.message}
@@ -123,29 +171,9 @@ export default function Page() {
                       lastseen="12 minutes ago"
                     />
                   </div>
-
-                ))}
-              </>) : (data?.Error ?? []).map((items: Error) => (
-                <div key={items.id} onClick={() => {
-                  setErrorId(items.id);
-                  setProjectId(items.projectId)
-                  setErrorDrawer(true);
-                }}>
-                  <ErrorCard
-                    key={items.id}
-                    message={items.message}
-                    severity={items.severity}
-                    status={items.status}
-                    environment={items.project.environment}
-                    projectName={items.project.name}
-                    occurrences={items.occurrence}
-                    lastseen="12 minutes ago"
-                  />
-                </div>
-              )
-              )
-            }</>}
-
+                ))
+              }</>
+            )}
           </div>
         </div>
       </div >

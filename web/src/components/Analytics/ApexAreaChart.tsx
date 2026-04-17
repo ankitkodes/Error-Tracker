@@ -4,6 +4,7 @@ import React, { useEffect, useState, useMemo } from "react";
 import dynamic from "next/dynamic";
 import { ApexOptions } from "apexcharts";
 import { useErrorAnalytics } from "@/lib/services/analytics/analytics.query";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
@@ -115,8 +116,19 @@ export default function ApexAreaChart() {
     [isDark]
   );
 
-  if (isLoading) return <p>Loading analytics...</p>;
-  if (isError) return <p>Error loading analytics</p>;
+  if (isLoading) {
+    return (
+      <div className="w-full space-y-4">
+        <div className="flex justify-between items-center mb-4">
+           <Skeleton className="h-6 w-32" />
+           <Skeleton className="h-6 w-24" />
+        </div>
+        <Skeleton className="w-full h-[450px] rounded-xl" />
+      </div>
+    );
+  }
+
+  if (isError) return <p className="text-red-500 py-10 text-center">Error loading analytics dashboard.</p>;
 
   return (
     <ReactApexChart

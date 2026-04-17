@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import toast from "react-hot-toast";
+import { Skeleton } from "./ui/skeleton";
 
 export default function ErrorDrawer() {
   const errorId = UseErrorId((state) => state.errorId);
@@ -147,14 +148,38 @@ export default function ErrorDrawer() {
           isOpen ? "translate-x-0" : "translate-x-full"
         )}
       >
-        {/* Loading state */}
+        {/* Loading state skeleton */}
         {isLoading && isOpen ? (
-          <div className="flex-1 flex items-center justify-center">
-            <div className="flex flex-col items-center gap-3">
-              <Loader2 className="w-7 h-7 text-red-500 animate-spin" />
-              <p className="text-sm text-gray-400 dark:text-gray-500 font-medium">
-                Loading error details…
-              </p>
+          <div className="flex-1 flex flex-col p-6 space-y-8 animate-pulse">
+            <div className="flex items-start justify-between">
+               <div className="flex gap-4 grow">
+                  <Skeleton className="size-12 rounded-xl shrink-0" />
+                  <div className="space-y-3 grow">
+                     <div className="flex gap-2">
+                        <Skeleton className="h-5 w-20" />
+                        <Skeleton className="h-5 w-20" />
+                     </div>
+                     <Skeleton className="h-6 w-3/4" />
+                     <Skeleton className="h-4 w-full" />
+                  </div>
+               </div>
+               <Skeleton className="size-8 rounded-lg" />
+            </div>
+            
+            <div className="grid grid-cols-3 gap-4">
+               <Skeleton className="h-20 rounded-xl" />
+               <Skeleton className="h-20 rounded-xl" />
+               <Skeleton className="h-20 rounded-xl" />
+            </div>
+
+            <div className="space-y-4">
+               <Skeleton className="h-5 w-32" />
+               <Skeleton className="h-24 w-full rounded-xl" />
+            </div>
+
+            <div className="space-y-4 pt-4">
+               <Skeleton className="h-5 w-32" />
+               <Skeleton className="h-48 w-full rounded-xl" />
             </div>
           </div>
         ) : isError && isOpen ? (
