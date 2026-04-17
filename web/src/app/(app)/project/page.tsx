@@ -36,19 +36,19 @@ export default function Project() {
   return (
     <>
       <div className="">
-        <div className="relative">
-          <div className="inline-block">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 py-4">
+          <div>
             <h1 className="text-2xl font-bold">Project</h1>
             <p className="text-sm text-muted-foreground">
               Manage and monitor all your application projects
             </p>
           </div>
-          <div className="inline-block absolute right-4 top-0">
+          <div className="shrink-0">
             <button
               onClick={() => setOpen(true)}
-              className="border-2 border-primary/20 hover:border-primary rounded px-4 py-2 cursor-pointer hover:bg-primary hover:text-primary-foreground transition text-primary"
+              className="w-full sm:w-auto border-2 border-primary/20 hover:border-primary rounded px-4 py-2 cursor-pointer hover:bg-primary hover:text-primary-foreground transition text-primary"
             >
-              +Add Project{" "}
+              +Add Project
             </button>
           </div>
           <AddProjectModal open={open} onClose={closeprojectmodal} />

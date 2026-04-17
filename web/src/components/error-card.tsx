@@ -24,8 +24,8 @@ export default function ErrorCard({
   return (
     <>
       <Link href="#" className="">
-        <div className="w-full  p-4 border border-black/[0.08] dark:border-white/[0.08] rounded-md my-2 flex flex-col gap-1 bg-white dark:bg-[#18171D]">
-          <div className="flex gap-2">
+        <div className="w-full p-4 border border-black/[0.08] dark:border-white/[0.08] rounded-md my-2 flex flex-col gap-2 bg-white dark:bg-[#18171D] hover:bg-gray-50 dark:hover:bg-white/[0.02] transition-colors">
+          <div className="flex flex-wrap gap-2 items-center">
             <button
               className={cn(
                 "rounded-md px-2 py-1 text-xs font-medium text-center",

@@ -1,3 +1,5 @@
+"use client";
+
 import {
   MonitorSmartphone,
   CodeXml,
@@ -5,13 +7,35 @@ import {
   FileChartColumnIncreasing,
 } from "lucide-react";
 import HorizontalLine from "../ui/HorizontalLine";
+import { motion } from "motion/react";
 
 export default function Features() {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as any } },
+  };
+
   return (
     <>
       <section id="features">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 text-base">
-          <div className="border-b-2  md:border-b-0 sm:border-r-2 border-[#202026] py-8 px-4 text-left grid gap-1">
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 text-base"
+        >
+          <motion.div variants={itemVariants} className="border-b-2 md:border-b-0 sm:border-r-2 border-[#202026] py-8 px-4 text-left grid gap-1">
             <div className="rounded-full flex w-20 h-20 bg-radial from-[#08070e] from-40% to-[#202026] items-center justify-center text-white">
               <MonitorSmartphone />
             </div>
@@ -20,8 +44,8 @@ export default function Features() {
               Errors show up in your dashboard instantly as they happen in
               production.
             </p>
-          </div>
-          <div className=" border-b-2 md:border-b-0 md:border-r-2 border-[#202026] py-8 px-4  grid gap-1">
+          </motion.div>
+          <motion.div variants={itemVariants} className=" border-b-2 md:border-b-0 md:border-r-2 border-[#202026] py-8 px-4  grid gap-1">
             <div className="rounded-full flex w-20 h-20 bg-radial from-[#08070e] from-40% to-[#202026] items-center justify-center text-white">
               <CodeXml />
             </div>
@@ -30,8 +54,8 @@ export default function Features() {
               Full stack traces with source maps, so you know exactly where
               things broke.
             </p>
-          </div>
-          <div className="border-b-2 sm:border-b-0 sm:border-r-2 border-[#202026]  py-8 px-4  grid gap-1">
+          </motion.div>
+          <motion.div variants={itemVariants} className="border-b-2 sm:border-b-0 sm:border-r-2 border-[#202026]  py-8 px-4  grid gap-1">
             <div className="rounded-full flex w-20 h-20 bg-radial from-[#08070e] from-40% to-[#202026] items-center justify-center text-white">
               <ChartNoAxesCombined />
             </div>
@@ -40,8 +64,8 @@ export default function Features() {
               Mark errors as In Process, Fixed or Bug to manage workflow
               efficiently.
             </p>
-          </div>
-          <div className="py-8 px-4 grid gap-1">
+          </motion.div>
+          <motion.div variants={itemVariants} className="py-8 px-4 grid gap-1">
             <div className="rounded-full flex w-20 h-20 bg-radial from-[#08070e] from-40% to-[#202026] items-center justify-center text-white">
               <FileChartColumnIncreasing />
             </div>
@@ -50,8 +74,8 @@ export default function Features() {
               Easily manage errors across multiple projects from a single admin
               dashboard.
             </p>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </section>
 
       <HorizontalLine />

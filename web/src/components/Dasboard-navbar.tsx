@@ -92,22 +92,21 @@ export default function DashboardNavbar() {
 
   return (
     <>
-      <div className="p-4 flex gap-2 relative">
-        <div className="relative w-full">
-          <Search size={20} className="absolute left-2 top-2 inset-y-0" />
-
+      <div className="p-4 flex items-center justify-between gap-4 w-full relative">
+        <div className="relative flex-1 max-w-2xl">
+          <Search size={20} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
           <input
             type="search"
-            placeholder="Search error , Project.."
-            className="border rounded-md pl-8 px-4 py-1 w-2xl focus:outline-black dark:focus:outline-white dark:bg-background dark:text-white"
+            placeholder="Search error, Project.."
+            className="border rounded-md pl-10 pr-4 py-1.5 w-full focus:outline-primary dark:bg-background dark:text-white text-sm"
           />
         </div>
-        <div className="flex gap-4 absolute right-6">
+        <div className="flex gap-2 sm:gap-4 items-center shrink-0">
           <button
             onClick={handleThemeChange}
-            className="rounded-lg flex w-10 h-10 hover:bg-gray-100 dark:hover:bg-neutral-800 items-center justify-center cursor-pointer"
+            className="rounded-lg flex w-10 h-10 hover:bg-gray-100 dark:hover:bg-neutral-800 items-center justify-center cursor-pointer transition-colors"
           >
-            <Sun />
+            <Sun size={20} />
           </button>
 
           {/* notification bell */}
@@ -126,7 +125,7 @@ export default function DashboardNavbar() {
 
             {/* notification dropdown */}
             {notification && (
-              <div className="absolute right-0 top-12 z-50 w-[380px] border rounded-md bg-white dark:bg-background shadow-lg overflow-hidden">
+              <div className="absolute right-0 top-12 z-50 w-[280px] sm:w-[380px] border rounded-md bg-white dark:bg-background shadow-lg overflow-hidden">
                 {/* header */}
                 <div className="px-4 py-3 border-b flex items-center justify-between">
                   <div>

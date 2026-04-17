@@ -47,35 +47,30 @@ export default function Page() {
             Track and manage all errors across your applications.
           </p>
         </div>
-        <div className="border border-black/[0.08] dark:border-white/[0.08] rounded-md p-4 grid grid-cols-1 md:grid-cols-3 gap-4 bg-white dark:bg-[#18171D]">
-          <div className=" relative w-full pb-2 col-span-2">
-            <Search size={18} className="absolute left-2 top-2 inset-y-0" />
+        <div className="border border-black/[0.08] dark:border-white/[0.08] rounded-md p-4 flex flex-col xl:flex-row gap-4 bg-white dark:bg-[#18171D]">
+          <div className="relative flex-1">
+            <Search size={18} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
             <input
               type="text"
               placeholder="Search errors..."
-              className="w-full border rounded-md p-1 pl-8"
+              className="w-full border rounded-md py-1.5 pl-9 pr-4 text-sm focus:outline-primary dark:bg-background"
               onChange={(e) => (debouncedSearch(e.target.value))}
             />
           </div>
-          <div className="flex flex-col md:flex-row  gap-2">
-            <div>
+          <div className="flex flex-wrap gap-2">
+            <div className="flex-1 min-w-[140px]">
               <select
-                className="h-8 w-full rounded-lg border border-gray-300 bg-white px-3 pr-8 text-sm text-gray-900
-               focus:outline-none focus:ring-2 focus:ring-blue-500
-               hover:border-gray-400"
+                className="h-9 w-full rounded-lg border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-background px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 hover:border-primary/40 transition-colors cursor-pointer"
                 onChange={(e) => setSeverity(e.target.value)}
               >
                 <option value={""}>All Severities</option>
-                <option value={"Error"} >Error</option>
+                <option value={"Error"}>Error</option>
                 <option value={"Warning"}>Warning</option>
               </select>
             </div>
-            <div>
+            <div className="flex-1 min-w-[140px]">
               <select
-                className="h-8 w-full rounded-lg border border-gray-300 bg-white px-3 pr-8 text-sm text-gray-900
-               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-               hover:border-gray-400 transition"
-
+                className="h-9 w-full rounded-lg border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-background px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 hover:border-primary/40 transition-colors cursor-pointer"
                 onChange={(e) => setStatus(e.target.value)}
               >
                 <option value="">All Status</option>
@@ -84,14 +79,12 @@ export default function Page() {
                 <option value={"Resolved"}>Resolved</option>
               </select>
             </div>
-            <div>
+            <div className="flex-1 min-w-[150px]">
               <select
-                className="h-8 w-full rounded-lg border border-gray-300 bg-white px-3 pr-8 text-sm text-gray-900
-               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-               hover:border-gray-400 transition"
+                className="h-9 w-full rounded-lg border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-background px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 hover:border-primary/40 transition-colors cursor-pointer"
                 onChange={(e) => setErrortype(e.target.value)}
               >
-                <option value={""}>All ErrorType</option>
+                <option value={""}>All ErrorTypes</option>
                 <option value={"ReferenceError"}>ReferenceError</option>
                 <option value={"TypeError"}>TypeError</option>
                 <option value={"SyntaxError"}>SyntaxError</option>

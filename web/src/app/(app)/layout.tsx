@@ -69,13 +69,13 @@ export default function DashboardLayout({
           </div>
         </SidebarBody>
       </Sidebar>
-      {/* <Dashboard /> */}
-      <div className="flex flex-1 overflow-y-auto h-full dark:bg-background dark:text-foreground bg-white text-black border-l border-border">
-        <div className="flex w-full flex-1 flex-col gap-2">
+      {/* Main Content */}
+      <div className="flex flex-1 overflow-y-auto h-full dark:bg-background dark:text-foreground bg-white text-black md:border-l border-t md:border-t-0 border-border">
+        <div className="flex w-full flex-1 flex-col ">
           <main className="flex flex-col flex-1 w-full">
-            <div className="w-full hidden md:contents">
+            <div className="w-full">
               <DashboardNavbar />
-              <hr />
+              <hr className="border-border" />
             </div>
             <div className="p-2 md:p-4 flex-1">{children}</div>
           </main>

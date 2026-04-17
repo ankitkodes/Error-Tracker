@@ -1,4 +1,7 @@
+"use client";
+
 import HorizontalLine from "@/components/ui/HorizontalLine";
+import { motion } from "motion/react";
 import CTA from "@/components/landingpage/CTA";
 import FAQS from "@/components/landingpage/FAQS";
 import Features from "@/components/landingpage/Features";
@@ -19,11 +22,18 @@ export default function Home() {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-4/5 h-[40px] -translate-y-1/2 bg-gradient-to-r from-transparent via-[#00ffb2]/30 to-transparent blur-2xl z-10 pointer-events-none" />
         {/* Sharp edge highlight (White border) */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[90%] h-[2px] bg-gradient-to-r from-transparent via-white/50 to-transparent z-10 pointer-events-none" />
-        <Image
-          src={dashboard}
-          alt="Dashboard Image"
-          className="w-full h-auto shadow-xl mb-20 border border-[#202026] rounded-xl"
-        />
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" as any }}
+          className="w-full relative"
+        >
+          <Image
+            src={dashboard}
+            alt="Dashboard Image"
+            className="w-full h-auto shadow-xl mb-20 border border-[#202026] rounded-xl"
+          />
+        </motion.div>
       </div>
       <div className="max-w-7xl mx-auto pt-2 px-2 relative overflow-x-hidden md:overflow-visible">
         <div>

@@ -8,18 +8,18 @@ export default function page() {
   return (
     <>
       <div className="">
-        <div className="flex relative">
-          <div className="inline-block">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 py-4">
+          <div>
             <h1 className="text-2xl font-bold">Analytics</h1>
             <p className="text-sm text-muted-foreground">
               Monitor errors and track system health
             </p>
           </div>
-          <div className=" absolute right-2 flex gap-2">
-            <button className="text-sm text-white bg-black  border px-2 py-1 rounded-md cursor-pointer  flex items-center gap-1">
+          <div className="flex gap-2">
+            <button className="text-xs font-medium bg-white/[0.04] border border-black/[0.08] dark:border-white/[0.08] px-3 py-1.5 rounded-lg cursor-pointer hover:bg-white/[0.08] transition-colors text-foreground">
               Last 7 days
             </button>
-            <button className="text-sm text-white bg-black  border px-4 py-2 rounded-md cursor-pointer  flex items-center gap-1">
+            <button className="text-xs font-medium bg-white/[0.04] border border-black/[0.08] dark:border-white/[0.08] px-3 py-1.5 rounded-lg cursor-pointer hover:bg-white/[0.08] transition-colors text-foreground">
               Last 30 days
             </button>
           </div>

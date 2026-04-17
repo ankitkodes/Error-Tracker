@@ -52,29 +52,29 @@ export default function Page() {
   return (
     <>
       <div>
-        <div className="flex gap-2 justify-between align-baseline">
-          <div className="flex gap-2">
-            <div className="font-semibold text-4xl">{data.project.name} </div>
-            <div>
-              <button className="px-2 mx-2 py-1 text-sm font-medium rounded-lg dark:text-black border-gray-400 bg-gray-300 h-min-content">
+        <div className="flex flex-col lg:flex-row gap-4 justify-between items-start lg:items-center py-4">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 w-full lg:w-auto">
+            <h1 className="font-semibold text-2xl sm:text-3xl lg:text-4xl truncate max-w-full">{data.project.name}</h1>
+            <div className="flex flex-wrap gap-2">
+              <span className="px-2 py-1 text-xs font-medium rounded-lg bg-gray-200 dark:bg-neutral-800 text-black dark:text-gray-300 border border-black/[0.08] dark:border-white/[0.08] h-fit">
                 {data.project.language}
-              </button>
-              <button
+              </span>
+              <span
                 className={cn(
-                  "rounded-md inline-block mx-2 text-sm font-medium text-yellow-200 px-2 py-1",
-                  EnvStyle["Staging"],
+                  "rounded-md text-xs font-medium px-2 py-1 border border-transparent",
+                  EnvStyle[data.project.environment] || EnvStyle["Staging"]
                 )}
               >
                 {data.project.environment}
-              </button>
-              <button
+              </span>
+              <span
                 className={cn(
-                  "rounded-lg px-2 mx-2 py-1 text-sm font-medium",
-                  setactive["Active"],
+                  "rounded-lg px-2 py-1 text-xs font-medium border border-transparent",
+                  setactive["Active"]
                 )}
               >
                 Active
-              </button>
+              </span>
             </div>
           </div>
           <div className="flex gap-2 items-center">
