@@ -55,6 +55,7 @@ model Error{
   issuehashId String? @unique
  
   createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt @default(now())
   projectId  String
   project    Project @relation(fields: [projectId], references: [id])
 }

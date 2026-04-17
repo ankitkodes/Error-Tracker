@@ -23,6 +23,7 @@ export default function Page() {
   const [openUpdateModal, setOpenUpdateModal] = useState(false);
 
   const { data, isLoading, isError } = useProject(projectid);
+  console.log("the data is :- ", data)
   const projectError = useProjectError(projectid);
   const panelRef = useRef<HTMLDivElement>(null);
 
@@ -61,43 +62,43 @@ export default function Page() {
 
         {/* Credentials Skeleton */}
         <div className="p-6 border border-black/[0.08] dark:border-white/[0.08] rounded-xl bg-white dark:bg-[#18171D] space-y-4">
-           <Skeleton className="h-6 w-40" />
-           <div className="space-y-4">
-             <div className="space-y-2">
-               <Skeleton className="h-4 w-20" />
-               <Skeleton className="h-10 w-full" />
-             </div>
-             <div className="space-y-2">
-               <Skeleton className="h-4 w-20" />
-               <Skeleton className="h-10 w-full" />
-             </div>
-           </div>
+          <Skeleton className="h-6 w-40" />
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-20" />
+              <Skeleton className="h-10 w-full" />
+            </div>
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-20" />
+              <Skeleton className="h-10 w-full" />
+            </div>
+          </div>
         </div>
 
         {/* Health Skeleton */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-           {[...Array(4)].map((_, i) => (
-             <div key={i} className="p-6 border border-black/[0.08] dark:border-white/[0.08] rounded-xl bg-white dark:bg-[#18171D]">
-                <Skeleton className="h-5 w-1/2 mb-4" />
-                <Skeleton className="h-8 w-1/3 mb-2" />
-                <Skeleton className="h-4 w-2/3" />
-             </div>
-           ))}
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="p-6 border border-black/[0.08] dark:border-white/[0.08] rounded-xl bg-white dark:bg-[#18171D]">
+              <Skeleton className="h-5 w-1/2 mb-4" />
+              <Skeleton className="h-8 w-1/3 mb-2" />
+              <Skeleton className="h-4 w-2/3" />
+            </div>
+          ))}
         </div>
 
         {/* Table Skeleton */}
         <div className="space-y-4">
-           <Skeleton className="h-6 w-48" />
-           <div className="border border-black/[0.08] dark:border-white/[0.08] rounded-xl bg-white dark:bg-[#18171D] p-4 space-y-4">
-              {[...Array(5)].map((_, i) => (
-                <div key={i} className="flex gap-4 items-center">
-                   <Skeleton className="h-5 flex-1" />
-                   <Skeleton className="h-5 w-24" />
-                   <Skeleton className="h-5 w-24" />
-                   <Skeleton className="h-8 w-20 rounded-lg" />
-                </div>
-              ))}
-           </div>
+          <Skeleton className="h-6 w-48" />
+          <div className="border border-black/[0.08] dark:border-white/[0.08] rounded-xl bg-white dark:bg-[#18171D] p-4 space-y-4">
+            {[...Array(5)].map((_, i) => (
+              <div key={i} className="flex gap-4 items-center">
+                <Skeleton className="h-5 flex-1" />
+                <Skeleton className="h-5 w-24" />
+                <Skeleton className="h-5 w-24" />
+                <Skeleton className="h-8 w-20 rounded-lg" />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     );

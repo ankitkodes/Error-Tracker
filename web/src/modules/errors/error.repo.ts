@@ -57,6 +57,8 @@ export async function getSortedError(userId: number, severity: Severity, status:
             status: true,
             occurrence: true,
             createdAt: true,
+            updatedAt: true,
+            projectId: true,
             project: {
                 select: {
                     name: true,
@@ -80,7 +82,9 @@ export async function projecterror(projectId: string) {
             message: true,
             projectId: true,
             errorType: true,
-            status: true
+            status: true,
+            createdAt: true,
+            updatedAt: true
         }
     });
 }

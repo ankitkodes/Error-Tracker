@@ -2,6 +2,7 @@
 import { StatusStyle } from "@/lib/projectstyles";
 import { UseErrorId } from "@/lib/store";
 import { cn } from "@/lib/utils";
+import { timeAgo } from "@/utils/timeAgo";
 
 interface Errorlog {
   error: string;
@@ -11,6 +12,8 @@ interface Errorlog {
   projectId: string;
   errorType: string;
   status: string;
+  createdAt: string;
+  updatedAt: string;
 }
 interface projectErrorProps {
   data: Errorlog[]
@@ -62,7 +65,7 @@ export default function ErrorTable({ data }: projectErrorProps) {
                     {" "}
                     {items.occurrence}{" "}
                   </td>
-                  <td className="border-b-2 py-3 px-4">12 minutes ago </td>
+                  <td className="border-b-2 py-3 px-4">{timeAgo(items.createdAt)} </td>
                   <td className="border-b-2 py-3 px-4">
                     <button
                       className={cn(

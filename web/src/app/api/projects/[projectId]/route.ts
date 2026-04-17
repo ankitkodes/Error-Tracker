@@ -12,9 +12,9 @@ export async function GET(
   try {
     const { projectId } = await params;
     const id = projectId;
-    const user = getServerSession(authOptions);
+    const user = await getServerSession(authOptions);
     if (!user) {
-      return NextResponse.json({ message: "please login or signup" });
+      return NextResponse.json({ message: "please login or signup" }, { status: 401 });
     }
     const project = await GetProjectDetail(id)
 
@@ -23,7 +23,7 @@ export async function GET(
       project,
     });
   } catch (error) {
-    return NextResponse.json({ message: "Invalid Error has occured!", error });
+    return NextResponse.json({ message: "Invalid Error has occured!" }, { status: 500 });
   }
 }
 
@@ -38,8 +38,7 @@ export async function DELETE(
   } catch (error) {
     return NextResponse.json({
       message: "unable to delete the project",
-      error,
-    });
+    }, { status: 500 });
   }
 }
 
@@ -51,6 +50,6 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ proj
     await UpdateProject(projectId, project_details);
     return NextResponse.json({ message: "project_details updated successfully" })
   } catch (error) {
-    return NextResponse.json({ message: "unable to update project details", error })
+    return NextResponse.json({ message: "unable to update project details" }, { status: 500 })
   }
 }

@@ -7,6 +7,7 @@ import { useState } from "react";
 import { UseErrorId } from "@/lib/store";
 import ErrorDrawer from "@/components/Error-Drawer";
 import { Skeleton } from "@/components/ui/skeleton";
+import { timeAgo } from "@/utils/timeAgo";
 
 interface Error {
   id: number;
@@ -17,6 +18,7 @@ interface Error {
   projectName: string;
   projectId: string;
   occurrence: number;
+  createdAt: string;
   project: {
     environment: string;
     name: string;
@@ -109,8 +111,8 @@ export default function Page() {
                       <div className="space-y-2 grow">
                         <Skeleton className="h-5 w-3/4" />
                         <div className="flex gap-2">
-                           <Skeleton className="h-4 w-16" />
-                           <Skeleton className="h-4 w-16" />
+                          <Skeleton className="h-4 w-16" />
+                          <Skeleton className="h-4 w-16" />
                         </div>
                       </div>
                       <Skeleton className="h-6 w-20 rounded-lg" />
@@ -129,11 +131,11 @@ export default function Page() {
               <>{searchquery && searchresult.data ? (
                 <>
                   {searchresult.isLoading ? (
-                     <div className="space-y-3 pb-4">
-                        {[...Array(3)].map((_, i) => (
-                          <Skeleton key={i} className="h-24 w-full rounded-xl" />
-                        ))}
-                     </div>
+                    <div className="space-y-3 pb-4">
+                      {[...Array(3)].map((_, i) => (
+                        <Skeleton key={i} className="h-24 w-full rounded-xl" />
+                      ))}
+                    </div>
                   ) : (
                     (searchresult.data?.data ?? []).map((items: Error) => (
                       <div key={items.id} onClick={() => {
@@ -149,7 +151,7 @@ export default function Page() {
                           environment={items.project.environment}
                           projectName={items.project.name}
                           occurrences={items.occurrence}
-                          lastseen="12 minutes ago"
+                          lastseen={timeAgo(items.createdAt)}
                         />
                       </div>
                     ))
@@ -168,7 +170,7 @@ export default function Page() {
                       environment={items.project.environment}
                       projectName={items.project.name}
                       occurrences={items.occurrence}
-                      lastseen="12 minutes ago"
+                      lastseen={timeAgo(items.createdAt)}
                     />
                   </div>
                 ))
