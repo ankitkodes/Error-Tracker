@@ -1,8 +1,14 @@
 "use client";
 
 import { UseErrorId } from "@/lib/store";
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useGetErrors } from "@/lib/services/errors/errors.query";
+import {
+  useUpdateErrorStatus,
+  useDeleteError,
+} from "@/lib/services/errors/error.mutation";
+import { StatusStyle, SeverityStyle } from "@/lib/projectstyles";
+import { cn } from "@/lib/utils";
+import { timeAgo } from "@/utils/timeAgo";
 import {
   X,
   AlertCircle,
@@ -17,10 +23,10 @@ import {
   ShieldAlert,
   MapPin,
   History,
+  Loader2,
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
-
-
+import toast from "react-hot-toast";
 
 export default function ErrorDrawer() {
   const errorId = UseErrorId((state) => state.errorId);
@@ -28,87 +34,85 @@ export default function ErrorDrawer() {
   const isOpen = UseErrorId((state) => state.ErrorDrawer);
   const closeDrawer = UseErrorId((state) => state.setErrorDrawer);
 
+  const { data, isLoading, isError } = useGetErrors({
+    projectId,
+    errorId: String(errorId),
+  });
+
+  const updateStatusMutation = useUpdateErrorStatus();
+  const deleteErrorMutation = useDeleteError();
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [errorDetails, setErrorDetails] = useState<any>(null);
-  const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    async function Geterror() {
-      if (!errorId || !isOpen) return;
-      setLoading(true);
-      try {
-        const response = await axios.get(
-          `/api/projects/${projectId}/errors/${errorId}`,
-        );
-        setErrorDetails(response.data.error);
-      } catch (err) {
-        console.error("Failed to fetch error details", err);
-      } finally {
-        setLoading(false);
+  const errorDetails: any = data?.error ?? null;
+
+  async function handleResolve() {
+    if (!errorId || !projectId) return;
+    updateStatusMutation.mutate(
+      { projectId, errorId, status: "Resolved" },
+      {
+        onSuccess: () => toast.success("Error marked as resolved"),
+        onError: () => toast.error("Failed to update status"),
       }
-    }
-
-    if (isOpen) {
-      Geterror();
-    }
-  }, [errorId, isOpen, projectId]);
-
-  async function onPress() {
-    const response = await axios({
-      method: "PUT",
-      url: `/api/projects/${projectId}/errors/${errorId}`,
-      data: {
-        status: "Resolved",
-      },
-    });
-    console.log("this is response from the frontend :-", response);
-    alert("function ran successfully");
+    );
   }
 
-
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "Bug":
-        return "text-red-400/90 bg-red-400/5 border-red-400/10";
-      case "InProcess":
-        return "text-yellow-400/90 bg-yellow-400/5 border-yellow-400/10";
-      case "Fixed":
-        return "text-green-400/90 bg-green-400/5 border-green-400/10";
-      default:
-        return "text-gray-400 bg-gray-400/5 border-gray-400/10";
-    }
-  };
+  async function handleDelete() {
+    if (!errorId || !projectId) return;
+    deleteErrorMutation.mutate(
+      { projectId, errorId },
+      {
+        onSuccess: () => {
+          toast.success("Error deleted");
+          closeDrawer(false);
+        },
+        onError: () => toast.error("Failed to delete error"),
+      }
+    );
+  }
 
   const renderStackTrace = (stack: string) => {
     if (!stack) return null;
-    const errorDetails = JSON.parse(stack);
-    const lines = stack.split("\n");
+    let parsedStack: { stack?: string } = {};
+    try {
+      parsedStack = JSON.parse(stack);
+    } catch {
+      return null;
+    }
+    const stackStr = parsedStack.stack ?? stack;
+    const lines = stackStr.split("\n");
     return (
-      <div className="bg-[#0c0c0e] rounded-xl border border-white/5 overflow-hidden shadow-xl">
-        <div className="flex items-center justify-between px-3 py-2 bg-white/[0.02] border-b border-white/5">
-          <div className="flex items-center gap-2 text-[10px] font-bold text-white/40 uppercase tracking-widest">
-            <Terminal size={12} className="text-red-500/60" />
+      <div className="rounded-xl border border-black/[0.08] dark:border-white/[0.08] overflow-hidden bg-gray-50 dark:bg-[#13121a]">
+        <div className="flex items-center justify-between px-4 py-2.5 bg-gray-100/80 dark:bg-white/[0.03] border-b border-black/[0.06] dark:border-white/[0.06]">
+          <div className="flex items-center gap-2 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+            <Terminal size={14} className="text-red-500" />
             Stack Trace
           </div>
-          <span className="text-[10px] text-white/20 font-mono">
+          <span className="text-[11px] text-gray-400 dark:text-gray-500 font-mono">
             {lines.length} frames
           </span>
         </div>
-        <div className="p-3 font-mono text-[12px] overflow-x-auto space-y-1 custom-scrollbar max-h-[400px]">
+        <div className="p-3 font-mono text-xs overflow-x-auto max-h-[350px] overflow-y-auto space-y-0.5">
           {lines.map((line, i) => {
             const isAtLine = line.trim().startsWith("at ");
             return (
               <div
                 key={i}
-                className={`flex gap-3 group transition-colors duration-150 py-0.5 px-2 rounded ${isAtLine ? "hover:bg-white/[0.02]" : ""}`}
+                className={cn(
+                  "flex gap-3 py-0.5 px-2 rounded transition-colors",
+                  isAtLine && "hover:bg-black/[0.03] dark:hover:bg-white/[0.03]"
+                )}
               >
-                <span className="w-6 text-right text-white/10 select-none shrink-0 text-[10px] mt-0.5">
+                <span className="w-5 text-right text-gray-300 dark:text-gray-600 select-none shrink-0 text-[10px] mt-0.5">
                   {i}
                 </span>
                 <span
-                  className={`${isAtLine ? "text-white/60" : "text-red-400/80 font-bold"}`}
+                  className={cn(
+                    isAtLine
+                      ? "text-gray-600 dark:text-gray-400"
+                      : "text-red-600 dark:text-red-400 font-semibold"
+                  )}
                 >
-                  {errorDetails["stack"]}
+                  {line}
                 </span>
               </div>
             );
@@ -120,294 +124,347 @@ export default function ErrorDrawer() {
 
   return (
     <>
+      {/* Backdrop */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
             onClick={() => closeDrawer(false)}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 transition-all"
+            className="fixed inset-0 bg-black/40 dark:bg-black/60 backdrop-blur-sm z-40"
           />
         )}
       </AnimatePresence>
 
+      {/* Drawer panel */}
       <div
-        className={`fixed top-0 right-0 h-screen w-full sm:w-[450px] md:w-[550px] lg:w-[650px] bg-[#0c0c0e] shadow-2xl
-        transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] z-50 border-l border-white/5 flex flex-col
-        ${isOpen ? "translate-x-0" : "translate-x-full"}`}
+        className={cn(
+          "fixed top-0 right-0 h-screen w-full sm:w-[440px] md:w-[520px] lg:w-[600px] z-50",
+          "bg-white dark:bg-[#18171D] border-l border-black/[0.08] dark:border-white/[0.08]",
+          "shadow-2xl flex flex-col transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
+          isOpen ? "translate-x-0" : "translate-x-full"
+        )}
       >
-        {!errorDetails && loading ? (
-          <div className="flex-1 flex items-center justify-center bg-[#0c0c0e]">
-            <div className="flex flex-col items-center gap-4">
-              <div className="w-8 h-8 border-2 border-red-500/10 border-t-red-500/60 rounded-full animate-spin" />
-              <p className="text-white/20 text-[10px] font-black uppercase tracking-[0.2em] animate-pulse">
-                Tracing Error
+        {/* Loading state */}
+        {isLoading && isOpen ? (
+          <div className="flex-1 flex items-center justify-center">
+            <div className="flex flex-col items-center gap-3">
+              <Loader2 className="w-7 h-7 text-red-500 animate-spin" />
+              <p className="text-sm text-gray-400 dark:text-gray-500 font-medium">
+                Loading error details…
               </p>
             </div>
           </div>
+        ) : isError && isOpen ? (
+          <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
+            <AlertCircle size={36} className="text-gray-300 dark:text-gray-600 mb-3" />
+            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
+              Failed to load error
+            </h3>
+            <p className="text-xs text-gray-400 dark:text-gray-500 max-w-[220px]">
+              Something went wrong while fetching the error details. Please try again.
+            </p>
+          </div>
         ) : errorDetails ? (
           <>
-            {/* Header */}
-            <div className="p-6 border-b border-white/5 bg-[#0c0c0e] relative shrink-0">
-              <div className="flex items-start justify-between mb-6">
-                <div className="flex items-center gap-4">
-                  <div className="p-3 rounded-2xl bg-red-500/5 border border-red-500/10 shadow-inner">
-                    <ShieldAlert className="text-red-500/80" size={24} />
+            {/* ── Header ── */}
+            <div className="p-5 border-b border-black/[0.08] dark:border-white/[0.08] shrink-0">
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex items-start gap-3 min-w-0">
+                  <div className="p-2.5 rounded-xl bg-red-50 dark:bg-red-500/10 border border-red-100 dark:border-red-500/20 shrink-0 mt-0.5">
+                    <ShieldAlert className="text-red-500" size={20} />
                   </div>
-                  <div>
-                    <div className="flex items-center gap-2 mb-1.5">
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2 mb-1.5 flex-wrap">
                       <span
-                        className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${errorDetails.severity === "Warning" ? "text-yellow-400 bg-yellow-400/5 border-yellow-400/10" : "text-red-400 bg-red-400/5 border-red-400/10"}`}
+                        className={cn(
+                          "text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-md",
+                          SeverityStyle[errorDetails.severity] ??
+                            "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400"
+                        )}
                       >
                         {errorDetails.severity}
                       </span>
-                      <button
-                        onClick={onPress}
-                        className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${getStatusColor(errorDetails.status)}`}
+                      <span
+                        className={cn(
+                          "text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-md",
+                          StatusStyle[errorDetails.status] ??
+                            "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400"
+                        )}
                       >
                         {errorDetails.status}
-                      </button>
+                      </span>
                     </div>
-                    <h2 className="text-xl font-bold text-white tracking-tight leading-tight">
-                      <span className="text-red-500/90 font-mono text-lg mr-2 opacity-80">
+                    <p className="text-base font-bold text-gray-900 dark:text-white leading-snug">
+                      <span className="text-red-500 font-mono text-sm mr-1.5">
                         {errorDetails.errorType || "Error"}
                       </span>
-                      <p className="mt-1 text-white/90 font-medium">
-                        {errorDetails.message}
-                      </p>
-                    </h2>
+                    </p>
+                    <p className="text-sm text-gray-700 dark:text-gray-300 mt-0.5 break-words">
+                      {errorDetails.message}
+                    </p>
                   </div>
                 </div>
                 <button
                   onClick={() => closeDrawer(false)}
-                  className="p-2 text-white/20 hover:text-white/60 hover:bg-white/5 rounded-full transition-all"
+                  className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/[0.06] transition-colors shrink-0"
                 >
-                  <X size={20} />
+                  <X size={18} />
                 </button>
               </div>
 
-              <div className="flex flex-wrap gap-2.5">
-                <button className="flex items-center gap-2 px-5 py-2 bg-red-500/90 hover:bg-red-500 text-white rounded-xl text-[12px] font-bold transition-all active:scale-95 shadow-lg shadow-red-500/10 cursor-pointer">
-                  <CheckCircle2 size={15} />
-                  Mark Resolved
+              {/* Action buttons */}
+              <div className="flex flex-wrap gap-2">
+                <button
+                  onClick={handleResolve}
+                  disabled={
+                    updateStatusMutation.isPending ||
+                    errorDetails.status === "Resolved"
+                  }
+                  className={cn(
+                    "flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold transition-all active:scale-[0.97] cursor-pointer",
+                    errorDetails.status === "Resolved"
+                      ? "bg-green-50 dark:bg-green-500/10 text-green-600 dark:text-green-400 border border-green-200 dark:border-green-500/20 cursor-default"
+                      : "bg-red-500 hover:bg-red-600 text-white shadow-sm"
+                  )}
+                >
+                  {updateStatusMutation.isPending ? (
+                    <Loader2 size={14} className="animate-spin" />
+                  ) : (
+                    <CheckCircle2 size={14} />
+                  )}
+                  {errorDetails.status === "Resolved"
+                    ? "Resolved"
+                    : "Mark Resolved"}
                 </button>
-                <button className="flex items-center gap-2 px-5 py-2 bg-white/5 hover:bg-white/10 text-white/90 border border-white/10 rounded-xl text-[12px] font-bold transition-all active:scale-95 cursor-pointer">
-                  <UserPlus size={15} />
+                <button className="flex items-center gap-1.5 px-4 py-2 bg-gray-100 dark:bg-white/[0.06] hover:bg-gray-200 dark:hover:bg-white/[0.1] text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-white/[0.08] rounded-lg text-xs font-semibold transition-all active:scale-[0.97] cursor-pointer">
+                  <UserPlus size={14} />
                   Assign
                 </button>
-                <button className="flex items-center gap-2 px-5 py-2 bg-white/[0.02] hover:bg-white/[0.05] text-white/40 border border-white/5 rounded-xl text-[12px] font-bold transition-all active:scale-95 cursor-pointer">
-                  <Layers size={15} />
+                <button className="flex items-center gap-1.5 px-4 py-2 bg-gray-50 dark:bg-white/[0.03] hover:bg-gray-100 dark:hover:bg-white/[0.06] text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-white/[0.06] rounded-lg text-xs font-semibold transition-all active:scale-[0.97] cursor-pointer">
+                  <Layers size={14} />
                   Archive
                 </button>
               </div>
             </div>
 
-            {/* Content Area */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-8 custom-scrollbar">
-              {/* Stats Bar */}
+            {/* ── Content area ── */}
+            <div className="flex-1 overflow-y-auto p-5 space-y-6">
+              {/* Stats row */}
               <div className="grid grid-cols-3 gap-3">
-                <div className="p-3 rounded-xl bg-gradient-to-b from-white/[0.03] to-transparent border border-white/5">
-                  <div className="flex items-center gap-1.5 text-white/30 mb-1.5">
-                    <Activity size={12} className="text-red-500/50" />
-                    <span className="text-[9px] font-bold uppercase tracking-widest">
-                      Total
+                <div className="rounded-xl border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#1e1d24] p-3.5">
+                  <div className="flex items-center gap-1.5 text-gray-400 dark:text-gray-500 mb-1.5">
+                    <Activity size={13} className="text-red-500" />
+                    <span className="text-[10px] font-semibold uppercase tracking-wider">
+                      Occurrences
                     </span>
                   </div>
-                  <div className="text-lg font-black text-white tracking-tighter">
+                  <div className="text-lg font-bold text-gray-900 dark:text-white">
                     {errorDetails.occurrence?.toLocaleString() || "1"}
                   </div>
                 </div>
 
-                <div className="p-3 rounded-xl bg-gradient-to-b from-white/[0.03] to-transparent border border-white/5">
-                  <div className="flex items-center gap-1.5 text-white/30 mb-1.5">
-                    <Clock size={12} className="text-blue-500/50" />
-                    <span className="text-[9px] font-bold uppercase tracking-widest">
-                      Detected
+                <div className="rounded-xl border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#1e1d24] p-3.5">
+                  <div className="flex items-center gap-1.5 text-gray-400 dark:text-gray-500 mb-1.5">
+                    <Clock size={13} className="text-blue-500" />
+                    <span className="text-[10px] font-semibold uppercase tracking-wider">
+                      First Seen
                     </span>
                   </div>
-                  <div className="text-[10px] font-bold text-white/70 leading-tight">
-                    {new Date(errorDetails.createdAt).toLocaleDateString(
-                      "en-US",
-                      { month: "short", day: "numeric" },
-                    )}
+                  <div className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                    {errorDetails.createdAt
+                      ? timeAgo(errorDetails.createdAt)
+                      : "—"}
                   </div>
                 </div>
 
-                <div className="p-3 rounded-xl bg-gradient-to-b from-white/[0.03] to-transparent border border-white/5 border-red-500/10">
-                  <div className="flex items-center gap-1.5 text-white/30 mb-1.5">
-                    <History size={12} className="text-orange-500/50" />
-                    <span className="text-[9px] font-bold uppercase tracking-widest text-orange-400/60">
-                      Updated
+                <div className="rounded-xl border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#1e1d24] p-3.5">
+                  <div className="flex items-center gap-1.5 text-gray-400 dark:text-gray-500 mb-1.5">
+                    <History size={13} className="text-orange-500" />
+                    <span className="text-[10px] font-semibold uppercase tracking-wider">
+                      Last Seen
                     </span>
                   </div>
-                  <div className="text-[10px] font-black text-orange-400/80 leading-tight">
-                    2hr ago
+                  <div className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                    {errorDetails.updatedAt
+                      ? timeAgo(errorDetails.updatedAt)
+                      : "—"}
                   </div>
                 </div>
               </div>
 
-              {/* Source Info */}
-              <div className="space-y-3">
-                <div className="flex items-center gap-2 text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">
-                  <MapPin size={12} className="text-red-500/60" />
-                  Primary Location
+              {/* Source info */}
+              <div className="space-y-2.5">
+                <div className="flex items-center gap-2 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+                  <MapPin size={13} className="text-red-500" />
+                  Source Location
                 </div>
                 {errorDetails.fileName ? (
-                  <div className="p-4 bg-white/[0.01] border border-white/5 rounded-2xl flex items-center gap-4 transition-colors hover:bg-white/[0.02]">
-                    <div className="w-10 h-10 rounded-xl bg-red-400/5 flex items-center justify-center border border-red-400/10 shrink-0">
-                      <FileCode size={20} className="text-red-400/40" />
+                  <div className="p-4 rounded-xl border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#1e1d24] flex items-center gap-3 hover:bg-gray-50 dark:hover:bg-white/[0.02] transition-colors">
+                    <div className="w-10 h-10 rounded-lg bg-red-50 dark:bg-red-500/10 border border-red-100 dark:border-red-500/20 flex items-center justify-center shrink-0">
+                      <FileCode size={18} className="text-red-500" />
                     </div>
-                    <div className="overflow-hidden">
-                      <p className="text-[12px] text-white/90 font-mono truncate mb-0.5">
+                    <div className="min-w-0">
+                      <p className="text-sm text-gray-800 dark:text-gray-200 font-mono truncate">
                         {errorDetails.fileName}
                       </p>
-                      <div className="flex items-center gap-2">
-                        <span className="text-[10px] text-white/20 font-bold uppercase tracking-wider">
-                          Line Number:
+                      <div className="flex items-center gap-2 mt-0.5">
+                        <span className="text-[10px] text-gray-400 dark:text-gray-500 font-semibold uppercase tracking-wider">
+                          Line
                         </span>
-                        <span className="text-[10px] text-red-400/80 font-mono font-bold">
+                        <span className="text-[11px] text-red-500 font-mono font-bold">
                           {errorDetails.lineNumber}
                         </span>
                       </div>
                     </div>
                   </div>
                 ) : (
-                  <div className="p-4 bg-white/[0.02] rounded-2xl border border-white/5 border-dashed flex items-center gap-3">
-                    <AlertCircle size={14} className="text-white/20" />
-                    <p className="text-[11px] text-white/30 italic">
-                      Runtime event. No specific file metadata available for
-                      this trace.
+                  <div className="p-4 rounded-xl border border-dashed border-gray-200 dark:border-white/[0.06] bg-gray-50/50 dark:bg-white/[0.02] flex items-center gap-3">
+                    <AlertCircle
+                      size={16}
+                      className="text-gray-300 dark:text-gray-600 shrink-0"
+                    />
+                    <p className="text-xs text-gray-400 dark:text-gray-500 italic">
+                      Runtime event — no specific file metadata available.
                     </p>
                   </div>
                 )}
               </div>
 
-              {/* Stack Trace */}
+              {/* Stack trace */}
               {errorDetails.error && (
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2 text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">
-                    <Layers size={12} className="text-red-500/60" />
-                    Execution Stack
+                <div className="space-y-2.5">
+                  <div className="flex items-center gap-2 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+                    <Layers size={13} className="text-red-500" />
+                    Stack Trace
                   </div>
-                  <div className="relative group">
-                    <div className="absolute -inset-0.5 bg-gradient-to-r from-red-500/10 to-transparent rounded-2xl blur opacity-0 group-hover:opacity-100 transition duration-500" />
-                    <div className="relative">
-                      {renderStackTrace(errorDetails.error)}
-                    </div>
-                  </div>
+                  {renderStackTrace(errorDetails.error)}
                 </div>
               )}
 
-              {/* System Context */}
-              <div className="p-5 rounded-2xl border border-white/5 bg-gradient-to-br from-white/[0.02] to-transparent space-y-6">
+              {/* System metadata */}
+              <div className="rounded-xl border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#1e1d24] p-5 space-y-5">
                 <div className="flex items-center justify-between">
-                  <h4 className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">
+                  <h4 className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
                     System Metadata
                   </h4>
-                  <div className="flex items-center gap-1.5 px-2 py-0.5 bg-green-500/5 border border-green-500/10 rounded-full">
-                    <div className="w-1 h-1 rounded-full bg-green-500 animate-pulse" />
-                    <span className="text-[8px] font-bold text-green-500/80 uppercase">
+                  <div className="flex items-center gap-1.5 px-2 py-0.5 bg-green-50 dark:bg-green-500/10 border border-green-100 dark:border-green-500/20 rounded-full">
+                    <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                    <span className="text-[10px] font-semibold text-green-600 dark:text-green-400 uppercase">
                       Active
                     </span>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-y-6 gap-x-4 text-[11px]">
-                  <div className="space-y-1.5">
-                    <p className="text-[10px] text-white/20 font-bold uppercase tracking-wider">
+                <div className="grid grid-cols-2 gap-y-5 gap-x-4 text-sm">
+                  <div>
+                    <p className="text-[10px] text-gray-400 dark:text-gray-500 font-semibold uppercase tracking-wider mb-1">
                       Environment
                     </p>
-                    <p className="text-white/80 font-black tracking-widest uppercase">
+                    <p className="text-gray-800 dark:text-gray-200 font-bold uppercase tracking-wide text-xs">
                       Production
                     </p>
                   </div>
 
-                  <div className="space-y-1.5 text-right">
-                    <p className="text-[10px] text-white/20 font-bold uppercase tracking-wider">
+                  <div className="text-right">
+                    <p className="text-[10px] text-gray-400 dark:text-gray-500 font-semibold uppercase tracking-wider mb-1">
                       Event ID
                     </p>
-                    <p className="font-mono text-white/50 bg-white/5 px-2 py-0.5 rounded inline-block">
+                    <span className="font-mono text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-white/[0.06] px-2 py-0.5 rounded">
                       #{errorDetails.id}
-                    </p>
+                    </span>
                   </div>
 
-                  <div className="space-y-1.5">
-                    <p className="text-[10px] text-white/20 font-bold uppercase tracking-wider">
+                  <div>
+                    <p className="text-[10px] text-gray-400 dark:text-gray-500 font-semibold uppercase tracking-wider mb-1">
                       Project ID
                     </p>
                     <p
-                      className="font-mono text-white/50 truncate max-w-[150px]"
+                      className="font-mono text-xs text-gray-500 dark:text-gray-400 truncate max-w-[160px]"
                       title={errorDetails.projectId}
                     >
                       {errorDetails.projectId}
                     </p>
                   </div>
 
-                  <div className="space-y-1.5 text-right">
-                    <p className="text-[10px] text-white/20 font-bold uppercase tracking-wider">
+                  <div className="text-right">
+                    <p className="text-[10px] text-gray-400 dark:text-gray-500 font-semibold uppercase tracking-wider mb-1">
                       Fingerprint
                     </p>
                     <p
-                      className="font-mono text-white/40 truncate text-[9px]"
+                      className="font-mono text-[10px] text-gray-400 dark:text-gray-500 truncate"
                       title={errorDetails.issuehashId || "Not hashed"}
                     >
                       {errorDetails.issuehashId
-                        ? errorDetails.issuehashId.substring(0, 16) + "..."
+                        ? errorDetails.issuehashId.substring(0, 16) + "…"
                         : "N/A"}
+                    </p>
+                  </div>
+
+                  <div>
+                    <p className="text-[10px] text-gray-400 dark:text-gray-500 font-semibold uppercase tracking-wider mb-1">
+                      Created
+                    </p>
+                    <p className="text-xs text-gray-600 dark:text-gray-400 font-medium">
+                      {errorDetails.createdAt
+                        ? timeAgo(errorDetails.createdAt)
+                        : "—"}
+                    </p>
+                  </div>
+
+                  <div className="text-right">
+                    <p className="text-[10px] text-gray-400 dark:text-gray-500 font-semibold uppercase tracking-wider mb-1">
+                      Updated
+                    </p>
+                    <p className="text-xs text-gray-600 dark:text-gray-400 font-medium">
+                      {errorDetails.updatedAt
+                        ? timeAgo(errorDetails.updatedAt)
+                        : "—"}
                     </p>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Footer */}
-            <div className="p-4 border-t border-white/5 bg-white/[0.01] flex items-center justify-between shrink-0">
-              <div className="flex items-center gap-2 opacity-30">
-                <Terminal size={12} className="text-red-500" />
-                <span className="text-[8px] font-black tracking-[0.4em] uppercase text-white">
-                  BugTrace Runtime Index
+            {/* ── Footer ── */}
+            <div className="p-4 border-t border-black/[0.08] dark:border-white/[0.08] flex items-center justify-between shrink-0 bg-gray-50/50 dark:bg-white/[0.01]">
+              <div className="flex items-center gap-2">
+                <Terminal size={14} className="text-red-500/60" />
+                <span className="text-[10px] font-bold tracking-widest uppercase text-gray-400 dark:text-gray-600">
+                  BugTrace
                 </span>
               </div>
               <button
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[9px] font-black text-red-400/40 uppercase tracking-widest hover:text-red-400 hover:bg-red-400/5 transition-all cursor-pointer"
-                onClick={() => {
-                  /* potential delete logic */
-                }}
+                onClick={handleDelete}
+                disabled={deleteErrorMutation.isPending}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-red-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all cursor-pointer"
               >
-                <Trash2 size={12} />
-                Purge Event
+                {deleteErrorMutation.isPending ? (
+                  <Loader2 size={13} className="animate-spin" />
+                ) : (
+                  <Trash2 size={13} />
+                )}
+                Delete
               </button>
             </div>
           </>
-        ) : (
-          <div className="flex-1 flex flex-col items-center justify-center p-8 text-center bg-[#0c0c0e]">
-            <AlertCircle size={32} className="text-white/5 mb-4" />
-            <h3 className="text-sm font-bold text-white/60 mb-1">
-              Index Missing
+        ) : isOpen ? (
+          <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
+            <AlertCircle
+              size={36}
+              className="text-gray-300 dark:text-gray-600 mb-3"
+            />
+            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
+              No Error Selected
             </h3>
-            <p className="text-[11px] text-white/20 max-w-[200px]">
-              The requested event could not be retrieved from the edge index.
+            <p className="text-xs text-gray-400 dark:text-gray-500 max-w-[220px]">
+              Select an error from the list to view its details.
             </p>
           </div>
-        )}
+        ) : null}
       </div>
-
-      <style jsx global>{`
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 3px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: rgba(255, 255, 255, 0.05);
-          border-radius: 10px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: rgba(255, 255, 255, 0.1);
-        }
-      `}</style>
     </>
   );
 }

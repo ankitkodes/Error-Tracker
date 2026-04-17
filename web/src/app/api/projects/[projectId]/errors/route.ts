@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db";
 import { authOptions } from "@/app/api/auth/[...nextauth]/options";
+import { ProjectError } from "@/modules/errors/error.service";
 
 // error of specific project
 export async function GET(
@@ -14,20 +15,7 @@ export async function GET(
     if (!session) {
       return NextResponse.json({ message: "please login and signup" });
     }
-    const errors = await prisma.error.findMany({
-      where: {
-        projectId: projectId,
-      },
-      select: {
-        id: true,
-        error: true,
-        occurrence: true,
-        message: true,
-        projectId: true,
-        errorType: true,
-        status: true
-      }
-    });
+    const errors = await ProjectError(projectId);
     return NextResponse.json({
       message: "successfully fetched all the error",
       errors,

@@ -11,6 +11,7 @@ export function useGetErrors({ projectId, errorId }: ErrorsParams) {
   return useQuery({
     queryKey: ["geterror", projectId, errorId],
     queryFn: () => getError(projectId, errorId),
+    enabled: !!projectId && !!errorId && errorId !== "0",
   })
 }
 

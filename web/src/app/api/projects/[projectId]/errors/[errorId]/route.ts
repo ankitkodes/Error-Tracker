@@ -1,5 +1,6 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import prisma from "@/lib/db";
+import { getError } from "@/modules/errors/error.service";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -11,11 +12,7 @@ export async function GET(
   try {
     const { errorId } = await params;
 
-    const error = await prisma.error.findUnique({
-      where: {
-        id: Number(errorId),
-      },
-    });
+    const error = await getError(errorId);
 
     return NextResponse.json({ message: "error returned successfully", error });
   } catch (error) {

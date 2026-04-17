@@ -5,7 +5,6 @@ import { ProjectSchema } from "./project.types";
 
 type ProjectInput = z.infer<typeof ProjectSchema>;
 export async function addProject(userId: number, apikey: string, projectid: string, data: ProjectInput) {
-    console.log("the values of apikey:- ", apikey)
     return await prisma.project.create({
         data: {
             id: projectid,
@@ -23,6 +22,15 @@ export async function getProject(userId: number) {
     return await prisma.project.findMany({
         where: {
             userId
+        },
+        include: {
+            projecthealth: true,
+            error: {
+                orderBy: {
+                    createdAt: "desc"
+                },
+                take: 1
+            }
         }
     })
 }

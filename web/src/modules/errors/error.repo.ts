@@ -67,3 +67,28 @@ export async function getSortedError(userId: number, severity: Severity, status:
         },
     })
 }
+
+export async function projecterror(projectId: string) {
+    return await prisma.error.findMany({
+        where: {
+            projectId: projectId,
+        },
+        select: {
+            id: true,
+            error: true,
+            occurrence: true,
+            message: true,
+            projectId: true,
+            errorType: true,
+            status: true
+        }
+    });
+}
+
+export async function geterror(errorId: string) {
+    return await prisma.error.findUnique({
+        where: {
+            id: Number(errorId),
+        },
+    });
+}

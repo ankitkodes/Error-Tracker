@@ -12,6 +12,8 @@ interface Project {
   apikey: string;
   language: string;
   name: string;
+  projecthealth: { totalerrors: number }[];
+  error: { createdAt: string | Date }[];
 }
 
 export default function Project() {
@@ -56,19 +58,27 @@ export default function Project() {
         <div className="my-8 flex-1">
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-4">
-            {data.projectdetails.map((items: Project) => (
-              <>
+            {data.projectdetails.map((items: Project) => {
+              const totalErrors = items.projecthealth?.[0]?.totalerrors ?? 0;
+              const lastErrorDate = items.error?.[0]?.createdAt 
+                ? new Date(items.error[0].createdAt).toISOString() 
+                : null;
+
+              return (
                 <Link
+                  key={items.id}
                   href={`/project/${items.id}`}
-                  className="cursor-pointer"
+                  className="cursor-pointer block"
                 >
                   <ProjectDetails
                     name={items.name}
                     environment={items.environment}
+                    totalErrors={totalErrors}
+                    lastErrorDate={lastErrorDate}
                   />
                 </Link>
-              </>
-            ))}
+              );
+            })}
           </div>
 
         </div>
