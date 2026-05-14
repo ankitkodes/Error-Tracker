@@ -62,7 +62,7 @@ export const metadata: Metadata = {
       "Detect, diagnose, and resolve production bugs faster with instant alerts, full stack traces, and actionable analytics.",
     images: [
       {
-        url: "/Images/dashboard.png",
+        url: "/Images/bugtrace.png",
         width: 1200,
         height: 630,
         alt: "BugTrace Dashboard Preview",
