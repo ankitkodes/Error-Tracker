@@ -76,7 +76,7 @@ export const metadata: Metadata = {
     title: "BugTrace — Real-Time Error Tracking for Developers",
     description:
       "Detect, diagnose, and resolve production bugs faster with instant alerts, full stack traces, and actionable analytics.",
-    images: ["/Images/dashboard.png"],
+    images: ["/Images/bugtrace.png"],
   },
 
   // Misc
