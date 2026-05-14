@@ -31,8 +31,8 @@ export default function Header() {
     <>
       <header className={`fixed top-0 inset-x-0 z-[100] w-full transition-all duration-300 ${
         isScrolled 
-          ? "bg-black/60 backdrop-blur-xl border-b border-white/[0.08] shadow-sm py-2" 
-          : "bg-transparent border-transparent py-4"
+          ? "bg-black/60 backdrop-blur-xl border-b border-white/[0.08] shadow-sm py-1" 
+          : "bg-transparent border-transparent py-2"
       }`}>
         <nav
           aria-label="Global"
@@ -63,7 +63,7 @@ export default function Header() {
           </div>
 
           {/* Desktop Nav */}
-          <div className="hidden lg:flex lg:gap-x-8 items-center bg-white/[0.03] px-6 py-2 rounded-full">
+          <div className="hidden lg:flex lg:gap-x-8 items-center px-6 py-2">
             {navigation.map((item) => (
               <a
                 key={item.name}
