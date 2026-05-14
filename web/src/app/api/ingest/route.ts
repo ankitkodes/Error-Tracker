@@ -6,7 +6,6 @@ import { createHash } from "crypto";
 import { parse } from "stacktrace-parser";
 import { Severity, Status } from "../../../../prisma/generated/prisma/enums";
 import { getSortedErrorService } from "@/modules/errors/error.service";
-import Error from "next/error";
 
 // store error
 export async function POST(req: NextRequest) {
@@ -132,7 +131,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       message: "Error stored successfully",
     });
-  } catch (error) {
+  } catch (_error) {
     return NextResponse.json({
       message: "Some Invalid error has occured",
     }, { status: 500 });
@@ -153,7 +152,7 @@ export async function GET(req: NextRequest) {
     const errortype = searchParams.get('errortype') as string;
     const Error = await getSortedErrorService(Number(session.user.id), severity, status, errortype)
     return NextResponse.json({ message: "fetched sorted data successfully", Error })
-  } catch (error) {
+  } catch (_error) {
     return NextResponse.json({ message: 'some invalid error has occured' }, { status: 500 })
   }
 }

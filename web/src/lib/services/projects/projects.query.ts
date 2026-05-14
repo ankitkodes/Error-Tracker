@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getProject, getProjectError, getProjectReport, getProjects } from "./projects.api";
 
 // fetching all projects
-export function useProjects() {
+export function useGetProjects() {
     return useQuery({
         queryKey: ["projects"],
         queryFn: getProjects,

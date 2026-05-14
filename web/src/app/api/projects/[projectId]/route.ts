@@ -22,7 +22,7 @@ export async function GET(
       message: "fetched data successfully",
       project,
     });
-  } catch (error) {
+  } catch (_error) {
     return NextResponse.json({ message: "Invalid Error has occured!" }, { status: 500 });
   }
 }
@@ -35,7 +35,7 @@ export async function DELETE(
     const { projectId } = await params;
     await DeleteProject(projectId);
     return NextResponse.json({ message: "project deleted successfully" });
-  } catch (error) {
+  } catch (_error) {
     return NextResponse.json({
       message: "unable to delete the project",
     }, { status: 500 });
@@ -49,7 +49,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ proj
     const project_details = await ProjectSchema.parseAsync(body);
     await UpdateProject(projectId, project_details);
     return NextResponse.json({ message: "project_details updated successfully" })
-  } catch (error) {
+  } catch (_error) {
     return NextResponse.json({ message: "unable to update project details" }, { status: 500 })
   }
 }

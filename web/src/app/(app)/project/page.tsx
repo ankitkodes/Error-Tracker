@@ -1,7 +1,7 @@
 "use client";
 import AddProjectModal from "@/components/Modal/AddProjectModal";
 import ProjectDetails from "@/components/project/project-details";
-import { useProjects } from "@/lib/services/projects/projects.query";
+import { useGetProjects } from "@/lib/services/projects/projects.query";
 import Link from "next/link";
 import { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -19,7 +19,7 @@ interface Project {
 
 export default function Project() {
   const [open, setOpen] = useState(false);
-  const { data, isLoading, isError } = useProjects();
+  const { data, isLoading, isError } = useGetProjects();
 
   function closeprojectmodal() {
     setOpen(false);

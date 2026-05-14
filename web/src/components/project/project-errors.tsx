@@ -30,46 +30,46 @@ export default function ErrorTable({ data }: projectErrorProps) {
 
   return (
     <>
-      <div className="border border-black/[0.08] dark:border-white/[0.08] rounded-md bg-white dark:bg-[#18171D] overflow-x-auto">
-        <table className="border-collapse border-b-2 w-full text-left mt-2">
-          <tbody>
-            <tr className=" text-sm font-semibold text-muted-foreground">
-              <td className="border-b-2 py-3 px-4">Error Message</td>
-              <td className="border-b-2 py-3 px-4">ErrorType</td>
-              <td className="border-b-2 py-3 px-4">Occurrences</td>
-              <td className="border-b-2 py-3 px-4">Last Seen</td>
-              <td className="border-b-2 py-3 px-4">Statue</td>
-            </tr>
-
-            {data.map((items: Errorlog) => (
-              <>
-                <tr className="text-sm">
-                  <td className="border-b-2  py-3 px-4">
-                    {" "}
+      <div className="bg-white dark:bg-[#18171D] border border-black/[0.08] dark:border-white/[0.08] rounded-lg overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm text-left">
+            <thead className="text-xs text-muted-foreground uppercase bg-gray-50/50 dark:bg-white/[0.02] border-b border-black/[0.08] dark:border-white/[0.08]">
+              <tr>
+                <th className="px-6 py-4 font-medium">Error Message</th>
+                <th className="px-6 py-4 font-medium">ErrorType</th>
+                <th className="px-6 py-4 font-medium">Occurrences</th>
+                <th className="px-6 py-4 font-medium">Last Seen</th>
+                <th className="px-6 py-4 font-medium">Status</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-black/[0.05] dark:divide-white/[0.05]">
+              {data.map((items: Errorlog) => (
+                <tr key={items.id} className="hover:bg-gray-50/50 dark:hover:bg-white/[0.02] transition-colors group">
+                  <td className="px-6 py-4">
                     <button
                       onClick={() => {
                         setErrorId(items.id);
-                        setProjectId(items.projectId)
+                        setProjectId(items.projectId);
                         setErrorDrawer(true);
                       }}
-                      className="cursor-pointer"
+                      className="cursor-pointer font-medium text-foreground text-left max-w-xs truncate block"
                     >
-                      {items.message}{" "}
+                      {items.message}
                     </button>
                   </td>
-
-                  <td className="border-b-2 py-3 px-4">
+                  <td className="px-6 py-4 text-muted-foreground">
                     {items.errorType}
                   </td>
-                  <td className="border-b-2 py-3 px-4">
-                    {" "}
-                    {items.occurrence}{" "}
+                  <td className="px-6 py-4 text-muted-foreground">
+                    {items.occurrence}
                   </td>
-                  <td className="border-b-2 py-3 px-4">{timeAgo(items.createdAt)} </td>
-                  <td className="border-b-2 py-3 px-4">
+                  <td className="px-6 py-4 text-muted-foreground">
+                    {timeAgo(items.createdAt)}
+                  </td>
+                  <td className="px-6 py-4">
                     <button
                       className={cn(
-                        "rounded-lg px-2 py-1 text-xs font-medium text-center cursor-pointer",
+                        "rounded-full px-2.5 py-1 text-xs font-medium text-center cursor-pointer border",
                         StatusStyle[items.status],
                       )}
                     >
@@ -77,10 +77,10 @@ export default function ErrorTable({ data }: projectErrorProps) {
                     </button>
                   </td>
                 </tr>
-              </>
-            ))}
-          </tbody>
-        </table>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </>
   )

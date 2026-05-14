@@ -39,6 +39,7 @@ model Project{
   user        User @relation(fields: [userId], references: [id])
   error        Error[]
   projecthealth ProjectHealth[]
+  alertrule AlertRule[]
 }
 
 model Error{
@@ -86,6 +87,33 @@ model ProjectHealth{
   status Projectstatus @default(Healthy)
   projectId String @unique
   project Project @relation(fields: [projectId], references: [id])
+}
+
+model AlertRule{
+  id String @unique @id @default(uuid())
+  name String
+  condition String
+  destination Boolean @default(true)
+  active Boolean @default(true)
+  lastTriggered DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  projectId String
+  project Project @relation(fields: [projectId], references: [id])
+  alerthistory AlertHistory[]
+}
+
+model AlertHistory{
+  id String @unique @default(uuid())
+  ruleName String
+  project String
+  triggeredAt String
+  status Status
+  details String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  alertruleId String
+  alertrule AlertRule @relation(fields:[alertruleId], references:[id])
 }
 
 enum Projectstatus{
