@@ -9,13 +9,13 @@ import { Bug } from "lucide-react";
 import { motion } from "framer-motion";
 
 const navigation = [
-  { name: "Features", href: "#features" },
-  { name: "How it Works", href: "#howitwork" },
+  { name: "Features", href: "/#features" },
+  { name: "How it Works", href: "/#howitwork" },
   { name: "Docs", href: "/setup" },
   { name: "GitHub", href: "https://github.com/ankitkodes/Error-Tracker" },
 ];
 
-export default function Header() {
+export default function Header({ showHero = true }: { showHero?: boolean }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -151,7 +151,8 @@ export default function Header() {
         </Dialog>
       </header>
 
-      <div className="relative overflow-hidden w-full pt-16 mt-4 md:mt-2">
+      {showHero && (
+        <div className="relative overflow-hidden w-full pt-16 mt-4 md:mt-2">
         <div
           className="absolute top-1/2 -translate-y-1/2 -right-[20%] sm:-right-[30%] lg:-right-[45%]
           w-[400px] sm:w-[600px] lg:w-[1000px] h-[400px] sm:h-[600px] lg:h-[900px] rounded-full
@@ -222,6 +223,7 @@ export default function Header() {
         </motion.div>
       </div>
     </div>
+    )}
     </>
   );
 }
