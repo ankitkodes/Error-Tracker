@@ -1,133 +1,120 @@
 "use client";
 
-import HorizontalLine from "../ui/HorizontalLine";
+import { motion, useReducedMotion } from "framer-motion";
+import Image from "next/image";
 import installGuide from "../../../public/Images/installGuide.png";
 import errorLogs from "../../../public/Images/errorlog.png";
-import Image from "next/image";
 import errorGraph from "../../../public/Images/errorGraph.png";
-import { motion } from "framer-motion";
+
+const steps = [
+  {
+    step: "1",
+    title: "Add the SDK",
+    description:
+      "Install our SDK in your project with a single command. Works with JavaScript, TypeScript, React, and Node.js.",
+    image: installGuide,
+    alt: "Installation Guide",
+  },
+  {
+    step: "2",
+    title: "Errors get captured automatically",
+    description:
+      "Our SDK silently listens for uncaught errors, crashes, and unhandled rejections without extra manual configuration.",
+    image: errorLogs,
+    alt: "Automatic Error Logs Stream",
+  },
+  {
+    step: "3",
+    title: "View and debug in the dashboard",
+    description:
+      "See errors in real-time with full stack traces, user context, environment details, and actionable status tracking.",
+    image: errorGraph,
+    alt: "BugTrace Real-Time Dashboard",
+  },
+];
 
 export default function HowitWork() {
+  const shouldReduceMotion = useReducedMotion();
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.3,
-      },
+      transition: { staggerChildren: 0.2 },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 40 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: "easeOut" as const },
+    },
   };
 
   return (
-    <section id="howitwork">
-      <motion.div 
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.5 }}
-        className="grid grid-cols-1 md:grid-cols-3"
-      >
-        <div className="col-span-2 p-4 border-b-2 md:border-b-0 md:border-r-2 border-[#202026]">
-          <div className="text-2xl sm:text-3xl md:text-4xl font-sans font-semibold">
-            How it Works
-          </div>
-          <div className="text-sm sm:text-base py-2 text-subheading">
-            Install once. Errors get captured automatically. Debug everything
-            from a single dashboard.
-          </div>
-        </div>
-        <div className="relative">
-          <button className="font-normal text-base sm:text-lg md:text-lg text-[#00ffb2] cursor-pointer border-[#202026] md:border-t-2 w-full md:absolute md:right-0 md:bottom-0 py-4 hover:bg-[#081114]">
-            Start Monitoring Now →
-          </button>
-        </div>
-      </motion.div>
+    <section id="howitwork" className="py-16 px-4 max-w-7xl mx-auto">
+      <div className="text-center max-w-2xl mx-auto mb-12">
+        <h2 className="text-3xl sm:text-4xl font-bold text-white font-heading tracking-tight">
+          How it Works
+        </h2>
+        <p className="mt-3 text-base text-[#d5d5d5]">
+          Install once. Errors get captured automatically. Debug everything from a single dashboard.
+        </p>
+      </div>
 
-      <HorizontalLine />
       <motion.div
         variants={containerVariants}
-        initial="hidden"
+        initial={shouldReduceMotion ? false : "hidden"}
         whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
+        viewport={{ once: true, amount: 0.15 }}
+        className="grid grid-cols-1 md:grid-cols-3 gap-8"
       >
-        <div className="grid grid-cols-1 md:grid-cols-3 text-sm sm:text-base">
-          <motion.div variants={itemVariants} className="border-b-2 md:border-b-0 sm:border-r-2 border-[#202026] text-left">
-            <div className="w-full relative h-full bg-gradient-to-b from-[#1a1920] to-[#08070e]">
-              <div className="absolute z-10 left-2 rounded-full flex size-18 md:size-12 bg-radial from-[#08070e] from-40% to-[#202026] items-center justify-center text-white m-2">
-                1
+        {steps.map((item) => (
+          <motion.div
+            key={item.step}
+            variants={itemVariants}
+            className="flex flex-col justify-between rounded-xl border border-[#202026] bg-[#0a0a0c] overflow-hidden shadow-xl"
+          >
+            {/* Window Chrome Framing */}
+            <div className="border-b border-[#202026] bg-[#121118]">
+              <div className="flex items-center justify-between px-4 py-2.5">
+                <div className="flex items-center gap-1.5">
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#FF5F56]" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#FFBD2E]" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#27C93F]" />
+                </div>
+                <span className="text-[11px] font-mono text-gray-400">
+                  Step 0{item.step}
+                </span>
               </div>
-              <div className="pl-8 pt-8">
+              <div className="relative h-48 sm:h-52 w-full bg-[#08070e] overflow-hidden">
                 <Image
-                  src={installGuide}
-                  alt="Installation Guide"
-                  className="w-full [mask-image:linear-gradient(to_bottom,black,transparent)]"
+                  src={item.image}
+                  alt={item.alt}
+                  className="w-full h-full object-cover object-top opacity-90 transition-transform duration-300 hover:scale-105"
                 />
               </div>
-              <div className="flex flex-col gap-2 px-6 pb-4 text-[#f5f5f5] not-italic">
-                <h1 className="font-medium text-base sm:text-lg">Add the SDK</h1>
-                <p className="font-normal text-sm sm:text-base text-subheading">
-                  Install our SDK in your project. Works with JavaScript,
-                  TypeScript, React, and Node.js.
-                </p>
-              </div>
             </div>
-          </motion.div>
 
-          <motion.div variants={itemVariants} className="border-b-2 md:border-b-0 md:border-r-2 border-[#202026]">
-            <div className="w-full relative h-full bg-gradient-to-b from-[#1a1920] to-[#08070e]">
-              <div className="absolute z-10 left-2 rounded-full flex size-18 md:size-12 bg-radial from-[#08070e] from-40% to-[#202026] items-center justify-center text-white m-2">
-                2
-              </div>
-              <div className="pl-8 pt-8">
-                <Image
-                  src={errorLogs}
-                  alt="error log of application"
-                  className="w-full [mask-image:linear-gradient(to_bottom,black,transparent)]"
-                />
-              </div>
-              <div className="flex flex-col gap-2 px-6 pb-4 text-[#f5f5f5] not-italic">
-                <h1 className="font-medium text-base sm:text-lg">
-                  Errors get captured automatically
-                </h1>
-                <p className="font-normal text-sm sm:text-base text-subheading">
-                  Our SDK listens for errors, crashes, and unhandled rejections
-                  without extra configuration.
+            {/* Step Content */}
+            <div className="p-6 flex-1 flex flex-col justify-between">
+              <div>
+                <div className="rounded-full flex size-10 bg-radial from-[#08070e] from-40% to-[#202026] items-center justify-center text-[#00ffb2] font-mono font-bold text-sm mb-4 border border-[#202026]">
+                  {item.step}
+                </div>
+                <h3 className="text-lg font-semibold text-white font-heading">
+                  {item.title}
+                </h3>
+                <p className="mt-2 text-xs sm:text-sm text-[#d5d5d5] leading-relaxed">
+                  {item.description}
                 </p>
               </div>
             </div>
           </motion.div>
-
-          <motion.div variants={itemVariants} className="grid gap-1">
-            <div className="w-full relative h-full bg-gradient-to-b from-[#1a1920] to-[#08070e]">
-              <div className="absolute z-10 left-2 rounded-full flex size-18 md:size-12 bg-radial from-[#08070e] from-40% to-[#202026] items-center justify-center text-white m-2">
-                3
-              </div>
-              <div className="pl-8 pt-8">
-                <Image
-                  src={errorGraph}
-                  alt="error log of application"
-                  className="w-full [mask-image:linear-gradient(to_bottom,black,transparent)]"
-                />
-              </div>
-              <div className="flex flex-col gap-2 px-6 pb-4 text-[#f5f5f5] not-italic">
-                <h1 className="font-medium text-base sm:text-lg">
-                  View and debug in the dashboard
-                </h1>
-                <p className="font-normal text-sm sm:text-base text-subheading">
-                  See errors in real-time with full stack traces, user context,
-                  and environment details.
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        </div>
+        ))}
       </motion.div>
-      <HorizontalLine />
     </section>
   );
 }

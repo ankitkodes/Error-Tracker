@@ -1,131 +1,92 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Plus } from "lucide-react";
-import HorizontalLine from "../ui/HorizontalLine";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { Plus, Minus, HelpCircle } from "lucide-react";
 
 const faqs = [
   {
     question: "What types of errors does BugTrace detect?",
     answer:
-      "BugTrace captures frontend JavaScript errors, API failures, server crashes, and post-production bugs like API limit exceed or service downtime.",
+      "BugTrace captures uncaught JavaScript runtime exceptions, unhandled Promise rejections, API fetch failures, and backend server crashes across Next.js, React, and Node.js applications.",
   },
   {
-    question: "How is BugTrace different from Sentry or LogRocket?",
+    question: "Is there a free plan available?",
     answer:
-      "BugTrace is lightweight, fast to set up, and focuses on delivering exactly what you need without extra complexity or bloat.",
+      "Yes — our Developer Free tier includes 10,000 error events per month for 1 active project with full stack trace inspection and 7 days of log data retention.",
   },
   {
-    question: "Is there a free plan?",
+    question: "How quickly will I see error reports in my dashboard?",
     answer:
-      "Yes — our free plan includes X tracked errors per month for 1 project. Upgrade for more projects and higher limits.",
+      "Error payloads are processed asynchronously and ingested into your dashboard in real-time — typically appearing within 10 to 50 milliseconds of occurring.",
   },
   {
-    question: "How quickly will I see error reports?",
+    question: "Will the BugTrace SDK impact my application's performance?",
     answer:
-      "All errors are processed and displayed in your dashboard in real-time — usually within a few milliseconds of occurring.",
-  },
-
-  {
-    question: "Will BugTrace impact my app’s performance?",
-    answer:
-      "No. Our lightweight SDK is optimized to run asynchronously, so it won’t block rendering or slow down your site.",
+      "No. The SDK is under 5KB, executes completely asynchronously outside the critical render loop, and uses non-blocking beacon batching so your site load speed remains unchanged.",
   },
   {
-    question: "Can I use BugTrace with a team?",
+    question: "Can I track errors from specific environments only?",
     answer:
-      "Absolutely — you can invite multiple team members to a project and collaborate on fixing bugs.",
+      "Yes — you can pass environmental variables (e.g. environment: 'production') to the init function or filter out local development traffic altogether.",
   },
   {
-    question: "Can I track errors from production only?",
+    question: "How do I get started with integration?",
     answer:
-      "Yes — you can configure environments (development, staging, production) and choose which ones to monitor.",
-  },
-  {
-    question: "How do I get started?",
-    answer:
-      "Sign up, create a project, copy the script tag or SDK init code, and start tracking bugs in minutes.",
+      "Simply run `npm install bugtrace-sdk`, copy your project API key from the dashboard, and invoke `initBugTrace({ apiKey })` at your application entry point.",
   },
 ];
 
 export default function FAQS() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const shouldReduceMotion = useReducedMotion();
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" as const } },
-  };
-
   return (
-    <motion.section
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.1 }}
-      variants={containerVariants}
-    >
-      <HorizontalLine />
-      <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-3">
-        <div className="col-span-2 p-6  border-b border-[#202026] md:border-b-0 md:border-r">
-          <h2 className="text-4xl  font-normal leading-tight">
-            Frequently Asked Questions
-          </h2>
-          <p className="text-base text-gray-400 mt-4 ">
-            Find everything you need to know about BugTrace, from security to
-            supported assets.
-          </p>
+    <section id="faq" className="py-16 px-4 max-w-4xl mx-auto">
+      <div className="text-center max-w-2xl mx-auto mb-12">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#00ffb2]/40 bg-[#00ffb2]/10 text-xs font-mono text-[#00ffb2] mb-4">
+          <HelpCircle className="w-3.5 h-3.5" />
+          <span>Frequently Asked Questions</span>
         </div>
-        <div className="relative">
-          <button className="font-normal  text-lg text-[#00ffb2] cursor-pointer border-[#202026] md:border-t-2 w-full md:absolute md:right-0 md:bottom-0 py-4 hover:bg-[#081114]">
-            Start Monitoring Now →
-          </button>
-        </div>
-      </motion.div>
+        <h2 className="text-3xl sm:text-4xl font-bold text-white font-heading tracking-tight">
+          Frequently Asked Questions
+        </h2>
+        <p className="mt-3 text-base text-[#d5d5d5]">
+          Find everything you need to know about BugTrace SDK setup, performance, and features.
+        </p>
+      </div>
 
-      <HorizontalLine />
-
-      <div className="grid grid-cols-1 md:grid-cols-2 border-b border-[#202026]">
-        {faqs.map((faq, index) => (
-          <div
-            key={index}
-            className={`
-              border-[#202026] 
-              ${index % 2 === 0 ? "md:border-r" : ""} 
-              ${index < faqs.length - (faqs.length % 2 === 0 ? 2 : 1) ? "border-b" : "border-b md:border-b-0"}
-              // Mobile: all have bottom border except last one
-              ${index === faqs.length - 1 ? "border-b-0" : ""}
-            `}
-          >
-            <div
-              className="p-4 md:p-6 cursor-pointer group hover:bg-[#17161c] transition-colors"
-              onClick={() => toggleFAQ(index)}
+      <div className="space-y-4">
+        {faqs.map((faq, index) => {
+          const isOpen = openIndex === index;
+          return (
+            <motion.div
+              key={index}
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.4, delay: index * 0.05 }}
+              className="rounded-xl border border-[#202026] bg-[#0a0a0c] overflow-hidden transition-colors hover:border-[#00ffb2]/40"
             >
-              <div className="flex justify-between items-start gap-4">
-                <h3 className="text-lg md:text-xl font-normal text-white   transition-colors">
+              <button
+                onClick={() => toggleFAQ(index)}
+                className="w-full p-6 text-left flex items-center justify-between gap-4 focus-visible:ring-2 focus-visible:ring-[#00ffb2] focus-visible:outline-none cursor-pointer"
+                aria-expanded={isOpen}
+              >
+                <span className="text-base sm:text-lg font-semibold text-white font-heading">
                   {faq.question}
-                </h3>
-                <motion.div
-                  animate={{ rotate: openIndex === index ? 45 : 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="flex-shrink-0 mt-1"
-                >
-                  <Plus
-                    className={`w-6 h-6 transition-colors ${openIndex === index ? "text-[#00ffb2]" : "text-[#00ffb2]"
-                      }`}
-                  />
-                </motion.div>
-              </div>
-              <AnimatePresence>
-                {openIndex === index && (
+                </span>
+                <span className="p-1.5 rounded-lg border border-[#202026] bg-[#121118] text-[#00ffb2] shrink-0">
+                  {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                </span>
+              </button>
+
+              <AnimatePresence initial={false}>
+                {isOpen && (
                   <motion.div
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
@@ -133,16 +94,16 @@ export default function FAQS() {
                     transition={{ duration: 0.3, ease: "easeInOut" }}
                     className="overflow-hidden"
                   >
-                    <p className="pt-4 text-base text-[#d5d5d5] leading-relaxed">
-                      {faq.answer}
-                    </p>
+                    <div className="px-6 pb-6 pt-0 text-xs sm:text-sm text-[#d5d5d5] leading-relaxed border-t border-[#202026] mt-2">
+                      <p className="pt-4">{faq.answer}</p>
+                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>
-            </div>
-          </div>
-        ))}
+            </motion.div>
+          );
+        })}
       </div>
-    </motion.section>
+    </section>
   );
 }
